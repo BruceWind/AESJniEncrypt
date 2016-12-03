@@ -9,7 +9,7 @@ import android.content.pm.Signature;
  * Created by wei on 16-12-4.
  */
 
-public class SinalTool {
+public class SignatureTool {
 
     private static final String PKGNAME = "com.androidyuan.aesjniencrypt";
 

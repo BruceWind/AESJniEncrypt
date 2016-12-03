@@ -3,8 +3,7 @@ package com.androidyuan.aesjniencrypt;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.Toast;
-import com.androidyuan.aesjni.AESEncrypt;
-import com.androidyuan.aesjni.SinalTool;
+import com.androidyuan.aesjni.SignatureTool;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -16,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
 
 //        toast(AESEncrypt.encode("1"));
 
-        toast(SinalTool.getSignature(this)+"");
+        toast(SignatureTool.getSignature(this)+"");
     }
 
 
