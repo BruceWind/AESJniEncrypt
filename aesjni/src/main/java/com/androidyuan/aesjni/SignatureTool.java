@@ -18,7 +18,8 @@ public class SignatureTool {
     System.err:     android.content.pm.PackageManager$NameNotFoundException: [配置包名]
     System.err:     at android.app.ApplicationPackageManager.getPackageInfo(ApplicationPackageManager.java:137)
 
-     2.如果配置包名不是当前进程的包名 那么，也不会报错
+     2.如果配置包名不是当前进程的包名 那么，也不会报错。
+        这点我觉得奇怪 居然可以取得别人的包的keystore的hash
     */
     public static int getSignature(Context context) {
 

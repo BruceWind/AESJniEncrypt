@@ -15,7 +15,22 @@ model {
             release {
                 minifyEnabled false
                 proguardFiles.add(file("proguard-rules.pro"))
+                signingConfig = $("android.signingConfigs.test")
             }
+            debug {
+                signingConfig = $("android.signingConfigs.test")
+            }
+        }
+
+
+    }
+
+    android.signingConfigs {
+        create("test") {
+            storeFile "androidyuan.keystore"
+            storePassword "weizongwei"
+            keyAlias "client1"
+            keyPassword "weizongwei"
         }
     }
 }
