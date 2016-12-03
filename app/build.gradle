@@ -27,7 +27,7 @@ model {
 
     android.signingConfigs {
         create("test") {
-            storeFile "androidyuan.keystore"
+            storeFile "../keystore/androidyuan.keystore" //请看目录
             storePassword "weizongwei"
             keyAlias "client1"
             keyPassword "weizongwei"
