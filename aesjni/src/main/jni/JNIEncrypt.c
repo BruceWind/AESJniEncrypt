@@ -10,47 +10,39 @@
 #define ECB 1
 
 
-static uint8_t key[] = {0x2b, 0x7e, 0x15, 0x16, 0x28, 0xae, 0xd2, 0xa6, 0xab, 0xf7, 0x15, 0x88, 0x09, 0xcf, 0x4f, 0x3c};
 
 JNIEXPORT jstring JNICALL
 Java_com_androidyuan_aesjni_AESEncrypt_encode(JNIEnv *env, jobject instance, jstring str_) {
-    const char *str = (*env)->GetStringUTFChars(env, str_, 0);
-
-    // TODO
-    uint8_t in[]  = {0x6b, 0xc1, 0xbe, 0xe2, 0x2e, 0x40, 0x9f, 0x96, 0xe9, 0x3d, 0x7e, 0x11, 0x73, 0x93, 0x17, 0x2a};
-//    uint8_t in[strlen(str)];
-//
-//    for (int i = 0; i <strlen(str); ++i) {
-//        in[i] = str[i];
-//    }
-
-    uint8_t buffer[strlen(str)];
 
 
-
-    AES128_ECB_encrypt(in, key, buffer);
-
-
-    (*env)->ReleaseStringUTFChars(env, str_, str);
-
-    return (*env)->NewStringUTF(env, buffer);
+    const char *in=  (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
+    char *baseResult= AES_128_ECB_PKCS5Padding_Encrypt(in,  AES_KEY);
+    (*env)->ReleaseStringUTFChars(env, str_, in);
+    return (*env)->NewStringUTF(env,baseResult);
 }
 
 JNIEXPORT jstring JNICALL
 Java_com_androidyuan_aesjni_AESEncrypt_decode(JNIEnv *env, jobject instance, jstring str_) {
-    const char *str = (*env)->GetStringUTFChars(env, str_, 0);
 
-    // TODO
-    uint8_t in[strlen(str)];
 
-    for (int i = 0; i <strlen(str); ++i) {
-        in[i] = str[i];
-    }
-
-    uint8_t buffer[strlen(str)];
-
-    AES128_ECB_encrypt(in, key, buffer);
+    const char *str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
+    char * desResult=AES_128_ECB_PKCS5Padding_Decrypt(str,AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, str);
+    return (*env)->NewStringUTF(env, desResult);
+    //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
+    //return charToJstring(env,desResult);
+}
 
-    return (*env)->NewStringUTF(env, buffer);
+jstring charToJstring(JNIEnv* envPtr, char *src) {
+    JNIEnv env = *envPtr;
+
+    jsize len = strlen(src);
+    jclass clsstring = env->FindClass(envPtr, "java/lang/String");
+    jstring strencode = env->NewStringUTF(envPtr, "UTF-8");
+    jmethodID mid = env->GetMethodID(envPtr, clsstring, "<init>",
+                                     "([BLjava/lang/String;)V");
+    jbyteArray barr = env->NewByteArray(envPtr, len);
+    env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte*) src);
+
+    return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
 }

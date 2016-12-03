@@ -33,8 +33,7 @@ NOTE:   String length must be evenly divisible by 16byte (str_len % 16 == 0)
 /*****************************************************************************/
 /* Includes:                                                                 */
 /*****************************************************************************/
-#include <stdint.h>
-#include <string.h> // CBC mode, for memset
+
 #include "aes.h"
 
 
@@ -70,7 +69,6 @@ static uint8_t RoundKey[176];
 
 // The Key input to the AES Program
 static const uint8_t* Key;
-
 #if defined(CBC) && CBC
   // Initial Vector used only for CBC mode
   static uint8_t* Iv;
@@ -477,107 +475,177 @@ void AES128_ECB_decrypt(uint8_t* input, const uint8_t* key, uint8_t *output)
   InvCipher();
 }
 
+/**
+ * 不定长加密,pkcs5padding
+ */
+char* AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key)
+{
 
+  int inLength= (int) strlen(in);//输入的长度
+  int remainder = inLength % 16;
+  LOGE("输入: ");
+//    LOGEX(in,inLength);
+  LOGE(in);
+  LOGE("输入,转码:");
+  LOGE(b64_encode(in, inLength));
+  LOGE("key:");
+  LOGE(key);
+  uint8_t *paddingInput;
+//    int paddingInputLengt=PKCS5Padding(inLength,in,paddingInput);
+  int paddingInputLengt=0;
+  if(inLength<16)
+  {
+    paddingInput=(uint8_t*)malloc(16);
+    paddingInputLengt=16;
+    int i;
+    for (i = 0; i < 16; i++) {
+      if (i < inLength) {
+        paddingInput[i] = in[i];
+      } else {
+        paddingInput[i] = HEX[16 - inLength];
+      }
+    }
+  }else
+  {
+    int group = inLength / 16;
+    int size = 16 * (group + 1);
+    paddingInput=(uint8_t*)malloc(size);
+    paddingInputLengt=size;
+
+    int dif = size - inLength;
+    int i;
+    for (i = 0; i < size; i++) {
+      if (i < inLength) {
+        paddingInput[i] = in[i];
+      } else {
+        if (remainder == 0) {
+          //刚好是16倍数,就填充16个16
+          paddingInput[i] = HEX[0];
+        } else {	//如果不足16位 少多少位就补几个几  如：少4为就补4个4 以此类推
+          paddingInput[i] = HEX[dif];
+        }
+      }
+    }
+  }
+  int count=paddingInputLengt / 16;
+  //开始分段加密
+  char * out=(char*)malloc(paddingInputLengt);
+  int i;
+  for ( i = 0; i < count; ++i) {
+    AES128_ECB_encrypt(paddingInput+i*16, key, out+i*16);
+  }
+  char * base64En=b64_encode(out,paddingInputLengt);
+  LOGE(base64En);
+  free(paddingInput);
+  free(out);
+  return base64En;
+}
+
+
+/**
+ * 不定长解密,pkcs5padding
+ */
+char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
+{
+  //加密前:1
+  //key:1234567890abcdef
+  //加密后:qkrxxA9fIF636aITDRJhcg==
+
+//    in="m74nCuZkzK13anBQRDWeOw==";//123456
+//    in="qkrxxA9fIF636aITDRJhcg==";//1
+//    in="LuD5WoRRcHq1tuEWZQHLHwLexWUsAhX5OvafAJ8PbVg=";//abcdefghijklmnop
+//    in="+R99oRBuckos5mdUqQHHeoja4/HYqWtqTM3cgl+E0a3p5i7DoLeBpq/mVUfuEh5D1VRn4Wt4TzHazvz931WfiA==";//57yW56CB5Y6f55CGOuWwhjPkuKrlrZfoioLovazmjaLmiJA05Liq5a2X6IqC
+//    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";//编码原理:将3个字节转换成4个字节
+//    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
+  LOGE("输入:");
+  LOGE(in);
+  uint8_t *inputDesBase64=b64_decode(in,strlen(in));
+  const size_t inputLength= (strlen(in) / 4) * 3;
+  uint8_t *out=malloc(inputLength);
+  memset(out,0,inputLength);
+  size_t count=inputLength/16;
+  if (count<=0)
+  {
+    count=1;
+  }
+  size_t i;
+  for ( i = 0; i < count; ++i) {
+      AES128_ECB_decrypt(inputDesBase64+i*16,key,out+i*16);
+  }
+
+  /**
+   *  接下来的工作就把末尾的padding去掉T_T
+   *  "abcdefghijklmnop\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\0\0\0\0
+   *  To "abcdefghijklmnop\n"
+   *
+   *  "1\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f"
+   *  To "1\n"
+   */
+  int* result=findPaddingIndex(out,inputLength-1);
+  int offSetIndex=result[0];
+  int lastChar=result[1];
+  //检查是不是padding的字符,然后去掉
+  const size_t noZeroIndex=inputLength-offSetIndex;
+  if (lastChar>=0 && offSetIndex>=0)
+  {
+    int success=JNI_TRUE,i;
+    for ( i = 0; i < lastChar; ++i) {
+      size_t index=noZeroIndex-lastChar+i;
+      if (!HEX[lastChar]==out[index])
+      {
+        success=JNI_FALSE;
+      }
+    }
+    if(JNI_TRUE==success)
+    {
+      out[noZeroIndex-lastChar]='\n';
+      memset(out+noZeroIndex-lastChar+1,0,lastChar-1);
+    }
+  }else
+  {
+    out[noZeroIndex]='\n';
+  }
+  LOGE("解密结果:");
+  LOGE(out);
+  free(inputDesBase64);
+  return (char *) out;
+}
+int* findPaddingIndex(uint8_t * str,size_t length)
+{
+    int result[]={-1,-1},i,k;
+    for (i = 0; i < length; ++i) {
+        char c=str[length-i];
+        if ('\0'!=c)
+        {
+            result[0]=i;
+            for (k = 0; k < 16; ++k) {
+                if (HEX[k]==c)
+                {
+                    if (0==k)
+                    {
+                        k=16;
+                    }
+                    result[1]=k;
+                    return result;
+                }
+            }
+            return result;
+        }
+    }
+}
 #endif // #if defined(ECB) && ECB
 
 
 
 
+/**
+ *
+ * 这里干掉了CBC 相关代码 ，这块代码是一个AES的一个带有向量的算法
+ * 找寻这些代码 请移步 https://github.com/kokke/tiny-AES128-C
 
 #if defined(CBC) && CBC
 
 
-static void XorWithIv(uint8_t* buf)
-{
-  uint8_t i;
-  for(i = 0; i < KEYLEN; ++i)
-  {
-    buf[i] ^= Iv[i];
-  }
-}
-
-void AES128_CBC_encrypt_buffer(uint8_t* output, uint8_t* input, uint32_t length, const uint8_t* key, const uint8_t* iv)
-{
-  uintptr_t i;
-  uint8_t remainders = length % KEYLEN; /* Remaining bytes in the last non-full block */
-
-  BlockCopy(output, input);
-  state = (state_t*)output;
-
-  // Skip the key expansion if key is passed as 0
-  if(0 != key)
-  {
-    Key = key;
-    KeyExpansion();
-  }
-
-  if(iv != 0)
-  {
-    Iv = (uint8_t*)iv;
-  }
-
-  for(i = 0; i < length; i += KEYLEN)
-  {
-    XorWithIv(input);
-    BlockCopy(output, input);
-    state = (state_t*)output;
-    Cipher();
-    Iv = output;
-    input += KEYLEN;
-    output += KEYLEN;
-  }
-
-  if(remainders)
-  {
-    BlockCopy(output, input);
-    memset(output + remainders, 0, KEYLEN - remainders); /* add 0-padding */
-    state = (state_t*)output;
-    Cipher();
-  }
-}
-
-void AES128_CBC_decrypt_buffer(uint8_t* output, uint8_t* input, uint32_t length, const uint8_t* key, const uint8_t* iv)
-{
-  uintptr_t i;
-  uint8_t remainders = length % KEYLEN; /* Remaining bytes in the last non-full block */
-  
-  BlockCopy(output, input);
-  state = (state_t*)output;
-
-  // Skip the key expansion if key is passed as 0
-  if(0 != key)
-  {
-    Key = key;
-    KeyExpansion();
-  }
-
-  // If iv is passed as 0, we continue to encrypt without re-setting the Iv
-  if(iv != 0)
-  {
-    Iv = (uint8_t*)iv;
-  }
-
-  for(i = 0; i < length; i += KEYLEN)
-  {
-    BlockCopy(output, input);
-    state = (state_t*)output;
-    InvCipher();
-    XorWithIv(output);
-    Iv = input;
-    input += KEYLEN;
-    output += KEYLEN;
-  }
-
-  if(remainders)
-  {
-    BlockCopy(output, input);
-    memset(output+remainders, 0, KEYLEN - remainders); /* add 0-padding */
-    state = (state_t*)output;
-    InvCipher();
-  }
-}
-
-
 #endif // #if defined(CBC) && CBC
 
-
+*/

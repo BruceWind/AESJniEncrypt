@@ -12,7 +12,7 @@ public class MainActivity extends AppCompatActivity {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        toast(AESEncrypt.encode("123"));
+        toast(AESEncrypt.encode("1"));
     }
 
 
