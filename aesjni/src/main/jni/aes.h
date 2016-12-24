@@ -42,6 +42,8 @@ int* findPaddingIndex(uint8_t * str,size_t length);
 
 /*
  * CBC是向量模式  暂不采用
+ 如果需要使用 ，请移步 https://github.com/kokke/tiny-AES128-C
+ 
 #if defined(CBC) && CBC
 
 #endif // #if defined(CBC) && CBC
