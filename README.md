@@ -1,6 +1,10 @@
 # AESJniEncrypt
 ndk实现AES加密，key存在native中，再做一层防止被二次打包的签名校验。
 
+集成到自己的项目中，key 请自行修改。
+```
+static const uint8_t AES_KEY[]="1234567890abcdef";
+```
 
 
 ## keystore文件 校验
@@ -39,11 +43,9 @@ $ keytool -exportcert -alias androiddebugkey -keystore   "androidyuan.keystore" 
 
 ## 2.取得当前打包的keystore的hash值
 
-    目前似乎没有好的办法，我只能用java取，取出之后打log，然后写入到C文件中，重新build项目。
-
-
-
-
+    目前似乎没有好的办法，我只能用java取，取出之后打log，然后写入到C文件中，重新build项目。
+    
+  集成到自己项目中请先修改keystore hashcode和包名，防止反编译时拿到so文件，进行二次打包使用。
 ## 鸣谢
 
 Base64 算法 来自：https://github.com/willemt/pearldb
