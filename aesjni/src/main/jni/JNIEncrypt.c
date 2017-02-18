@@ -1,7 +1,8 @@
 #include <jni.h>
 #include "aes.h"
+#include "checksignature.h"
 #include <string.h>
-#include "signaturecheck.h"
+#include "checksignature.h"
 #include <android/log.h>
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
@@ -12,6 +13,8 @@
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 
+
+__attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL
 Java_com_androidyuan_aesjni_AESEncrypt_encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
@@ -21,12 +24,14 @@ Java_com_androidyuan_aesjni_AESEncrypt_encode(JNIEnv *env, jobject instance, job
         return (*env)->NewString(env, str, strlen(str));
     }
 
+    uint8_t AES_KEY[] = "1234567890abcdef";
     const char *in = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     char *baseResult = AES_128_ECB_PKCS5Padding_Encrypt(in, AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, in);
     return (*env)->NewStringUTF(env, baseResult);
 }
 
+__attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL
 Java_com_androidyuan_aesjni_AESEncrypt_decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
@@ -37,7 +42,7 @@ Java_com_androidyuan_aesjni_AESEncrypt_decode(JNIEnv *env, jobject instance, job
         return (*env)->NewString(env, str, strlen(str));
     }
 
-
+    uint8_t AES_KEY[] = "1234567890abcdef";
     const char *str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(str, AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, str);

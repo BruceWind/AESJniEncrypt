@@ -483,13 +483,13 @@ char* AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key)
 
   int inLength= (int) strlen(in);//输入的长度
   int remainder = inLength % 16;
-  LOGE("输入: ");
+  //LOGE("输入: ");
 //    LOGEX(in,inLength);
-  LOGE(in);
-  LOGE("输入,转码:");
-  LOGE(b64_encode(in, inLength));
-  LOGE("key:");
-  LOGE(key);
+  //LOGE(in);
+  //LOGE("输入,转码:");
+  //LOGE(b64_encode(in, inLength));
+  //LOGE("key:");
+  //LOGE(key);
   uint8_t *paddingInput;
 //    int paddingInputLengt=PKCS5Padding(inLength,in,paddingInput);
   int paddingInputLengt=0;
@@ -535,7 +535,7 @@ char* AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key)
     AES128_ECB_encrypt(paddingInput+i*16, key, out+i*16);
   }
   char * base64En=b64_encode(out,paddingInputLengt);
-  LOGE(base64En);
+  //LOGE(base64En);
   free(paddingInput);
   free(out);
   return base64En;
@@ -557,8 +557,8 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
 //    in="+R99oRBuckos5mdUqQHHeoja4/HYqWtqTM3cgl+E0a3p5i7DoLeBpq/mVUfuEh5D1VRn4Wt4TzHazvz931WfiA==";//57yW56CB5Y6f55CGOuWwhjPkuKrlrZfoioLovazmjaLmiJA05Liq5a2X6IqC
 //    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";//编码原理:将3个字节转换成4个字节
 //    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
-  LOGE("输入:");
-  LOGE(in);
+  //LOGE("输入:");
+  //LOGE(in);
   uint8_t *inputDesBase64=b64_decode(in,strlen(in));
   const size_t inputLength= (strlen(in) / 4) * 3;
   uint8_t *out=malloc(inputLength);
@@ -605,8 +605,8 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
   {
     out[noZeroIndex]='\n';
   }
-  LOGE("解密结果:");
-  LOGE(out);
+  //LOGE("解密结果:");
+  //LOGE(out);
   free(inputDesBase64);
   return (char *) out;
 }
