@@ -24,13 +24,17 @@ LOCAL_SRC_FILES := JNIEncrypt.c	\
 
 
 
-include $(BUILD_SHARED_LIBRARY)
-
-LOCAL_CFLAGS := -mllvm -sub -mllvm -fla -mllvm -bcf
-LOCAL_CFLAGS := -fvisibility=hidden
+# NDK_TOOLCHAIN_VERSION := clang3.4-obfuscator
 
 
-LOCAL_SHARED_LIBRARIES := liblog libcutils
+# LOCAL_CFLAGS :=  -mllvm -sub -mllvm -fla -mllvm -bcf
+LOCAL_CFLAGS := -fvisibility=hidden #隐藏字符表 实际上效果不太理想
+
+
+
+# LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_LDLIBS    := -llog
+
+include $(BUILD_SHARED_LIBRARY)
 
 # include $(BUILD_EXECUTABLE)
