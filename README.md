@@ -1,5 +1,9 @@
 # AESJniEncrypt
-ndk实现AES加密，key存在native中，再做一层防止被二次打包的签名校验。
+- [x] ndk实现AES加密
+- [x] 使用JniOnload 隐藏c函数
+- [x] 再做一层防止被二次打包的签名校验
+- [x] key存在符号表中，同时隐藏字符表
+- [x] 使用OLLVM混淆C的代码
 
 集成到自己的项目中，key 请自行修改。
 ```
