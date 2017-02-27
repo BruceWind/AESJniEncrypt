@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.widget.Toast;
 import com.androidyuan.aesjni.AESEncrypt;
 import com.androidyuan.aesjni.SignatureTool;
+
 import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         //toast(SignatureTool.getSignature(this)+"");
 
         Log.d("thisHascode", SignatureTool.getSignature(this) + "");
+        toast(new AESEncrypt().HelloLoad());
     }
 
 

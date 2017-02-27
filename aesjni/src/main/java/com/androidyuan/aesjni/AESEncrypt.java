@@ -43,4 +43,6 @@ public class AESEncrypt {
      */
     public static native int checkSignature(Context con);
 
+    // jni中注册的方法
+    public native String HelloLoad();
 }
