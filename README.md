@@ -1,6 +1,6 @@
 # AESJniEncrypt
 - [x] ndk实现AES加密
-- [ ] 使用JniOnload 隐藏c函数
+- [x] 使用JniOnload 隐藏c函数
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
 - [ ] 使用OLLVM混淆C的代码

@@ -21,7 +21,8 @@ public class MainActivity extends AppCompatActivity {
         //toast(SignatureTool.getSignature(this)+"");
 
         Log.d("thisHascode", SignatureTool.getSignature(this) + "");
-        toast(new AESEncrypt().HelloLoad());
+
+        toast(new AESEncrypt().checkSignature(this)+"");
     }
 
 

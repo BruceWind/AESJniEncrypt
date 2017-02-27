@@ -22,7 +22,7 @@ public class AESEncrypt {
      * @param str
      * @return
      */
-    public static native String encode(Context context, String str);
+    public static native String encode(Object context, String str);
 
 
     /**
@@ -32,7 +32,7 @@ public class AESEncrypt {
      * @param str
      * @return UNSIGNATURE ： sign not pass .
      */
-    public static native String decode(Context context, String str);
+    public static native String decode(Object context, String str);
 
 
     /**
@@ -41,7 +41,7 @@ public class AESEncrypt {
      * @param con
      * @return 1 : pass ， -1 or  -2 : error.
      */
-    public static native int checkSignature(Context con);
+    public static native int checkSignature(Object context);
 
     // jni中注册的方法
     public native String HelloLoad();

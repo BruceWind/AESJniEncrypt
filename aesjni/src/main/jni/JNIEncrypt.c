@@ -21,8 +21,7 @@ const char *UNSIGNATURE = "UNSIGNATURE";
 
 
 __attribute__((section (".mytext")))
-JNIEXPORT jstring JNICALL
-Java_com_androidyuan_aesjni_AESEncrypt_encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
+JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
     //先进行apk被 二次打包的校验
     if (checkSignature(env, instance, context) != 1) {
@@ -38,8 +37,7 @@ Java_com_androidyuan_aesjni_AESEncrypt_encode(JNIEnv *env, jobject instance, job
 }
 
 __attribute__((section (".mytext")))
-JNIEXPORT jstring JNICALL
-Java_com_androidyuan_aesjni_AESEncrypt_decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
+JNIEXPORT jstring JNICALL  decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
 
     //先进行apk被 二次打包的校验
@@ -77,23 +75,17 @@ jstring charToJstring(JNIEnv *envPtr, char *src) {
  * if rerurn 1 ,is check pass.
  */
 JNIEXPORT jint JNICALL
-Java_com_androidyuan_aesjni_AESEncrypt_checkSignature(JNIEnv *env, jobject instance, jobject con) {
+check(JNIEnv *env, jobject instance, jobject con) {
 
     return checkSignature(env, instance, con);
 }
 
 
-
-
-// 返回字符串"hello load jni"
-JNIEXPORT jstring JNICALL native_hello(JNIEnv *env, jclass clazz)
-{
-    return (*env)->NewStringUTF(env, "hello load jni.");
-}
-
 // Java和JNI函数的绑定表
 static JNINativeMethod method_table[] = {
-        { "HelloLoad", "()Ljava/lang/String;", (void*)native_hello },//绑定
+        { "checkSignature", "(Ljava/lang/Object;)I", (void*)check },
+        { "decode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void*)decode },
+        { "encode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void*)encode },
 };
 
 // 注册native方法到java中
