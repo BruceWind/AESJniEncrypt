@@ -16,13 +16,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        toast(AESEncrypt.encode(this, "1") + "");
+//        toast(AESEncrypt.encode(this, "1") + "");
 
         //toast(SignatureTool.getSignature(this)+"");
 
         Log.d("thisHascode", SignatureTool.getSignature(this) + "");
 
-        toast(new AESEncrypt().checkSignature(this)+"");
+        toast(AESEncrypt.checkSignature(this)+"");
     }
 
 

@@ -22,15 +22,8 @@ LOCAL_SRC_FILES := JNIEncrypt.c	\
                     checksignature.c \
                     base64.c
 
-
-
-# NDK_TOOLCHAIN_VERSION := clang3.4-obfuscator
-
-
-# LOCAL_CFLAGS :=  -mllvm -sub -mllvm -fla -mllvm -bcf
-LOCAL_CFLAGS := -fvisibility=hidden #隐藏字符表 实际上效果不太理想
-
-
+LOCAL_CFLAGS := -fvisibility=hidden   -mllvm -sub -mllvm -fla -mllvm -bcf
+ # -fvisibility=hidden #隐藏字符表 实际上效果不太理想
 
 # LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_LDLIBS    := -llog
