@@ -3,13 +3,13 @@
 - [x] 使用JniOnload 隐藏c函数
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
-- [x] 使用OLLVM混淆C的代码
+- [x] 使用OLLVM混淆C的代码(仅支持ndk-build)
 
 集成到自己的项目中，key 请自行修改。
 ```
 static const uint8_t AES_KEY[]="1234567890abcdef";
 ```
-
+集成到项目中请修改类名方法名,不要暴露加密算法.
 
 ## keystore文件 校验
 
