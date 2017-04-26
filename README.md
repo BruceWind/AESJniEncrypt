@@ -4,8 +4,8 @@
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
 - [x] 使用OLLVM混淆C的代码(仅支持ndk-build)
-
-集成到自己的项目中，key 请自行修改。
+- [ ] 目前ollvm-obfuscator无法混淆出x86平台的so。
+- [ ] 手工处理隐藏key，将密钥分成不同的几段，存储在不同的代码中，最后将他们拼接起来，可以将整个操作写的很复杂，增加逆向难度。
 ```
 static const uint8_t AES_KEY[]="1234567890abcdef";
 ```
@@ -47,7 +47,7 @@ $ keytool -exportcert -alias androiddebugkey -keystore   "androidyuan.keystore" 
 
 ## 2.取得当前打包的keystore的hash值
 
-    目前似乎没有好的办法，我只能用java取，取出之后打log，然后写入到C文件中，重新build项目。
+    目前似乎没有好的办法，我只能用java取，**getSignature(Context context)**打log取出之后，然后写入到C文件中，重新build项目。
     
   集成到自己项目中请先修改keystore hashcode和包名，防止反编译时拿到so文件，进行二次打包使用。
 ## 鸣谢
