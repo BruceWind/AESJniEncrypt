@@ -3,11 +3,11 @@
 - [x] 使用JniOnload 隐藏c函数
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
-- [x] 使用OLLVM混淆C的代码(仅支持ndk-build)
+- [x] 使用obfuscator混淆C的代码(仅支持ndk-build)
 - [ ] 目前ollvm-obfuscator无法混淆出x86平台的so。
 - [ ] 手工处理隐藏key，将密钥分成不同的几段，存储在不同的代码中，最后将他们拼接起来，可以将整个操作写的很复杂，增加逆向难度。
 ```
-static const uint8_t AES_KEY[]="1234567890abcdef";
+static const uint8_t AES_KEY[]="1234567890abcdef";//这里需要处理一下
 ```
 集成到项目中请修改类名方法名,不要暴露加密算法.
 
