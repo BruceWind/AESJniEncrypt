@@ -55,3 +55,5 @@ $ keytool -exportcert -alias androiddebugkey -keystore   "androidyuan.keystore" 
 Base64 算法 来自：https://github.com/willemt/pearldb
 
 AES128 算法 来自：https://github.com/kokke/tiny-AES128-C
+
+Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
