@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
 
         Log.d("thisHascode", SignatureTool.getSignature(this) + "");
 
-        toast(AESEncrypt.checkSignature(this)+"");
+        toast(AESEncrypt.encode(this, "123213"));
     }
 
 

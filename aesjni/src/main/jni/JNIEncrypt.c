@@ -20,6 +20,27 @@
 const char *UNSIGNATURE = "UNSIGNATURE";
 
 
+char *new_str(char *charBuffer) {
+    char *str;
+    if (strlen(charBuffer) == 0)
+        str = charBuffer;
+    else
+        str = charBuffer + 1;
+    return str;
+}
+
+
+__attribute__((section (".mytext")))
+char *getKey() {
+    char *s = "cMTIzNDU2Nzg5MGFiY2RlZg";
+    const char *str_copy[strlen(s)];
+    memcpy(str_copy, s, strlen(s));
+
+    char *encode_str = new_str(str_copy);
+    return b64_decode(encode_str, strlen(encode_str));
+}
+
+
 __attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
@@ -29,7 +50,7 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
         return (*env)->NewString(env, str, strlen(str));
     }
 
-    uint8_t AES_KEY[] = "1234567890abcdef";
+    uint8_t *AES_KEY = (uint8_t *) getKey();
     const char *in = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     char *baseResult = AES_128_ECB_PKCS5Padding_Encrypt(in, AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, in);
@@ -46,7 +67,7 @@ JNIEXPORT jstring JNICALL  decode(JNIEnv *env, jobject instance, jobject context
         return (*env)->NewString(env, str, strlen(str));
     }
 
-    uint8_t AES_KEY[] = "1234567890abcdef";
+    uint8_t *AES_KEY = (uint8_t *) getKey();
     const char *str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(str, AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, str);
