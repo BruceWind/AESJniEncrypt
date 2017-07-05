@@ -7,9 +7,9 @@
 - [ ] 目前ollvm-obfuscator无法混淆出x86平台的so。
 - [x] 手工处理隐藏key，最复杂的方案：将密钥分成不同的几段，存储在不同的代码中，最后将他们拼接起来，可以将整个操作写的很复杂，增加逆向难度。（目前代码里用的是稍微简单的方案）
 ```
-static const uint8_t AES_KEY[]="1234567890abcdef";//这里需要处理一下
+char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这里的，实际上真实的key是："1234567890abcdef"
 ```
-集成到项目中请修改类名方法名,不要暴露加密算法.
+集成到项目中请修改类名方法名,不要暴露加密算法，自行修改key存储到代码里的方案.
 
 ## keystore文件 校验
 
@@ -57,3 +57,7 @@ Base64 算法 来自：https://github.com/willemt/pearldb
 AES128 算法 来自：https://github.com/kokke/tiny-AES128-C
 
 Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
+
+
+### PS:
+因为需要做签名校验，所以无法提供jcenter依赖了，望见谅！！

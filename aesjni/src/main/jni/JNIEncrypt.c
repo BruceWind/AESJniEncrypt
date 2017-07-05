@@ -32,7 +32,7 @@ char *new_str(char *charBuffer) {
 
 __attribute__((section (".mytext")))
 char *getKey() {
-    char *s = "cMTIzNDU2Nzg5MGFiY2RlZg";
+    char *s = "NMTIzNDU2Nzg5MGFiY2RlZg";
     const char *str_copy[strlen(s)];
     memcpy(str_copy, s, strlen(s));
 
