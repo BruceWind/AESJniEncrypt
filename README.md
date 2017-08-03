@@ -1,4 +1,4 @@
-# AESJniEncrypt
+# 追求破解难度到极致
 - [x] ndk实现AES加密
 - [x] 使用JniOnload 隐藏c函数
 - [x] 再做一层防止被二次打包的签名校验
