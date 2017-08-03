@@ -61,4 +61,5 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 
 ### PS:
 因为需要做签名校验，所以无法提供jcenter依赖了，望见谅！！
+
 不管代码安全性多高，我依旧反对key存到代码里。
