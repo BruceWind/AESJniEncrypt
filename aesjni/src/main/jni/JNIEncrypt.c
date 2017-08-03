@@ -19,27 +19,12 @@
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 
-
-char *new_str(char *charBuffer) {
-    char *str;
-    if (strlen(charBuffer) == 0)
-        str = charBuffer;
-    else
-        str = charBuffer + 1;
-    return str;
-}
-
-
 __attribute__((section (".mytext")))
 char *getKey() {
     char *s = "NMTIzNDU2Nzg5MGFiY2RlZg";
-    const char *str_copy[strlen(s)];
-    memcpy(str_copy, s, strlen(s));
-
-    char *encode_str = new_str(str_copy);
+    char *encode_str = s+1;
     return b64_decode(encode_str, strlen(encode_str));
 }
-
 
 __attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {

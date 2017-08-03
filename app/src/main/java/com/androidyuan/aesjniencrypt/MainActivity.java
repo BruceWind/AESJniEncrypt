@@ -19,10 +19,11 @@ public class MainActivity extends AppCompatActivity {
 //        toast(AESEncrypt.encode(this, "1") + "");
 
         //toast(SignatureTool.getSignature(this)+"");
+        String code = AESEncrypt.decode(this, "I/KA+xDr1TEKYG7xAmHBjA==");
 
-        Log.d("thisHascode", SignatureTool.getSignature(this) + "");
+        Log.d("thisHascode", code + "");//code  =  123213
 
-        toast(AESEncrypt.encode(this, "123213"));
+        toast(AESEncrypt.decode(this, "I/KA+xDr1TEKYG7xAmHBjA=="));
     }
 
 
