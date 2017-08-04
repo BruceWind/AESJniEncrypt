@@ -19,19 +19,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-
-        //toast(SignatureTool.getSignature(this)+"");
-
         //下面的密文对应的原文：123abcABC&*(@#@#@)+_/中文测试
         //String code = AESEncrypt.encode(this, str);
         String code = AESEncrypt.decode(this, ecode);
 
-        Log.d("code", code + "");// =  I379814738912471237fhdshgfsdgkl阿斯顿还是的符合
+        Log.d("code", code + "");
 
     }
 
 
-    void toast(String str)
+    private void toast(String str)
     {
         Toast.makeText(this,str, Toast.LENGTH_LONG).show();
     }
