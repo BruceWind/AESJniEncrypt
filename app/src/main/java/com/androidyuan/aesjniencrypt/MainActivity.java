@@ -10,20 +10,24 @@ import android.util.Log;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final String str = "123abcABC*%!~#+_/中文测试";
+    private final String ecode = "SkiDk/JC5F/BXKf/np7rWNub7ibxzYMjKwkQ7A6AqPw=";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-//        toast(AESEncrypt.encode(this, "1") + "");
 
         //toast(SignatureTool.getSignature(this)+"");
-        String code = AESEncrypt.decode(this, "I/KA+xDr1TEKYG7xAmHBjA==");
 
-        Log.d("thisHascode", code + "");//code  =  123213
+        //下面的密文对应的原文：123abcABC&*(@#@#@)+_/中文测试
+        //String code = AESEncrypt.encode(this, str);
+        String code = AESEncrypt.decode(this, ecode);
 
-        toast(AESEncrypt.decode(this, "I/KA+xDr1TEKYG7xAmHBjA=="));
+        Log.d("code", code + "");// =  I379814738912471237fhdshgfsdgkl阿斯顿还是的符合
+
     }
 
 

@@ -38,7 +38,7 @@ void AES128_ECB_decrypt(uint8_t* input, const uint8_t* key, uint8_t *output);
 char* AES_128_ECB_PKCS5Padding_Encrypt(const char *in,const uint8_t *key);
 char* AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key);
 
-int* findPaddingIndex(uint8_t * str,size_t length);
+int findPaddingIndex(uint8_t * str);
 #endif // #if defined(ECB) && ECB
 
 

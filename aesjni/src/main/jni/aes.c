@@ -542,14 +542,15 @@ char* AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key)
 }
 
 
+
 /**
  * 不定长解密,pkcs5padding
  */
 char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
 {
-  //加密前:1
-  //key:1234567890abcdef
-  //加密后:qkrxxA9fIF636aITDRJhcg==
+    //加密前:1
+    //key:1234567890abcdef
+    //加密后:qkrxxA9fIF636aITDRJhcg==
 
 //    in="m74nCuZkzK13anBQRDWeOw==";//123456
 //    in="qkrxxA9fIF636aITDRJhcg==";//1
@@ -557,85 +558,70 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
 //    in="+R99oRBuckos5mdUqQHHeoja4/HYqWtqTM3cgl+E0a3p5i7DoLeBpq/mVUfuEh5D1VRn4Wt4TzHazvz931WfiA==";//57yW56CB5Y6f55CGOuWwhjPkuKrlrZfoioLovazmjaLmiJA05Liq5a2X6IqC
 //    in="UUNc8Dh0OVZE9UyzJwWTSVkt3hgIxg0nfVHpSirRL3T1meUZDRUINWvoYfkcOEpL";//编码原理:将3个字节转换成4个字节
 //    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
-  //LOGE("输入:");
-  //LOGE(in);
-  uint8_t *inputDesBase64=b64_decode(in,strlen(in));
-  const size_t inputLength= (strlen(in) / 4) * 3;
-  uint8_t *out=malloc(inputLength);
-  memset(out,0,inputLength);
-  size_t count=inputLength/16;
-  if (count<=0)
-  {
-    count=1;
-  }
-  size_t i;
-  for ( i = 0; i < count; ++i) {
-      AES128_ECB_decrypt(inputDesBase64+i*16,key,out+i*16);
-  }
-
-  /**
-   *  接下来的工作就把末尾的padding去掉T_T
-   *  "abcdefghijklmnop\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\0\0\0\0
-   *  To "abcdefghijklmnop\n"
-   *
-   *  "1\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f"
-   *  To "1\n"
-   */
-  int* result=findPaddingIndex(out,inputLength-1);
-  int offSetIndex=result[0];
-  int lastChar=result[1];
-  //检查是不是padding的字符,然后去掉
-  const size_t noZeroIndex=inputLength-offSetIndex;
-  if (lastChar>=0 && offSetIndex>=0)
-  {
-    int success=JNI_TRUE,i;
-    for ( i = 0; i < lastChar; ++i) {
-      size_t index=noZeroIndex-lastChar+i;
-      if (!HEX[lastChar]==out[index])
-      {
-        success=JNI_FALSE;
-      }
-    }
-    if(JNI_TRUE==success)
+    //LOGE("输入:");
+    //LOGE(in);
+    uint8_t *inputDesBase64=b64_decode(in,strlen(in));
+    const size_t inputLength= (strlen(in) / 4) * 3;
+    uint8_t *out=malloc(inputLength);
+    memset(out,0,inputLength);
+    size_t count=inputLength/16;
+    if (count<=0)
     {
-      out[noZeroIndex-lastChar]='\n';
-      memset(out+noZeroIndex-lastChar+1,0,lastChar-1);
+        count=1;
     }
-  }else
-  {
-    out[noZeroIndex]='\n';
-  }
-  //LOGE("解密结果:");
-  //LOGE(out);
-  free(inputDesBase64);
-  return (char *) out;
+    size_t i;
+    for ( i = 0; i < count; ++i) {
+        AES128_ECB_decrypt(inputDesBase64+i*16,key,out+i*16);
+    }
+
+    /**
+     *  接下来的工作就把末尾的padding去掉T_T
+     *  "abcdefghijklmnop\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\0\0\0\0
+     *  To "abcdefghijklmnop\n"
+     *
+     *  "1\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f"
+     *  To "1\n"
+     */
+    int index = findPaddingIndex(out);
+
+    if(index==NULL)
+    {
+        return (char*)out;
+    }
+
+    //去除结尾垃圾字符串
+    if(index < strlen(out)){//  if index>strlen  will crash.
+        memset(out+index, '\0', strlen(out)-index);
+    }
+
+    //LOGE("解密结果:");
+    //LOGE(out);
+    free(inputDesBase64);
+    return (char *) out;
 }
-int* findPaddingIndex(uint8_t * str,size_t length)
+
+/**
+ * 查找结果中的一些 多余字符串
+ * @param   str         ：   加密结果原文
+ * @param   length      ：   长度
+ * @return  int         ：   垃圾字符串的开始位置
+ */
+int findPaddingIndex(uint8_t * str)
 {
-    int result[]={-1,-1},i,k;
-    for (i = 0; i < length; ++i) {
-        char c=str[length-i];
+    int i,k;
+    for (i = 0; i < strlen(str); i++) {
+        char c=str[i];
         if ('\0'!=c)
         {
-            result[0]=i;
             for (k = 0; k < 16; ++k) {
-                if (HEX[k]==c)
-                {
-                    if (0==k)
-                    {
-                        k=16;
-                    }
-                    result[1]=k;
-                    return result;
+                if (HEX[k]==c) {
+                    return  i;
                 }
             }
-            return result;
         }
     }
+    return i;
 }
-#endif // #if defined(ECB) && ECB
-
-
 
 
 /**
@@ -644,8 +630,8 @@ int* findPaddingIndex(uint8_t * str,size_t length)
  * 找寻这些代码 请移步 https://github.com/kokke/tiny-AES128-C
 
 #if defined(CBC) && CBC
-
-
 #endif // #if defined(CBC) && CBC
 
 */
+
+#endif // #if defined(ECB) && ECB
