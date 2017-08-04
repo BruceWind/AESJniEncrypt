@@ -574,25 +574,18 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
         AES128_ECB_decrypt(inputDesBase64+i*16,key,out+i*16);
     }
 
-    /**
-     *  接下来的工作就把末尾的padding去掉T_T
-     *  "abcdefghijklmnop\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\x10\0\0\0\0
-     *  To "abcdefghijklmnop\n"
-     *
-     *  "1\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f\x0f"
-     *  To "1\n"
-     */
-    int index = findPaddingIndex(out);
 
+    //去除结尾垃圾字符串 begin
+    int index = findPaddingIndex(out);
     if(index==NULL)
     {
         return (char*)out;
     }
-
-    //去除结尾垃圾字符串
-    if(index < strlen(out)){//  if index>strlen  will crash.
+    if(index < strlen(out)){//  if (index>strlen)  will crash.
         memset(out+index, '\0', strlen(out)-index);
     }
+    //去除结尾垃圾字符串 end
+
 
     //LOGE("解密结果:");
     //LOGE(out);
@@ -603,7 +596,6 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
 /**
  * 查找结果中的一些 多余字符串
  * @param   str         ：   加密结果原文
- * @param   length      ：   长度
  * @return  int         ：   垃圾字符串的开始位置
  */
 int findPaddingIndex(uint8_t * str)
