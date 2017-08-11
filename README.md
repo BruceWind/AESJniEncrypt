@@ -3,7 +3,7 @@
 - [x] 使用JniOnload 隐藏c函数
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
-- [x] 使用obfuscator混淆C的代码(仅支持ndk-build)
+- [x] 使用obfuscator混淆C的代码
 - [ ] 目前ollvm-obfuscator无法混淆出x86平台的so。
 - [x] 手工处理隐藏key，最复杂的方案：将密钥分成不同的几段，存储在不同的代码中，最后将他们拼接起来，可以将整个操作写的很复杂，增加逆向难度。（目前代码里用的是稍微简单的方案）
 ```
@@ -12,9 +12,12 @@ char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这
 ## 集成
 
 a.先配置local.properties中ndk.dir 要求使用ndk版本必须12b以上.
+
 b.集成到项目中请修改类名方法名,不要暴露加密算法，自行修改key存储到代码里的方案.
+
 c.生成和修改签名.
-  ***c.1.生成***
+
+**c.1.生成**
 ```
 //再当前目录下
 $ mkdir  keystore
@@ -46,7 +49,7 @@ $ keytool -exportcert -alias androiddebugkey -keystore   "androidyuan.keystore" 
 
 ```
 
-***c.2.取得当前keystore的hash值,并修改native代码中的包名和hash***
+**c.2.取得当前keystore的hash值,并修改native代码中的包名和hash**
 
     目前似乎没有好的办法，我只能用java取，**getSignature(Context context)**打log取出之后，然后写入到C文件中，重新build项目。
     
