@@ -9,11 +9,12 @@
 ```
 char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这里的，实际上真实的key是："1234567890abcdef"
 ```
-集成到项目中请修改类名方法名,不要暴露加密算法，自行修改key存储到代码里的方案.
+## 集成
 
-## keystore文件 校验
-
-1.生成
+a.先配置local.properties中ndk.dir 要求使用ndk版本必须12b以上.
+b.集成到项目中请修改类名方法名,不要暴露加密算法，自行修改key存储到代码里的方案.
+c.生成和修改签名.
+  ***c.1.生成***
 ```
 //再当前目录下
 $ mkdir  keystore
@@ -45,7 +46,7 @@ $ keytool -exportcert -alias androiddebugkey -keystore   "androidyuan.keystore" 
 
 ```
 
-## 2.取得当前打包的keystore的hash值
+***c.2.取得当前keystore的hash值,并修改native代码中的包名和hash***
 
     目前似乎没有好的办法，我只能用java取，**getSignature(Context context)**打log取出之后，然后写入到C文件中，重新build项目。
     
