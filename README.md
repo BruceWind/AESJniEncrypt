@@ -69,4 +69,6 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 不管代码安全性多高，我依旧反对key存到代码里。
 
 
+-------------------
+
 有问题及时提:[issues](https://github.com/weizongwei5/AESJniEncrypt/issues/new)
