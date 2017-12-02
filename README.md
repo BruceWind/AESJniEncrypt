@@ -4,8 +4,10 @@
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
 - [x] 使用obfuscator混淆C的代码
-- [ ] 目前ollvm-obfuscator无法混淆出x86平台的so。
+- [ ] TODO：目前ollvm-obfuscator无法混淆出x86平台的so。准备搭配obfucation 4.0解决。
 - [x] 手工处理隐藏key，最复杂的方案：将密钥分成不同的几段，存储在不同的代码中，最后将他们拼接起来，可以将整个操作写的很复杂，增加逆向难度。（目前代码里用的是稍微简单的方案）
+- [ ] TODO：代码run的时候屏蔽模拟器
+- [ ] TODO：防止so代码被code inject
 ```
 char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这里的，实际上真实的key是："1234567890abcdef"
 ```
