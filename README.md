@@ -65,6 +65,12 @@ AES128 算法 来自：https://github.com/kokke/tiny-AES128-C
 Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
 
 
+### 注意 : SO会变大的问题
+
+![未混淆的so](https://github.com/weizongwei5/AESJniEncrypt/raw/master/img/unobfscator_debugapk.png)
+![已混淆的so](https://github.com/weizongwei5/AESJniEncrypt/raw/master/img/obfscator_screen.png)
+
+对比： 混淆后的so是混淆前的三倍大小。
 
 ### PS:
 因为需要做签名校验，所以无法提供jcenter依赖了，望见谅！！
@@ -75,6 +81,9 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 想要编译出混淆过native代码的so需要修改aesjni/build.gradle文件中的externalNativeBuild，并配置NDK下的LLVM。
 
 这是我的NDK配置混淆器教程：[Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
+
+
+
 
 -------------------
 
