@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.4.1)           #普通版本的clang
-# cmake_minimum_required(VERSION 3.4-obfuscator)  #Native代码混淆器：obfuscation-o-llvm-ndk
+
 
 add_library( # Sets the name of the library.
              JNIEncrypt

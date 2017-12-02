@@ -4,7 +4,7 @@
 - [x] 再做一层防止被二次打包的签名校验
 - [x] key存在符号表中，同时隐藏字符表
 - [x] 使用obfuscator混淆C的代码
-- [ ] TODO：目前ollvm-obfuscator无法混淆出x86平台的so。准备搭配obfucation 4.0解决。
+- [x]  obfucator已经支持x86,具体配置obfucator的教程底部有链接。
 - [x] 手工处理隐藏key，最复杂的方案：将密钥分成不同的几段，存储在不同的代码中，最后将他们拼接起来，可以将整个操作写的很复杂，增加逆向难度。（目前代码里用的是稍微简单的方案）
 - [ ] TODO：代码run的时候屏蔽模拟器
 - [ ] TODO：防止so代码被code inject
@@ -53,7 +53,7 @@ $ keytool -exportcert -alias androiddebugkey -keystore   "androidyuan.keystore" 
 
 **c.2.取得当前keystore的hash值,并修改native代码中的包名和hash**
 
-    目前似乎没有好的办法，我只能用java取，**getSignature(Context context)**打log取出之后，然后写入到C文件中，重新build项目。
+    目前似乎没有好的办法，我只能用java取，**getSignature(Context context)**打log取出之后，然后写入到C文件中，重新build项目。
     
   集成到自己项目中请先修改keystore hashcode和包名，防止反编译时拿到so文件，进行二次打包使用。
 ## 鸣谢
@@ -65,12 +65,17 @@ AES128 算法 来自：https://github.com/kokke/tiny-AES128-C
 Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
 
 
+
 ### PS:
 因为需要做签名校验，所以无法提供jcenter依赖了，望见谅！！
 
 不管代码安全性多高，我依旧反对key存到代码里。
 
 
+想要编译出混淆过native代码的so需要修改aesjni/build.gradle文件中的externalNativeBuild，并配置NDK下的LLVM。
+
+这是我的NDK配置混淆器教程：[Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
+
 -------------------
 
-有问题及时提:[issues](https://github.com/weizongwei5/AESJniEncrypt/issues/new)
+有问题及时提:[new issues](https://github.com/weizongwei5/AESJniEncrypt/issues/new)

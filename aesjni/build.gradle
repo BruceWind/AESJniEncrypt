@@ -16,6 +16,13 @@ android {
                 cppFlags "-frtti -fexceptions"
             }
         }
+
+        ndk {
+            // Specifies the ABI configurations of your native
+            // libraries Gradle should build and package with your APK.
+            abiFilters   'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+        }
+
     }
 
 
@@ -26,11 +33,22 @@ android {
         }
     }
 
+
+    // 选择1  会使用 obfuscator 混淆native code
+//    externalNativeBuild{
+//        ndkBuild{
+//            path file("src/main/jni/Android.mk")
+//        }
+//    }
+
+    //选择2   没有混淆native code   ****不推荐使用 *****
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
         }
     }
+
+
 }
 
 
