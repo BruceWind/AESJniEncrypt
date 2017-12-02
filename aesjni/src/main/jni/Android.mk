@@ -9,11 +9,9 @@ LOCAL_SRC_FILES := JNIEncrypt.c	\
                     base64.c
 
 
+LOCAL_CFLAGS := -fvisibility=hidden   -mllvm -sub -mllvm -fla -mllvm -bcf
 
-# 推荐使用
-# LOCAL_CFLAGS := -fvisibility=hidden   -mllvm -sub -mllvm -fla -mllvm -bcf  #使用obfuscator需要打开这行代码
-# 不推荐使用
-LOCAL_CFLAGS := -fvisibility=hidden #隐藏字符表 实际上效果不太理想
+
 
 
 # LOCAL_SHARED_LIBRARIES := liblog libcutils
