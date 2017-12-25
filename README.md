@@ -79,7 +79,7 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 不管代码安全性多高，我依旧反对key存到代码里。
 
 
-想要编译出混淆过native代码的so需要修改aesjni/build.gradle文件中的externalNativeBuild，并配置NDK下的LLVM。
+想要编译出混淆过native代码的so需要修改aesjni/build.gradle文件中的externalNativeBuild，并配置NDK下的Obfuscator-LLVM。
 
 这是我的NDK配置混淆器教程：[Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
 
