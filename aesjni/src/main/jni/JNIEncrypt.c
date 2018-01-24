@@ -2,8 +2,6 @@
 #include "aes.h"
 #include "checksignature.h"
 #include <string.h>
-#include "checksignature.h"
-#include <android/log.h>
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
@@ -19,14 +17,41 @@
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 
-__attribute__((section (".mytext")))
+//__attribute__((section (".mytext")))//隐藏字符表 并没有什么卵用 只是针对初阶hacker的一个小方案而已
 char *getKey() {
-    char *s = "NMTIzNDU2Nzg5MGFiY2RlZg";
-    char *encode_str = s+1;
+    int n = 0;
+    char s[23];//"NMTIzNDU2Nzg5MGFiY2RlZg";
+
+    s[n++] = 'N';
+    s[n++] = 'M';
+    s[n++] = 'T';
+    s[n++] = 'I';
+    s[n++] = 'z';
+    s[n++] = 'N';
+    s[n++] = 'D';
+    s[n++] = 'U';
+    s[n++] = '2';
+    s[n++] = 'N';
+    s[n++] = 'z';
+    s[n++] = 'g';
+    s[n++] = '5';
+    s[n++] = 'M';
+    s[n++] = 'G';
+    s[n++] = 'F';
+    s[n++] = 'i';
+    s[n++] = 'Y';
+    s[n++] = '2';
+    s[n++] = 'R';
+    s[n++] = 'l';
+    s[n++] = 'Z';
+    s[n++] = 'g';
+    char *encode_str = s + 1;
     return b64_decode(encode_str, strlen(encode_str));
+
+    //初版hidekey的方案
 }
 
-__attribute__((section (".mytext")))
+//__attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
     //先进行apk被 二次打包的校验
@@ -43,7 +68,7 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
 }
 
 __attribute__((section (".mytext")))
-JNIEXPORT jstring JNICALL  decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
+JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
 
     //先进行apk被 二次打包的校验
@@ -89,15 +114,14 @@ check(JNIEnv *env, jobject instance, jobject con) {
 
 // Java和JNI函数的绑定表
 static JNINativeMethod method_table[] = {
-        { "checkSignature", "(Ljava/lang/Object;)I", (void*)check },
-        { "decode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void*)decode },
-        { "encode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void*)encode },
+        {"checkSignature", "(Ljava/lang/Object;)I",                                    (void *) check},
+        {"decode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) decode},
+        {"encode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) encode},
 };
 
 // 注册native方法到java中
-static int registerNativeMethods(JNIEnv* env, const char* className,
-                                 JNINativeMethod* gMethods, int numMethods)
-{
+static int registerNativeMethods(JNIEnv *env, const char *className,
+                                 JNINativeMethod *gMethods, int numMethods) {
     jclass clazz;
     clazz = (*env)->FindClass(env, className);
     if (clazz == NULL) {
@@ -110,19 +134,17 @@ static int registerNativeMethods(JNIEnv* env, const char* className,
     return JNI_TRUE;
 }
 
-int register_ndk_load(JNIEnv *env)
-{
+int register_ndk_load(JNIEnv *env) {
     // 调用注册方法
     return registerNativeMethods(env, JNIREG_CLASS,
                                  method_table, NELEM(method_table));
 }
 
-JNIEXPORT jint JNI_OnLoad(JavaVM* vm, void* reserved)
-{
-    JNIEnv* env = NULL;
+JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+    JNIEnv *env = NULL;
     jint result = -1;
 
-    if ((*vm)->GetEnv(vm, (void**) &env, JNI_VERSION_1_4) != JNI_OK) {
+    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_4) != JNI_OK) {
         return result;
     }
 
