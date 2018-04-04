@@ -2,7 +2,7 @@
 #include "aes.h"
 #include "checksignature.h"
 #include <string.h>
-
+#include <sys/ptrace.h>
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
 #define LOGI(...) __android_log_print(ANDROID_LOG_INFO, LOG_TAG, __VA_ARGS__)
 
@@ -141,6 +141,12 @@ int register_ndk_load(JNIEnv *env) {
 }
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
+
+    ptrace(PTRACE_TRACEME, 0, 0, 0);//反调试
+    //这是一种比较简单的防止被调试的方案
+    // 有更复杂更高明的方案，比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,目前的版本不做更多的负载方案，您想做可以fork之后，自己去做
+
+
     JNIEnv *env = NULL;
     jint result = -1;
 
