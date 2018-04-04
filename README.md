@@ -6,9 +6,10 @@
 - [x] 手工处理隐藏key,最复杂的方案：将密钥分成不同的几段,存储在不同的代码中,最后将他们拼接起来,可以将整个操作写的很复杂,增加逆向难度。（目前代码里用的是稍微简单的方案）
 - [x] 使用obfuscator混淆C的代码,[关于破解obfuscator](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
 - [x]  增加obfucator对x86的支持,具体配置obfucator的教程底部有链接。
+- [x] 反动态调试 , 目前代码里是比较简单的方案, 有更复杂更高明的方案,比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,想要更复杂的自己fork之后去写
 - [ ] TODO：代码run的时候屏蔽模拟器 :demo已经写好,准备接入[Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO：防止so代码被code inject
-- [x] TODO：反动态调试 , 目前代码里是比较简单的方案, 有更复杂更高明的方案,比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,想要更复杂的自己fork之后去写
+
 ```
 char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这里的,实际上真实的key是："1234567890abcdef"
 ```
