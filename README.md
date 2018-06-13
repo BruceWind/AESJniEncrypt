@@ -84,9 +84,11 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 
 这是我的NDK配置混淆器教程：[Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
 
-
+[其他语言怎么配合加解密？](https://github.com/weizongwei5/AESJniEncrypt/issues/8)
 
 
 -------------------
 
 有问题及时提:[new issues](https://github.com/weizongwei5/AESJniEncrypt/issues/new)
+
+
