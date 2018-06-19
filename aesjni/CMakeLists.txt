@@ -11,6 +11,10 @@ add_library( # Sets the name of the library.
              src/main/cpp/JNIEncrypt.c
              src/main/cpp/checksignature.h
              src/main/cpp/checksignature.c
+             src/main/cpp/check_emulator.h
+             src/main/cpp/check_emulator.c
+             src/main/cpp/debugger.h
+             src/main/cpp/debugger.c
              src/main/cpp/aes.h
              src/main/cpp/base64.h
              src/main/cpp/aes.c
