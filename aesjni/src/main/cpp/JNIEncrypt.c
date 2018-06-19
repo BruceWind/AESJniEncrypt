@@ -1,6 +1,7 @@
 #include <jni.h>
 #include "aes.h"
 #include "checksignature.h"
+#include "check_emulator.h"
 #include <string.h>
 
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
@@ -48,14 +49,12 @@ char *getKey() {
     char *encode_str = s + 1;
     return b64_decode(encode_str, strlen(encode_str));
 
-    //初版hidekey的方案
 }
 
-//__attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
     //先进行apk被 二次打包的校验
-    if (checkSignature(env, instance, context) != 1) {
+    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
         return (*env)->NewString(env, str, strlen(str));
     }
@@ -67,12 +66,11 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     return (*env)->NewStringUTF(env, baseResult);
 }
 
-__attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
 
     //先进行apk被 二次打包的校验
-    if (checkSignature(env, instance, context) != 1) {
+    if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
         return (*env)->NewString(env, str, strlen(str));
     }
@@ -106,15 +104,14 @@ jstring charToJstring(JNIEnv *envPtr, char *src) {
  * if rerurn 1 ,is check pass.
  */
 JNIEXPORT jint JNICALL
-check(JNIEnv *env, jobject instance, jobject con) {
-
-    return checkSignature(env, instance, con);
+check_jni(JNIEnv *env, jobject instance, jobject con) {
+    return check_signature(env, instance, con);
 }
 
 
 // Java和JNI函数的绑定表
 static JNINativeMethod method_table[] = {
-        {"checkSignature", "(Ljava/lang/Object;)I",                                    (void *) check},
+        {"checkSignature", "(Ljava/lang/Object;)I",                                    (void *) check_jni},
         {"decode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) decode},
         {"encode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) encode},
 };

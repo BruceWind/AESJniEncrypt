@@ -8,7 +8,7 @@
 #include "checksignature.h"
 
 
-jint checkSignature(JNIEnv *env, jobject thiz, jobject context) {
+jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
     //Context的类
     jclass context_clazz = (*env)->GetObjectClass(env, context);
     // 得到 getPackageManager 方法的 ID
