@@ -7,7 +7,7 @@
 - [x] 使用obfuscator混淆C的代码,[关于破解obfuscator](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
 - [x]  增加obfucator对x86的支持,具体配置obfucator的教程底部有链接。
 - [x] 反动态调试 , 目前代码里是比较简单的方案, 有更复杂更高明的方案,比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,想要更复杂的自己fork之后去写
-- [ ] TODO：代码run的时候屏蔽模拟器 :demo已经写好,准备接入[Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
+- [x] 代码run的时候屏蔽模拟器 :代码来自我的另外一个仓库[Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO：防止so代码被code inject
 
 ```
