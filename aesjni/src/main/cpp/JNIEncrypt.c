@@ -18,6 +18,20 @@
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 
+jstring charToJstring(JNIEnv *envPtr, char *src) {
+    JNIEnv env = *envPtr;
+
+    jsize len = strlen(src);
+    jclass clsstring = env->FindClass(envPtr, "java/lang/String");
+    jstring strencode = env->NewStringUTF(envPtr, "UTF-8");
+    jmethodID mid = env->GetMethodID(envPtr, clsstring, "<init>",
+                                     "([BLjava/lang/String;)V");
+    jbyteArray barr = env->NewByteArray(envPtr, len);
+    env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte *) src);
+
+    return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
+}
+
 //__attribute__((section (".mytext")))//隐藏字符表 并没有什么卵用 只是针对初阶hacker的一个小方案而已
 char *getKey() {
     int n = 0;
@@ -56,7 +70,8 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     //先进行apk被 二次打包的校验
     if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
-        return (*env)->NewString(env, str, strlen(str));
+//        return (*env)->NewString(env, str, strlen(str));
+        return charToJstring(env,str);
     }
 
     uint8_t *AES_KEY = (uint8_t *) getKey();
@@ -67,27 +82,14 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
 }
 
 
-jstring charToJstring(JNIEnv *envPtr, char *src) {
-    JNIEnv env = *envPtr;
-
-    jsize len = strlen(src);
-    jclass clsstring = env->FindClass(envPtr, "java/lang/String");
-    jstring strencode = env->NewStringUTF(envPtr, "UTF-8");
-    jmethodID mid = env->GetMethodID(envPtr, clsstring, "<init>",
-                                     "([BLjava/lang/String;)V");
-    jbyteArray barr = env->NewByteArray(envPtr, len);
-    env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte *) src);
-
-    return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
-}
-
 JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
 
     //先进行apk被 二次打包的校验
     if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
-        return (*env)->NewString(env, str, strlen(str));
+//        return (*env)->NewString(env, str, strlen(str));
+        return charToJstring(env,str);
     }
 
     uint8_t *AES_KEY = (uint8_t *) getKey();
