@@ -66,24 +66,6 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     return (*env)->NewStringUTF(env, baseResult);
 }
 
-JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
-
-
-    //先进行apk被 二次打包的校验
-    if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
-        char *str = UNSIGNATURE;
-        return (*env)->NewString(env, str, strlen(str));
-    }
-
-    uint8_t *AES_KEY = (uint8_t *) getKey();
-    const char *str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
-    char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(str, AES_KEY);
-    (*env)->ReleaseStringUTFChars(env, str_, str);
-    return (*env)->NewStringUTF(env, desResult);
-    //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
-    //return charToJstring(env,desResult);
-}
-
 
 jstring charToJstring(JNIEnv *envPtr, char *src) {
     JNIEnv env = *envPtr;
@@ -97,6 +79,24 @@ jstring charToJstring(JNIEnv *envPtr, char *src) {
     env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte *) src);
 
     return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
+}
+
+JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
+
+
+    //先进行apk被 二次打包的校验
+    if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
+        char *str = UNSIGNATURE;
+        return (*env)->NewString(env, str, strlen(str));
+    }
+
+    uint8_t *AES_KEY = (uint8_t *) getKey();
+    const char *str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
+    char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(str, AES_KEY);
+    (*env)->ReleaseStringUTFChars(env, str_, str);
+//    return (*env)->NewStringUTF(env, desResult);
+    //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
+    return charToJstring(env,desResult);
 }
 
 
