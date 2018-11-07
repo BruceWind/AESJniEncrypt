@@ -2,7 +2,7 @@
 - [x] ndk实现AES加密
 - [x] 使用JniOnload 隐藏c函数
 - [x] 再做一层防止被二次打包的签名校验
-- [x] ~~key存在符号表中,同时隐藏字符表~~ 该方案已经废弃,请看下一条
+- [x] ~~key存在符号表中,同时隐藏字符表~~ 该方案已经废弃,请看下一条 [废弃原因issues/5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
 - [x] 手工处理隐藏key,最复杂的方案：将密钥分成不同的几段,存储在不同的代码中,最后将他们拼接起来,可以将整个操作写的很复杂,增加逆向难度。（目前代码里用的是稍微简单的方案）
 - [x] 使用obfuscator混淆C的代码,[关于破解obfuscator](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
 - [x]  增加obfucator对x86的支持,具体配置obfucator的教程底部有链接。
