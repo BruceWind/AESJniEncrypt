@@ -15,7 +15,7 @@ char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这
 ```
 ## 集成
 
-a.先配置local.properties中ndk.dir 要求使用ndk版本必须12b以上.
+a.先配置local.properties中ndk.dir 要求使用ndk版本必须11-13b,过新的ndk版本没有测试过,可能会编译不过。
 
 b.集成到项目中请修改类名方法名,不要暴露加密算法,自行修改key存储到代码里的方案.
 
