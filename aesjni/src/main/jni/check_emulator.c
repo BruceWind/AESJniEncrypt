@@ -42,7 +42,7 @@ int equals(const char *str,char * key){
 
 JNIEXPORT jint JNICALL  check_is_emulator(JNIEnv *env) {
 
-    if(isdebug()==1)//debug模式不校验
+    if(is_debug()==1)//debug模式不校验
         return 1;
 
 // 这里是模仿java代码的检查是否为模拟器 必要参数 context

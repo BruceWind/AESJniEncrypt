@@ -1,6 +1,7 @@
 #include <jni.h>
 #include "aes.h"
 #include "checksignature.h"
+#include "check_emulator.h"
 #include <string.h>
 #include <sys/ptrace.h>
 #define LOGD(...) __android_log_print(ANDROID_LOG_DEBUG, LOG_TAG, __VA_ARGS__)
@@ -16,6 +17,20 @@
 #define JNIREG_CLASS "com/androidyuan/aesjni/AESEncrypt"
 
 const char *UNSIGNATURE = "UNSIGNATURE";
+
+jstring charToJstring(JNIEnv *envPtr, char *src) {
+    JNIEnv env = *envPtr;
+
+    jsize len = strlen(src);
+    jclass clsstring = env->FindClass(envPtr, "java/lang/String");
+    jstring strencode = env->NewStringUTF(envPtr, "UTF-8");
+    jmethodID mid = env->GetMethodID(envPtr, clsstring, "<init>",
+                                     "([BLjava/lang/String;)V");
+    jbyteArray barr = env->NewByteArray(envPtr, len);
+    env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte *) src);
+
+    return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
+}
 
 //__attribute__((section (".mytext")))//隐藏字符表 并没有什么卵用 只是针对初阶hacker的一个小方案而已
 char *getKey() {
@@ -48,16 +63,15 @@ char *getKey() {
     char *encode_str = s + 1;
     return b64_decode(encode_str, strlen(encode_str));
 
-    //初版hidekey的方案
 }
 
-//__attribute__((section (".mytext")))
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
     //先进行apk被 二次打包的校验
-    if (checkSignature(env, instance, context) != 1) {
+    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
-        return (*env)->NewString(env, str, strlen(str));
+//        return (*env)->NewString(env, str, strlen(str));
+        return charToJstring(env,str);
     }
 
     uint8_t *AES_KEY = (uint8_t *) getKey();
@@ -67,38 +81,24 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     return (*env)->NewStringUTF(env, baseResult);
 }
 
-__attribute__((section (".mytext")))
+
 JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
 
     //先进行apk被 二次打包的校验
-    if (checkSignature(env, instance, context) != 1) {
+    if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
-        return (*env)->NewString(env, str, strlen(str));
+//        return (*env)->NewString(env, str, strlen(str));
+        return charToJstring(env,str);
     }
 
     uint8_t *AES_KEY = (uint8_t *) getKey();
     const char *str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     char *desResult = AES_128_ECB_PKCS5Padding_Decrypt(str, AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, str);
-    return (*env)->NewStringUTF(env, desResult);
+//    return (*env)->NewStringUTF(env, desResult);
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
-    //return charToJstring(env,desResult);
-}
-
-
-jstring charToJstring(JNIEnv *envPtr, char *src) {
-    JNIEnv env = *envPtr;
-
-    jsize len = strlen(src);
-    jclass clsstring = env->FindClass(envPtr, "java/lang/String");
-    jstring strencode = env->NewStringUTF(envPtr, "UTF-8");
-    jmethodID mid = env->GetMethodID(envPtr, clsstring, "<init>",
-                                     "([BLjava/lang/String;)V");
-    jbyteArray barr = env->NewByteArray(envPtr, len);
-    env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte *) src);
-
-    return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
+    return charToJstring(env,desResult);
 }
 
 
@@ -106,15 +106,14 @@ jstring charToJstring(JNIEnv *envPtr, char *src) {
  * if rerurn 1 ,is check pass.
  */
 JNIEXPORT jint JNICALL
-check(JNIEnv *env, jobject instance, jobject con) {
-
-    return checkSignature(env, instance, con);
+check_jni(JNIEnv *env, jobject instance, jobject con) {
+    return check_signature(env, instance, con);
 }
 
 
 // Java和JNI函数的绑定表
 static JNINativeMethod method_table[] = {
-        {"checkSignature", "(Ljava/lang/Object;)I",                                    (void *) check},
+        {"checkSignature", "(Ljava/lang/Object;)I",                                    (void *) check_jni},
         {"decode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) decode},
         {"encode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) encode},
 };
@@ -142,21 +141,22 @@ int register_ndk_load(JNIEnv *env) {
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
 
-    ptrace(PTRACE_TRACEME, 0, 0, 0);//反调试
-    //这是一种比较简单的防止被调试的方案
-    // 有更复杂更高明的方案，比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,目前的版本不做更多的负载方案，您想做可以fork之后，自己去做
+ptrace(PTRACE_TRACEME, 0, 0, 0);//反调试
+//这是一种比较简单的防止被调试的方案
+// 有更复杂更高明的方案，比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,目前的版本不做更多的负载方案，您想做可以fork之后，自己去做
 
 
-    JNIEnv *env = NULL;
-    jint result = -1;
 
-    if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_4) != JNI_OK) {
-        return result;
-    }
+JNIEnv *env = NULL;
+jint result = -1;
 
-    register_ndk_load(env);
+if ((*vm)->GetEnv(vm, (void **) &env, JNI_VERSION_1_4) != JNI_OK) {
+return result;
+}
 
-    // 返回jni的版本
-    return JNI_VERSION_1_4;
+register_ndk_load(env);
+
+// 返回jni的版本
+return JNI_VERSION_1_4;
 }
 

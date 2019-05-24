@@ -19,6 +19,6 @@ static const int app_signature_hash_code = -625644214;
  *
  * 返回值为1 表示合法
  */
-jint checkSignature(JNIEnv *env, jobject thiz, jobject context);
+jint check_signature(JNIEnv *env, jobject thiz, jobject context);
 
 #endif //AESJNIENCRYPT_SIGNACTURECHECK_H

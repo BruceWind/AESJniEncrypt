@@ -34,14 +34,14 @@ android {
     }
 
 
-    // 选择1  会使用 obfuscator 混淆native code
+    //selection 1  this used obfuscator library to obfuscate the native code
 //    externalNativeBuild{
 //        ndkBuild{
 //            path file("src/main/jni/Android.mk")
 //        }
 //    }
 
-    //选择2   没有混淆native code   ****不推荐使用 *****
+    //selection 2   the doesn't obfuscate native code   **** not recommand use cmake*****
     externalNativeBuild {
         cmake {
             path "CMakeLists.txt"
