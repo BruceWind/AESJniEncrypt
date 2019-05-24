@@ -606,7 +606,7 @@ int findPaddingIndex(uint8_t * str)
         if ('\0'!=c)
         {
             for (k = 0; k < 16; ++k) {
-                if (HEX[k]==c) {
+                if (HEX[k]==c && HEX[k]!= 0x0a) {//"\n"算正常字符
                     return  i;
                 }
             }

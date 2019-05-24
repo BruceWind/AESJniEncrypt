@@ -6,6 +6,9 @@ LOCAL_MODULE    := JNIEncrypt
 LOCAL_SRC_FILES := JNIEncrypt.c	\
                     aes.c \
                     checksignature.c \
+                    check_emulator.c \
+                    debugger.c \
+                    logger.h \
                     base64.c
 
 
