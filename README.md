@@ -49,7 +49,7 @@ Base64 algorithm from: https://github.com/willemt/pearldb
 
 AES128 Algorithm From: https://github.com/kokke/tiny-AES128-C
 
-Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm -ndk)
+Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
 
 
 ### Remind: SO file will become bigger
