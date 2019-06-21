@@ -78,7 +78,11 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     const char *in = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     char *baseResult = AES_128_ECB_PKCS5Padding_Encrypt(in, AES_KEY);
     (*env)->ReleaseStringUTFChars(env, str_, in);
-    return (*env)->NewStringUTF(env, baseResult);
+//    return (*env)->NewStringUTF(env, baseResult);
+    jstring  result = (*env)->NewStringUTF(env, baseResult);
+    free(baseResult);
+    free(AES_KEY);
+    return result;
 }
 
 
@@ -98,7 +102,11 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
     (*env)->ReleaseStringUTFChars(env, str_, str);
 //    return (*env)->NewStringUTF(env, desResult);
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
-    return charToJstring(env,desResult);
+//    return charToJstring(env,desResult);
+    jstring result = charToJstring(env,desResult);
+    free(desResult);
+    free(AES_KEY);
+    return result;
 }
 
 
