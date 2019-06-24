@@ -483,54 +483,31 @@ char* AES_128_ECB_PKCS5Padding_Encrypt(const char *in, const uint8_t *key)
 
   int inLength= (int) strlen(in);//输入的长度
   int remainder = inLength % 16;
-  //LOGE("输入: ");
-//    LOGEX(in,inLength);
-  //LOGE(in);
-  //LOGE("输入,转码:");
-  //LOGE(b64_encode(in, inLength));
-  //LOGE("key:");
-  //LOGE(key);
   uint8_t *paddingInput;
-//    int paddingInputLengt=PKCS5Padding(inLength,in,paddingInput);
   int paddingInputLengt=0;
-  if(inLength<16)
-  {
-    paddingInput=(uint8_t*)malloc(16);
-    paddingInputLengt=16;
-    int i;
-    for (i = 0; i < 16; i++) {
-      if (i < inLength) {
-        paddingInput[i] = in[i];
-      } else {
-        paddingInput[i] = HEX[16 - inLength];
-      }
-    }
-  }else
-  {
-    int group = inLength / 16;
-    int size = 16 * (group + 1);
-    paddingInput=(uint8_t*)malloc(size);
-    paddingInputLengt=size;
+  int group = inLength / 16;
+  int size = 16 * (group + 1);
+  paddingInput=(uint8_t*)malloc(size);
+  paddingInputLengt=size;
 
-    int dif = size - inLength;
-    int i;
-    for (i = 0; i < size; i++) {
-      if (i < inLength) {
-        paddingInput[i] = in[i];
-      } else {
-        if (remainder == 0) {
-          //刚好是16倍数,就填充16个16
-          paddingInput[i] = HEX[0];
-        } else {	//如果不足16位 少多少位就补几个几  如：少4为就补4个4 以此类推
-          paddingInput[i] = HEX[dif];
-        }
+  int dif = size - inLength;
+  int i;
+  for (i = 0; i < size; i++) {
+    if (i < inLength) {
+      paddingInput[i] = in[i];
+    } else {
+      if (remainder == 0) {
+        //刚好是16倍数,就填充16个16
+        paddingInput[i] = HEX[0];
+      } else {	//如果不足16位 少多少位就补几个几  如：少4为就补4个4 以此类推
+        paddingInput[i] = HEX[dif];
       }
     }
   }
+
   int count=paddingInputLengt / 16;
   //开始分段加密
   char * out=(char*)malloc(paddingInputLengt);
-  int i;
   for ( i = 0; i < count; ++i) {
     AES128_ECB_encrypt(paddingInput+i*16, key, out+i*16);
   }
@@ -600,19 +577,7 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
  */
 int findPaddingIndex(uint8_t * str)
 {
-    int i,k;
-    for (i = 0; i < strlen(str); i++) {
-        char c=str[i];
-        if ('\0'!=c)
-        {
-            for (k = 0; k < 16; ++k) {
-                if (HEX[k]==c && HEX[k]!= 0x0a) {//"\n"算正常字符
-                    return  i;
-                }
-            }
-        }
-    }
-    return i;
+  return (int)(strlen(str) - str[strlen(str) - 1]);
 }
 
 

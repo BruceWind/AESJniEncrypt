@@ -23,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
         //String code = AESEncrypt.encode(this, str);
         String code = AESEncrypt.decode(this, ecode);
 
-        Log.d("code", code + "");
+        Log.i("code", code + "");
 
     }
 
