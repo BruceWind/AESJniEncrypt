@@ -74,7 +74,6 @@ This is my NDK configuration obfuscator tutorial: [Obfuscator-LLVM-4.0-BUILD-NDK
 
 -------------------
 
-
 ## Contributing
 
 In case you would like to add information to this repository or suggest some ideas, please use one of the following options:
@@ -82,3 +81,10 @@ In case you would like to add information to this repository or suggest some ide
 - [Create an Issue](https://github.com/weizongwei5/AESJniEncrypt/issues/new).
 - Send me Pull Requests
 
+### Contributor
+
+[https://github.com/larry19840909](https://github.com/larry19840909)
+
+[https://github.com/zxp0505](https://github.com/zxp0505)
+
+[https://github.com/baoyongzhang](https://github.com/baoyongzhang)
