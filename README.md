@@ -2,6 +2,7 @@
 
 [中文](https://github.com/BruceWind/AESJniEncrypt/blob/dev/README_zh.md)
 
+
 # Reach high security in Android
 - [x] Add AES algorithms to native code
 - [x] Hide native function in JniOnload
@@ -71,6 +72,7 @@ This is my NDK configuration obfuscator tutorial: [Obfuscator-LLVM-4.0-BUILD-NDK
 
 [How do other languages ​​work together with encryption and decryption?](https://github.com/weizongwei5/AESJniEncrypt/issues/8)
 
+If you want to ask me,please click [![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/askbruce/community).
 
 -------------------
 
