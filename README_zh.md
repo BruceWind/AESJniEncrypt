@@ -82,6 +82,8 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 
 [其他语言怎么配合加解密？](https://github.com/weizongwei5/AESJniEncrypt/issues/8)
 
+如果要直接问我，请点这里[![Gitter chat](https://badges.gitter.im/gitterHQ/gitter.png)](https://gitter.im/askbruce/community).
+
 
 -------------------
 
