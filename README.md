@@ -1,6 +1,6 @@
-[English](https://github.com/BruceWind/AESJniEncrypt/blob/dev/README.md)
+[English](https://github.com/BruceWind/AESJniEncrypt/blob/master/README.md)
 
-[中文](https://github.com/BruceWind/AESJniEncrypt/blob/dev/README_zh.md)
+[中文](https://github.com/BruceWind/AESJniEncrypt/blob/master/README_zh.md)
 
 
 # Reach high security in Android
