@@ -537,8 +537,8 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
 //    in="Yrl8Sryq7Kpce4UWRfG3bBBYpzXv59Muj0wjkJYRHFb73CogeDRfQCXsjSfxTe0gibaf+f1FLekwow0f1W9stJy3q7CNOPzkSJVdCtyZvIxMxLwz9hyatUJnU4Nq6i2gkaiCZcwHuDtrAHpEoy1k0vudpWhGu2457iSc40Tqw4tQnxKX18DcKNG5/KPUM+A5Y9a3FxaAy84Turio78b+6A==";//{"Json解析":"支持格式化高亮折叠","支持XML转换":"支持XML转换Json,Json转XML","Json格式验证":"更详细准确的错误信息"}
     //LOGE("输入:");
     //LOGE(in);
-    uint8_t *inputDesBase64=b64_decode(in,strlen(in));
-    const size_t inputLength= (strlen(in) / 4) * 3;
+    size_t inputLength = 0;
+    uint8_t *inputDesBase64=b64_decode_ex(in,strlen(in), &inputLength);
     uint8_t *out=malloc(inputLength);
     memset(out,0,inputLength);
     size_t count=inputLength/16;
@@ -553,13 +553,13 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
 
 
     //去除结尾垃圾字符串 begin
-    int index = findPaddingIndex(out);
+    int index = findPaddingIndex(out, inputLength);
     if(index==NULL)
     {
         return (char*)out;
     }
-    if(index < strlen(out)){//  if (index>strlen)  will crash.
-        memset(out+index, '\0', strlen(out)-index);
+    if(index < inputLength){//  if (index>strlen)  will crash.
+        memset(out+index, '\0', inputLength-index);
     }
     //去除结尾垃圾字符串 end
 
@@ -575,9 +575,15 @@ char * AES_128_ECB_PKCS5Padding_Decrypt(const char *in, const uint8_t* key)
  * @param   str         ：   加密结果原文
  * @return  int         ：   垃圾字符串的开始位置
  */
-int findPaddingIndex(uint8_t * str)
+int findPaddingIndex(uint8_t * out, int len)
 {
-  return (int)(strlen(str) - str[strlen(str) - 1]);
+    if(out[len - 1] > 0x10){
+        return 0;
+    }else{
+        return (int)(len - out[len - 1]);
+    }
+ 
+ 
 }
 
 
