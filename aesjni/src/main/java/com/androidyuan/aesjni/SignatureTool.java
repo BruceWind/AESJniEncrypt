@@ -7,6 +7,8 @@ import android.content.pm.Signature;
 
 /**
  * Created by wei on 16-12-4.
+ * Please use this class to read hash of the current apk signature file, and then copy the hash to checksignature.h;
+ * 请您使用这个类读取当前apk签名文件的hash值，然后拷贝hash写入到checksignature.h;
  */
 
 public class SignatureTool {
