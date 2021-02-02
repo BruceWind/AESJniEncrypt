@@ -3,7 +3,8 @@
 [中文](https://github.com/BruceWind/AESJniEncrypt/blob/master/README_zh.md)
 
 # 追求极致的代码安全性保障 
-- [x] ndk实现AES加密
+- [x] ~~ndk实现AES加密~~,性能不佳,已废弃此方式，TLS1.3
+- [ ] 使用chacha20加密,TLS1.3在移动端都用了chacha20了
 - [x] 使用JniOnload 隐藏c函数
 - [x] 使用签名校验避免被再次打包（这是绕过破解加密算法直接调用你的jni函数）
 - [x] ~~key存在符号表中,同时隐藏字符表~~ 该方案已经废弃,[废弃原因issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)，请看下一条
@@ -17,6 +18,11 @@
 ```
 char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这里的,实际上真实的key是："1234567890abcdef"
 ```
+
+## 克隆代码准备
+先安装GIT-LFS:
+https://git-lfs.github.com/
+
 ## 集成
 
 a.先配置local.properties中ndk.dir 要求使用ndk版本必须11-13b,新版本ndk没有测试过,或许不能编译通过。
