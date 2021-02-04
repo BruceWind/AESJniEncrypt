@@ -60,5 +60,7 @@ captures/
 #remote build
 mainframer.sh
 .mainframer
-
-
+aesjni/src/main/libs/
+aesjni/src/main/obj/
+aesjni/src/main/jni/Android.mk
+aesjni/src/main/jni/sodium_include

@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.4.1)           #普通版本的clang
 
 
+#base on libsodium-1.0.18,which was downloaded from https://download.libsodium.org/libsodium/releases/libsodium-1.0.18-stable.tar.gz;
 add_library( # Sets the name of the library.
              JNIEncrypt
 
