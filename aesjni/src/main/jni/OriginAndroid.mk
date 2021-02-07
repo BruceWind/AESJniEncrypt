@@ -16,7 +16,7 @@ else
 	ARCH_PREFIX := $(TARGET_ARCH)
 endif
 
-SODIUM_LIB_DIR := $(LOCAL_PATH)/libsodium/libsodium-android-$(ARCH_PREFIX)
+SODIUM_LIB_DIR := $(LOCAL_PATH)/sodium_include/libsodium-android-$(ARCH_PREFIX)
 SODIUM_INC_DIR := $(SODIUM_LIB_DIR)/include
 SODIUM_LIB := $(SODIUM_LIB_DIR)/lib/libsodium.a
 
