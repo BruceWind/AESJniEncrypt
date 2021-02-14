@@ -1,3 +1,5 @@
-# there is only armv8 is beacause I only push armv8 abi of libsodium static library.You can rebuild libsodium to generate static library of other ABIs.
-APP_ABI := arm64-v8a
+# there is only armv8. You can rebuild libsodium to generate static library of other ABIs.
+APP_ABI := x86
 APP_PLATFORM := android-19
+
+APP_STL := c++_static

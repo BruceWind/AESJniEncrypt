@@ -1,6 +1,6 @@
 
 #define TEST_NAME "aead_aes256gcm"
-#include "cmptest.h"
+#include <sodium.h>
 
 static struct {
     const char *key_hex;
