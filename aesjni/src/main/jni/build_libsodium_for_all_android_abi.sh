@@ -4,6 +4,11 @@
 # 1.MacOS with ndk r13.
 # 2.Ubuntu 20 with ndk-bundle.
 
+# ===========================Remind=========================
+# If you are running this shell for the first time, Pls look at terminal.
+# Some error might be thrown. You may need to install certain applications
+# (such as python, libtool-bin) to resolve those errors.
+
 LIBSODIUM_GIT_TAG=1.0.18 # it is the last stable version.
 
 #ROOT_DIR=$(pwd)
@@ -17,8 +22,9 @@ fi
 SODIUM_INCLUDE_DIR=$(pwd)/sodium_include
 if [ -d "$SODIUM_INCLUDE_DIR" ]; then  # if it exists,delete it.
     rm -rf "$SODIUM_INCLUDE_DIR"/libsodium-android*
+else
+  mkdir sodium_include
 fi
-mkdir sodium_include
 
 TEMP_DIR=$(pwd)/temp
 if [ -d "$TEMP_DIR" ]; then # if it exists,delete it.
@@ -92,4 +98,3 @@ if [ $? -eq 0 ]; then
   printf 'all static libs move into %s.\n' "$SODIUM_INCLUDE_DIR"
   rm -rf "$TEMP_DIR"
 fi
-

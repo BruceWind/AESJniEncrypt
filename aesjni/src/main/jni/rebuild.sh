@@ -2,7 +2,7 @@
 # @author bruce:
 # ========================Remind:========================
 # run this shell script must before, you computer must be set ANROID_NDK_HOME,
-# And your computer must connect with a armv8 phone,or armv8 emulator beacause only build armv8 share library.
+# And your computer must connect TODO .
 # -------------------------------------------------------
 # Build success environmental system records:
 # Mac OS:
@@ -12,6 +12,8 @@
 #     And NDK-r13b got failed due to google not supporting the old ndk to be with new system.
 #
 
+BUILT_ABI=x86
+#BUILT_ABI=arm64-v8a
 # detect whether build_libsodium_for_all_android_abi.sh has already been called.
 if [ ! -d ./sodium_include/libsodium-android-armv8-a ]; then
   printf "Please run build_libsodium_for_all_android_abi.sh before.\n"
@@ -25,7 +27,6 @@ rm -r ../libs/
 ndk-build clean
 
 
-
 ## run "./rebuild.sh test"
 if [[ $1 == "test" ]]; then
   printf "Start building......\n"
@@ -35,10 +36,10 @@ if [[ $1 == "test" ]]; then
       exit # failed at ndk-build
   fi
   printf "adb push......\n" # push executable file into device or emulator.
-  adb push ../libs/arm64-v8a/test /data/local/tmp
+  adb push ../libs/$BUILT_ABI/test /data/local/tmp
 
    if [ $? -ne 0 ]; then # failed from pushing executable file.
-     printf "can't push executable file, does you connect more than one device or emulator? \n"
+     printf "can't push executable file. Do you connect device or emulator? \n"
      exit
   fi
 
