@@ -95,6 +95,6 @@ fi
 
 if [ $? -eq 0 ]; then
   mv -v "$SODIUM_CLONING_HOME"/libsodium-android-* "$SODIUM_INCLUDE_DIR"
-  printf 'all static libs move into %s.\n' "$SODIUM_INCLUDE_DIR"
+  printf 'all of static libs move into %s.\n' "$SODIUM_INCLUDE_DIR"
   rm -rf "$TEMP_DIR"
 fi

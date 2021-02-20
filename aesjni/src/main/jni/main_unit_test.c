@@ -5,21 +5,12 @@ you can run a command in this directory: ./rebuild.sh test
 
 #define TEST_NAME "aead_aes256gcm"
 #include <stdio.h>
-#include <android/log.h>
+#include <logger.h>
 #include <sodium.h>
 #include <base64.h>
 #include <stdlib.h>
-// #include <assert.h>
-
-
-#define TAG "NATIVE_UT"
-void logd(char *str)
-{
-    //this string will be got from you command.
-    printf("%s \n", str);
-    //run "adb logcat | grep NATIVE_UT" in order to seek logs.
-    __android_log_print(ANDROID_LOG_DEBUG, TAG, "%s", str);
-}
+#include <keys_generator.h>
+#include <assert.h>
 
 /*
 There is a testing for AEAD AES256_GCM.
@@ -50,18 +41,18 @@ void test_aead_aes256gcm()
     // to detect CPU has hardware-accelerated for AES256GCM.
     if (crypto_aead_aes256gcm_is_available() == 0)
     {
-        logd("The device doesn't support AES algorithm."); /* Not available on this CPU */
+        LOGD("The device doesn't support AES algorithm."); /* Not available on this CPU */
     }
     else
     {
-        logd("The device support AES algorithm.");
+        LOGD("The device support AES algorithm.");
 
-        const char *key_hex             = "b52c505a37d78eda5dd34f20c22540ea1b58963cf8e5bf8ffa85f9f2492505b4";
-        const char *nonce_hex           = "516c33929df5a3284ff463d7";
-        const char *mac_hex             = "bdc1ac884d332457a1d2664f168c76f0";
+        const char *key_hex = "b52c505a37d78eda5dd34f20c22540ea1b58963cf8e5bf8ffa85f9f2492505b4";
+        const char *nonce_hex = "516c33929df5a3284ff463d7";
+        const char *mac_hex = "bdc1ac884d332457a1d2664f168c76f0";
 
-        const size_t message_len        = 4;
-        const unsigned char *message    = "test";
+        const size_t message_len = 4;
+        const unsigned char *message = "test";
 
         key = (unsigned char *)sodium_malloc(crypto_aead_aes256gcm_KEYBYTES);
         nonce = (unsigned char *)sodium_malloc(crypto_aead_aes256gcm_NPUBBYTES);
@@ -83,82 +74,81 @@ void test_aead_aes256gcm()
     }
 }
 
+//------------------------------------------------------------------------------------------
+
 /*
     ChaCha20-Poly1305 is performance on ARM.
     */
 void test_chacha20()
 {
-    const unsigned char     *PLAIN_TEXT             = "test1234test1234test1234test1234END";
-    const unsigned int      PLAIN_LEN               = 35;
-    const unsigned char     *ADDITIONAL_DATA        = NULL;
-    const unsigned int      ADDITIONAL_DATA_LEN     = 0;
+    const char *PLAIN_TEXT = "test123中文END000";
+    const unsigned int PLAIN_LEN = 15;
+    const unsigned char *ADDITIONAL_DATA = NULL;//addtional data is used to verify data.
+    const unsigned int ADDITIONAL_DATA_LEN = 0;
 
-    //static key and nonce with base64encode.
+    //static key and nonce with hex.
+    const char *key_hex="9876c42f2f61bee24cc27ebd6155897c46950a83c9b0cc95a9650f9ae7421d07";
+    const char *nonce_hex="611dec2f53524315";
+    const unsigned char *NONCE = chacha20_hexnonce2bin(nonce_hex);
+    const unsigned char *KEY = chacha20_hexkey2bin(key_hex);
+    
+    LOGI("plain text:%s", PLAIN_TEXT);
 
-    // unsigned char nonce[crypto_aead_chacha20poly1305_NPUBBYTES];
-    // unsigned char key[crypto_aead_chacha20poly1305_KEYBYTES];
-    // crypto_aead_chacha20poly1305_keygen(key);
-    // randombytes_buf(nonce, sizeof nonce);
+    printf("PLAIN_TEXT\t:");
+    print_str(PLAIN_TEXT,(size_t)PLAIN_LEN);
 
-    //key & nonce were generated with random.
-    const unsigned char     *BASE64_NONCE   = "wzAeemDo5oY=";
-    const unsigned char     *BASE64_KEY     = "cU3wmpJ0cmfMHSWVKbmH4GkU4CBnfARePp1GdrSwQObDMB56YOjmhg==";
-    char                    *nonce          = b64_decode(BASE64_NONCE, strlen(BASE64_NONCE));
-    char                    *key            = b64_decode(BASE64_KEY, strlen(BASE64_KEY));
+    printf("PLAIN_TEXT hex\t:");
+    print_chars_in_hex(PLAIN_TEXT, (size_t)PLAIN_LEN);
 
-    logd("key:");       logd(b64_encode(key, strlen(key)));
-
-    char a =key[strlen(key)-1];
-    int ia = (int)a;
-    printf("last of key: %d\n",ia);
-
-    logd("nonce:");     logd(b64_encode(nonce, strlen(nonce)));
-
-    unsigned char ciphertext[PLAIN_LEN  + crypto_aead_chacha20poly1305_ABYTES];
+    unsigned char *ciphertext;
+    ciphertext = (unsigned char *)sodium_malloc(PLAIN_LEN + crypto_aead_chacha20poly1305_ABYTES);
     unsigned long long ciphertext_len;
-
 
     crypto_aead_chacha20poly1305_encrypt(ciphertext, &ciphertext_len,
                                          PLAIN_TEXT, PLAIN_LEN,
                                          ADDITIONAL_DATA, ADDITIONAL_DATA_LEN, //additional data is NULL.
-                                         NULL, nonce, key);
+                                         NULL, NONCE, KEY);
 
-    logd("encrypted text:  ");          logd(b64_encode(ciphertext, ciphertext_len));
-
-    char decrypted[PLAIN_LEN];
+    unsigned char *decrypted;
+    decrypted = (unsigned char *)sodium_malloc(PLAIN_LEN);
     unsigned long long decrypted_len;
     crypto_aead_chacha20poly1305_decrypt(decrypted, &decrypted_len,
-                                             NULL,
-                                             ciphertext, ciphertext_len,
-                                             ADDITIONAL_DATA,ADDITIONAL_DATA_LEN,
-                                             nonce, key);
-    logd("decrypted text:");
-    logd(decrypted);
-
-    if(strcmp(decrypted,PLAIN_TEXT)!=0){
+                                         NULL,
+                                         ciphertext, ciphertext_len,
+                                         ADDITIONAL_DATA, ADDITIONAL_DATA_LEN,
+                                         NONCE, KEY);
+    if (decrypted_len != PLAIN_LEN)
+    {
+        printf("wrong\t:");
         abort(); //you won't see "main() end" in terminal.
     }
-    free(ciphertext);
-    free(decrypted);
-    free(PLAIN_TEXT);
 
+    printf("decrypted\t:");
+    print_str(decrypted,(size_t)decrypted_len);
+    printf("decrypted hex\t:");
+    print_chars_in_hex(decrypted, (size_t)decrypted_len);
 
+    sodium_free(ciphertext);
+    sodium_free(decrypted);
 }
 
 int main()
 {
 
-    logd("main()...begin");
+    LOGI("main()...begin");
 
     sodium_init();
 
-    logd("-----------------------aead_aes256gcm----------------------");
-    test_aead_aes256gcm();
+    LOGI("-----------------------generate_and_print----------------------");
+    generate_chacah20_and_print();
 
-    logd("-----------------------chacha20----------------------");
+    LOGI("-----------------------aead_aes256gcm----------------------");
+    //test_aead_aes256gcm();
+
+    LOGI("-----------------------chacha20----------------------");
     test_chacha20();
 
-    logd("main()...end");
+    LOGI("main()...end");
 
     return 0;
 }

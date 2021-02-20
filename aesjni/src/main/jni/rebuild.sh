@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/bin/bash
 # @author bruce:
 # ========================Remind:========================
 # run this shell script must before, you computer must be set ANROID_NDK_HOME,
@@ -12,8 +12,8 @@
 #     And NDK-r13b got failed due to google not supporting the old ndk to be with new system.
 #
 
-BUILT_ABI=x86
-#BUILT_ABI=arm64-v8a
+#BUILT_ABI=x86 # make it be x86 in order to emulator
+BUILT_ABI=armeabi-v7a # make it be x86 in order to physical device
 # detect whether build_libsodium_for_all_android_abi.sh has already been called.
 if [ ! -d ./sodium_include/libsodium-android-armv8-a ]; then
   printf "Please run build_libsodium_for_all_android_abi.sh before.\n"
@@ -43,7 +43,7 @@ if [[ $1 == "test" ]]; then
      exit
   fi
 
-  printf "This is executable file print:\n"
+  printf "Here is executable file printed:\n"
   printf "=========================\n"
   adb shell /data/local/tmp/test
   printf "=========================\n"
