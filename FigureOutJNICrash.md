@@ -1,10 +1,10 @@
 How to locate where native crash at?
 ------------
-1.ensure you ndk is set into environmental.
+1.ensure you ndk is set into environment.
 
 2.run **ndk-stack** 
 ``` 
-adb logcat | ndk-stack -sym ./obj/local/armeabi-v7a/
+adb logcat | ndk-stack -sym ../obj/local/armeabi-v7a/
 ```
 
 ### Example:
@@ -62,5 +62,5 @@ Stack frame #05 pc 0000113d  /data/local/tmp/test: Routine main at /Users/bruce/
 My conclusion: `/Users/bruce/Documents/git/AESJniEncrypt/aesjni/src/main/jni/main_unit_test.c:146` is where the executable file crash at.
 
 ## Remind
-ndk-stack of NDK-R13 **only** supports armeabi-v7a.
+*ndk-stack* of NDK-R13 **only supports** symbol file of armeabi-v7a.
 
