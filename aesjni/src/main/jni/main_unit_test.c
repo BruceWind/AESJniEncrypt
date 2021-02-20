@@ -141,6 +141,7 @@ int main()
 
     LOGI("-----------------------generate_and_print----------------------");
     generate_chacah20_and_print();
+    generate_aes_and_print();
 
     LOGI("-----------------------aead_aes256gcm----------------------");
     //test_aead_aes256gcm();
