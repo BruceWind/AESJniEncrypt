@@ -2,11 +2,13 @@ How to locate where native crash at?
 ------------
 1.ensure you ndk is set into environment.
 
-2.run **ndk-stack** 
+2.run **ndk-stack** to analyze logcat which code crash printed.
 ``` 
 adb logcat | ndk-stack -sym ../obj/local/armeabi-v7a/
+//or 
+adb logcat | ndk-stack -sym ../obj/local/x86/
 ```
-
+> **../obj/local/x86/** and **../obj/local/armeabi-v7a/** is symbol file directory.
 ### Example:
 
 I got crash logs:
@@ -59,7 +61,7 @@ Stack frame #05 pc 0000113d  /data/local/tmp/test: Routine main at /Users/bruce/
 
 ```
 
-My conclusion: `/Users/bruce/Documents/git/AESJniEncrypt/aesjni/src/main/jni/main_unit_test.c:146` is where the executable file crash at.
+My conclusion: `/Users/******/git/AESJniEncrypt/aesjni/src/main/jni/main_unit_test.c:146` is where the executable file crash at.
 
 ## Remind
 *ndk-stack* of NDK-R13 **only supports** symbol file of armeabi-v7a.

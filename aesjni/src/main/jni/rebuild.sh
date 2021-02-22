@@ -2,7 +2,8 @@
 # @author bruce:
 # ========================Remind:========================
 # run this shell script must before, you computer must be set ANROID_NDK_HOME,
-# And your computer must connect TODO .
+# And your computer must connect a device or emulator. 
+# Pls modify BUILT_ABI for build compatible you device.
 # -------------------------------------------------------
 # Build success environmental system records:
 # Mac OS:
@@ -12,10 +13,10 @@
 #     And NDK-r13b got failed due to google not supporting the old ndk to be with new system.
 #
 
-#BUILT_ABI=x86 # make it be x86 in order to emulator
-BUILT_ABI=armeabi-v7a # make it be x86 in order to physical device
+#BUILT_ABI=x86 #  make it compatible for emulator
+BUILT_ABI=armeabi-v7a # make it compatible for physical device
 # detect whether build_libsodium_for_all_android_abi.sh has already been called.
-if [ ! -d ./sodium_include/libsodium-android-armv8-a ]; then
+if [ ! -d ./sodium_include/libsodium-android-armv7-a ]; then
   printf "Please run build_libsodium_for_all_android_abi.sh before.\n"
   exit
 fi

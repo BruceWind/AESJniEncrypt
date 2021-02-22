@@ -11,6 +11,14 @@ unsigned char* chacha20_hexkey2bin(char * hex);
 unsigned char* chacha20_hexnonce2bin(char * hex);
 
 
+
+//it is important to be used for AES256.
+typedef crypto_aead_aes256gcm_state AES256GCM_CTX;
+
+//only one aes256gcm context.
+static AES256GCM_CTX *aes256gcm_ctx;
+void init_aes256();
+
 static const unsigned int aes_key_len = crypto_aead_aes256gcm_KEYBYTES;
 static const unsigned int aes_nonce_len = crypto_aead_aes256gcm_NPUBBYTES;
 static const unsigned int aes_key_hex_len = aes_key_len * 2 + 1;
