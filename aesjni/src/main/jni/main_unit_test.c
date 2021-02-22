@@ -40,8 +40,8 @@ void test_aead_aes256gcm()
 
         const char *key_hex = "d56aca0c41806fded2bad76c680a6664156f8d868b2fc7c51fba0f858ec910f4";
         const char *nonce_hex = "2a42a84c3a82a1dcf1d83b07";
-        const unsigned char *key = aes_hexkey2bin(key_hex);
-        const unsigned char *nonce = aes_hexnonce2bin(nonce_hex);
+        const unsigned char *key = aes_keyhex2bin(key_hex);
+        const unsigned char *nonce = aes_noncehex2bin(nonce_hex);
         const size_t message_len = 4;
         const unsigned char *message = "test";
 

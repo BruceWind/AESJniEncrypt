@@ -1,3 +1,4 @@
+# ========== static sodium begin ==================
 LOCAL_PATH := $(call my-dir)
 
 include $(CLEAR_VARS)
@@ -16,8 +17,6 @@ else
 	ARCH_PREFIX := $(TARGET_ARCH)
 endif
 
-# ========== sodium ==================
-#include $(CLEAR_VARS)
 SODIUM_LIB_DIR := $(LOCAL_PATH)/sodium_include/libsodium-android-$(ARCH_PREFIX)
 SODIUM_INC_DIR := $(SODIUM_LIB_DIR)/include
 SODIUM_LIB := $(SODIUM_LIB_DIR)/lib/libsodium.a
@@ -26,6 +25,7 @@ LOCAL_SRC_FILES:= $(SODIUM_LIB)
 LOCAL_EXPORT_C_INCLUDES := $(SODIUM_INC_DIR) $(SODIUM_INC_DIR)/sodium
 include $(PREBUILT_STATIC_LIBRARY)
 
+# ========== static sodium end ==================
 
 
 

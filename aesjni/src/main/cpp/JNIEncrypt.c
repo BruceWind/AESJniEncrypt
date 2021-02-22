@@ -18,7 +18,7 @@
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 
-jstring charToJstring(JNIEnv *envPtr, char *src) {
+jstring char2jstring(JNIEnv *envPtr, char *src) {
     JNIEnv env = *envPtr;
 
     jsize len = strlen(src);
@@ -71,7 +71,7 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
 //        return (*env)->NewString(env, str, strlen(str));
-        return charToJstring(env,str);
+        return char2jstring(env,str);
     }
 
     uint8_t *AES_KEY = (uint8_t *) getKey();
@@ -93,7 +93,7 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
     if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
         char *str = UNSIGNATURE;
 //        return (*env)->NewString(env, str, strlen(str));
-        return charToJstring(env,str);
+        return char2jstring(env,str);
     }
 
     uint8_t *AES_KEY = (uint8_t *) getKey();
@@ -102,8 +102,8 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
     (*env)->ReleaseStringUTFChars(env, str_, str);
 //    return (*env)->NewStringUTF(env, desResult);
     //不用系统自带的方法NewStringUTF是因为如果desResult是乱码,会抛出异常
-//    return charToJstring(env,desResult);
-    jstring result = charToJstring(env,desResult);
+//    return char2jstring(env,desResult);
+    jstring result = char2jstring(env,desResult);
     free(desResult);
     free(AES_KEY);
     return result;

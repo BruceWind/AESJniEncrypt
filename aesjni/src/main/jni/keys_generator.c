@@ -46,6 +46,7 @@ unsigned char *chacha20_hexnonce2bin(char *hex)
 }
 
 
+//call this must
 void init_aes256(){
     aes256gcm_ctx = sodium_malloc(sizeof(AES256GCM_CTX));
     memset(aes256gcm_ctx, 0, sizeof(AES256GCM_CTX));
@@ -63,17 +64,17 @@ void generate_aes_and_print()
     sodium_bin2hex(key_hex, (size_t)(aes_key_hex_len), key, aes_key_len);
     printf("generate a AES key_hex\t\t:%s\n", key_hex);
     // test keyhex
-    aes_hexkey2bin(key_hex);
+    aes_keyhex2bin(key_hex);
 
     char *nonce_hex = (char *)sodium_malloc(aes_nonce_hex_len);
     sodium_bin2hex(nonce_hex, (size_t)(aes_nonce_hex_len), nonce, aes_nonce_len);
     printf("generate a AES nonce_hex\t:%s\n", nonce_hex);
 
     //test 
-    aes_hexnonce2bin(nonce_hex);
+    aes_noncehex2bin(nonce_hex);
 }
 
-unsigned char *aes_hexkey2bin(char *hex)
+unsigned char *aes_keyhex2bin(char *hex)
 {
     unsigned char *out_key = (unsigned char *)sodium_malloc(aes_key_len);
     sodium_hex2bin(out_key, aes_key_len,
@@ -82,7 +83,7 @@ unsigned char *aes_hexkey2bin(char *hex)
     return out_key;
 }
 
-unsigned char *aes_hexnonce2bin(char *hex)
+unsigned char *aes_noncehex2bin(char *hex)
 {
     unsigned char *out_nonce = (unsigned char *)sodium_malloc(aes_nonce_len);
     sodium_hex2bin(out_nonce, aes_nonce_len,
