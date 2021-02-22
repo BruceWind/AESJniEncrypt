@@ -3,11 +3,10 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-    //ndkPath "/Users/bruce/Library/Android/sdk/ndk/16.1.4479499"
-//    ndkVersion '16.1.4479499'
+    ndkVersion '16.1.4479499'
     defaultConfig {
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -16,13 +15,7 @@ android {
             cmake {
                 cppFlags "-frtti -fexceptions"
             }
-        }
 
-        ndk {
-            moduleName = "JNIEncrypt"
-            // Specifies the ABI configurations of your native
-            // libraries Gradle should build and package with your APK.
-            abiFilters 'armeabi-v7a', 'arm64-v8a', 'x86'
         }
 
 //        sourceSets {
@@ -73,6 +66,6 @@ dependencies {
     implementation 'junit:junit:4.12'
 
     // Required for instrumented tests
-    androidTestCompile 'com.android.support:support-annotations:24.0.0'
-    androidTestCompile 'com.android.support.test:runner:0.5'
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
 }

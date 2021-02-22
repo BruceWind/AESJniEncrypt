@@ -6,7 +6,7 @@ android {
     defaultConfig {
         applicationId "com.androidyuan.aesjniencrypt"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 22 //if targetSdkversion > =23,pls look at https://stackoverflow.com/questions/36114206/how-to-find-text-relocations-in-so-file
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
