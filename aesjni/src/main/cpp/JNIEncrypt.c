@@ -14,7 +14,7 @@
 // 获取数组的大小
 # define NELEM(x) ((int) (sizeof(x) / sizeof((x)[0])))
 // 指定要注册的类，对应完整的java类名
-#define JNIREG_CLASS "com/androidyuan/aesjni/AESEncrypt"
+#define JNIREG_CLASS "com/androidyuan/aesjni/EncryptEntry"
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 

@@ -5,7 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.androidyuan.aesjni.AESEncrypt;
+import com.androidyuan.aesjni.EncryptEntry;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -19,11 +19,10 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         //下面的密文对应的原文：123abcABC&*(@#@#@)+_/中文测试
-        final String code = AESEncrypt.encode(this, str);
+        final String code = EncryptEntry.encode(this, str);
         Log.i("code", code + "");
-        final String decode = AESEncrypt.decode(this, encodeStr);
+        final String decode = EncryptEntry.decode(this, encodeStr);
         Log.i("decode", decode + "");
-
 
     }
 

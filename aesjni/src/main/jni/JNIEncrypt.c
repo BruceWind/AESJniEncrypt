@@ -8,10 +8,10 @@
 #include <string.h>
 #include <sys/ptrace.h>
 
-// 获取数组的大小
 #define NELEM(x) ((int)(sizeof(x) / sizeof((x)[0])))
-// 指定要注册的类，对应完整的java类名
-#define JNIREG_CLASS "com/androidyuan/aesjni/AESEncrypt"
+
+// specific your Java class which jni entry.
+#define JNIREG_CLASS "com/androidyuan/aesjni/EncryptEntry"
 
 const char *UNSIGNATURE = "UNSIGNATURE";
 
@@ -52,7 +52,8 @@ unsigned char *getNonce()
     return NONCE;
 }
 
-//__attribute__((section (".mytext")))//隐藏字符表 并没有什么卵用 只是针对初阶hacker的一个小方案而已
+//hiding string table, it not work for my hack method, it just is a low-level defende way.
+//__attribute__((section (".mytext")))
 unsigned char *getKey()
 {
     const char *key_hex = "9876c42f2f61bee24cc27ebd6155897c46950a83c9b0cc95a9650f9ae7421d07";
@@ -63,11 +64,12 @@ unsigned char *getKey()
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_)
 {
     sodium_init();
-    //先进行apk被 二次打包的校验
-    //    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
-    //        char *str = UNSIGNATURE;
-    //        return char2jstring(env,str);
-    //    }
+    //firstly, detect the apk is repackaged.
+    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1)
+    {
+        char *str = UNSIGNATURE;
+        return char2jstring(env, str);
+    }
 
     const char *plain_str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
     (*env)->ReleaseStringUTFChars(env, str_, plain_str);
@@ -94,10 +96,11 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
 {
 
     //security checking.
-    //    if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
-    //        char *str = UNSIGNATURE;
-    //        return char2jstring(env,str);
-    //    }
+    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1)
+    {
+        char *str = UNSIGNATURE;
+        return char2jstring(env, str);
+    }
 
     //str_ must is hex.
     const char *hex_str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
@@ -133,9 +136,9 @@ check_jni(JNIEnv *env, jobject instance, jobject con)
 
 // Java和JNI函数的绑定表
 static JNINativeMethod method_table[] = {
-    {"checkSignature", "(Ljava/lang/Object;)I", (void *)check_jni},
-    {"decode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *)decode},
-    {"encode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *)encode},
+        {"checkSignature", "(Ljava/lang/Object;)I", (void *)check_jni},
+        {"decode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *)decode},
+        {"encode", "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *)encode},
 };
 
 // 注册native方法到java中

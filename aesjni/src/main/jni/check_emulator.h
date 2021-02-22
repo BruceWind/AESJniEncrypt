@@ -6,10 +6,11 @@
 
 
 /**
+ * There is some code that very like java code what detect device is emulator
  *
  * @param env
  * @param context
- * @return  1:通过(非模拟器) else :不通过(是模拟器)
+ * @return  1:else means that device is not emulator ,else means that device is emulator.
  */
 JNIEXPORT jint JNICALL  check_is_emulator(JNIEnv *env);
 

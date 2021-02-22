@@ -8,18 +8,29 @@
 #include "logger.h"
 
 
- int is_debug(){
+/**
+ * -----------
+ * https://developer.android.com/ndk/guides/ndk-build#options
+ * NDK_DEBUG=1 : Force a debuggable build.
+ * -----------
+ */
 
-#ifdef NDK_DEBUG //android.mk 编译情况下
-     LOGI("is NDK_DEBUG. \n");
+int is_debug()
+{
+
+#ifdef NDK_DEBUG //build with android.mk
+    LOGI("NDK_DEBUG : %d",NDK_DEBUG);
+    if(NDK_DEBUG==1){
         return 1;
+    }
 #endif
+LOGD("NDK_DEBUG not define.");
 
-#ifdef CMAKE_BUILD_TYPE// cmakelist 编译情况下
-     LOGI("is CMAKE_BUILD_TYPE. \n");
+#ifdef CMAKE_BUILD_TYPE //building with Cmakelist
+    LOGI("is CMAKE_BUILD_TYPE. \n");
     return 1;
 #endif
+LOGD("CMAKE_BUILD_TYPE not define.");
 
-    if(1)
     return 0;
 }

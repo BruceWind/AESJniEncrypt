@@ -15,15 +15,19 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class JNITest {
 
-    private final String plain = "123abcABC*%!~#+_/中文测试";
-    private final String encodeStr = "1cad994119e4f3038fe29e34a4a12ce8a4b28f06db7682ab9d4f775c0e25659b01da27db09368eb3778ccea063";
+    private static final String PLAIN = "123abcABC*%!~#+_/中文测试";
+    private static final String ENCODE_STR = "1cad994119e4f3038fe29e34a4a12ce8a4b28f06db7682ab9d4f775c0e25659b01da27db09368eb3778ccea063";
     @Test
     public void useAppContext() throws Exception {
 
-        //plain：123abcABC&*(@#@#@)+_/中文测试
-        final String code = AESEncrypt.encode(this, plain);
-        assertEquals(code,encodeStr);
-        final String decode = AESEncrypt.decode(this, encodeStr);
-        assertEquals(plain,decode);
+        // Context of the app under test.
+//        Context appContext = InstrumentationRegistry.getTargetContext();
+//        assertEquals(EncryptEntry.checkSignature(appContext),1);
+
+        //plain："123abcABC&*(@#@#@)+_/中文测试"
+        final String code = EncryptEntry.encode(this, PLAIN);
+        assertEquals(code,ENCODE_STR);
+        final String decode = EncryptEntry.decode(this, ENCODE_STR);
+        assertEquals(PLAIN,decode);
     }
 }

@@ -4,7 +4,8 @@
 
 
 # Reach high security in Android
-- [x] Add AES algorithms to native code
+- [x] ~~AES algorithms~~,it is low-performance,so it has been deprecated.
+- [x] use chacha20 instead of AES. TLS1.3 used chacha20 on mobile device too,it is high-performance for arm.
 - [x] Hide native function in JniOnload
 - [x] Use signature verification to avoid being packaged again (It is prevents that hacker call your jni method directly.)
 - [x] ~~key exists in the symbol table, and hides the character table~~ This scheme has been deprecated, [discard reason issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5), please see the next
@@ -16,9 +17,10 @@
 - [x] Masking the simulator when the code is run: The code comes from my another repository [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO: Prevent SO file being code inject
 
-```
-Char * key = "NMTIzNDU2Nzg5MGFiY2RlZg"; / / Here is the key is processed and stored here, in fact the real key is: "1234567890abcdef"
-```
+
+## Before you clone
+install GIT-LFS: https://git-lfs.github.com/
+
 ## Build & Integration
 
 a. Set ndk.dir in local.properties Requires that the ndk version must be 11-13b. High version ndk has not been tested, and may doesn't compiled.
@@ -90,3 +92,8 @@ In case you would like to add information to this repository or suggest some ide
 [https://github.com/zxp0505](https://github.com/zxp0505)
 
 [https://github.com/baoyongzhang](https://github.com/baoyongzhang)
+
+
+## Legal
+If you live in China, you should take care about [checking apk signature](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/cpp/check_emulator.c#L43).
+I have called PackageManger ,it might be thought to read installed apps list,look at [工信部整治八项违规](http://www.miit.gov.cn/n1146295/n7281315/c7507241/part/7507297.docx).
