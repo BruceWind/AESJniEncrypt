@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">AESJniEncrypt</string>
+    <string name="main_tips">There is nothing. Encryption and decryption has executed,Pls look at logcat.</string>
 </resources>

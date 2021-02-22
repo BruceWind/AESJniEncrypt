@@ -3,8 +3,8 @@
 [中文](https://github.com/BruceWind/AESJniEncrypt/blob/master/README_zh.md)
 
 # 追求极致的代码安全性保障 
-- [x] ~~ndk实现AES加密~~,性能不佳,已废弃此方式，TLS1.3
-- [ ] 使用chacha20加密,TLS1.3在移动端都用了chacha20了
+- [x] ~~ndk实现AES加密~~,性能不佳,已废弃此方式
+- [ ] 使用chacha20加密,TLS1.3在移动端都用了chacha20了,性能更好
 - [x] 使用JniOnload 隐藏c函数
 - [x] 使用签名校验避免被再次打包（这是绕过破解加密算法直接调用你的jni函数）
 - [x] ~~key存在符号表中,同时隐藏字符表~~ 该方案已经废弃,[废弃原因issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)，请看下一条
@@ -14,10 +14,6 @@
 - [x] 反动态调试 , 目前代码里是比较简单的方案, 有更复杂更高明的方案,比如：每次执行加密解密签先去判断是否被trace,想要更复杂的自己fork之后去写
 - [x] 代码run的时候屏蔽模拟器 :代码来自我的另外一个仓库[Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO：防止so代码被code inject
-
-```
-char * key = "NMTIzNDU2Nzg5MGFiY2RlZg";//这里是key被做过处理存储在这里的,实际上真实的key是："1234567890abcdef"
-```
 
 ## 克隆代码准备
 先安装GIT-LFS:
@@ -95,4 +91,7 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 
 有问题及时提:[new issues](https://github.com/weizongwei5/AESJniEncrypt/issues/new)
 
-
+## 合规
+如果你生活在中国，请注意[工信部整治八项违规](http://www.miit.gov.cn/n1146295/n7281315/c7507241/part/7507297.docx).
+我调用了PackageManger[检查签名](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/cpp/check_emulator.c#L43)，我只是**读取当前安装的app**, 这可能被认为**收集了安装列表**。从规定上来讲并不违规，只是读取了，并没**收集**，收集是违规的，读取是合规的。
+只是目前有可能被误认为**收集**。

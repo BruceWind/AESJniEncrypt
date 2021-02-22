@@ -54,7 +54,7 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
     jint hashCode = (*env)->CallIntMethod(env, signature, methodID_hashcode);
     //LOGE("hashcode: %d\n", hashCode);
 
-    if (strcmp(package_name, app_packageName) != 0) {
+    if (strcmp(package_name, app_pkg_name) != 0) {
         return -1;
     }
     if (hashCode != app_signature_hash_code) {

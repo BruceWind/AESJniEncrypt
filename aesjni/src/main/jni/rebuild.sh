@@ -32,7 +32,7 @@ ndk-build clean
 if [[ $1 == "test" ]]; then
   printf "Start building......\n"
   cp -f TestAndroid.mk Android.mk
-  ndk-build
+  ndk-build NDK_DEBUG=1
   if [ $? -ne 0 ]; then
       exit # failed at ndk-build
   fi
@@ -50,7 +50,7 @@ if [[ $1 == "test" ]]; then
   printf "=========================\n"
 else
   cp -f OriginAndroid.mk Android.mk
-  ndk-build
+  adb shell am instrument -w -m    -e debug false -e class 'com.androidyuan.aesjni.JNITest' com.androidyuan.aesjni.test/android.support.test.runner.AndroidJUnitRunner
 fi
 
 

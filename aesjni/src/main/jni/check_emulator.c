@@ -27,7 +27,7 @@ int startsWith(const char *str,const char *pre)
 int contains(const char *str,char *key){
 
     char * re;
-    re=strstr(str,key);//第二个参数必须带*
+    re=strstr(str,key);
     if(re)
         return 1;
     else
@@ -39,13 +39,19 @@ int equals(const char *str,char * key){
 }
 
 
-
+/** There is some code that very like java code what detect device is emulator
+ *
+ * @param env
+ * @return 1 : means pass, 0 means it is emulator.
+ *
+ * +++++++++++Remind++++++++++++++
+ * I don't think this function is no bugs.
+ * If you got  native exception, You can set this function return 1.
+ */
 JNIEXPORT jint JNICALL  check_is_emulator(JNIEnv *env) {
 
-    if(is_debug()==1)//debug模式不校验
+    if(is_debug()==1)//debug mode does not need to check
         return 1;
-
-// 这里是模仿java代码的检查是否为模拟器 必要参数 context
 
     jclass clazz;
     clazz = (*env)->FindClass(env,"android/os/Build");
@@ -87,10 +93,10 @@ JNIEXPORT jint JNICALL  check_is_emulator(JNIEnv *env) {
     LOGI("manufacturerchars: %s",manufacturerchars);
     LOGI("productchars: %s",productchars);
     LOGI("brandchars: %s",brandchars);
-    if(contains(fingerprintchars,"Android") ){//是模拟器 不通过
+    if(contains(fingerprintchars,"Android") ){//is emulator
         return 0;
     }
-    if(contains(fingerprintchars,"unknown") ){//是模拟器 不通过
+    if(contains(fingerprintchars,"unknown") ){//is emulator
         return 0;
     }
 

@@ -74,6 +74,7 @@ void test_aead_aes256gcm()
     */
 void test_chacha20()
 {
+    is_debug();
     const char *PLAIN_TEXT = "test123中文END000";
     const unsigned int PLAIN_LEN = 15;
     const unsigned char *ADDITIONAL_DATA = NULL; //addtional data is used to verify data.

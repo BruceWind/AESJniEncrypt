@@ -1,9 +1,9 @@
 // Created by wei on 17-12-5.
 
 /**
- * 通过依赖宏定义判断是否为DEBUG模式
+ * detect is debug mode by macro definition
  * 1.cmake 要使用define
- * 2.makefile 模式下 需要 CFLAGS += -D
+ * 2.makefile mode need "CFLAGS += -D"
  **/
 
 #ifndef CHECK_EMULATOR_IN_NDK_DEBUGGER_H

@@ -34,6 +34,7 @@ include $(CLEAR_VARS)
 LOCAL_MODULE := test  # executable file name.
 LOCAL_SRC_FILES := main_unit_test.c \
                     logger.h \
+					debugger.c \
                     keys_generator.c \
                     base64.c \
 					str_utils.cpp

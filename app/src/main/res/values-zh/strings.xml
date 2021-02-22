@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">AESJniEncrypt</string>
+    <string name="main_tips">兄弟，这里是空的，加解密已经完成请看logcat！</string>
+</resources>
