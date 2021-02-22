@@ -5,12 +5,18 @@
 # And your computer must connect a device or emulator. 
 # Pls modify BUILT_ABI for build compatible you device.
 # -------------------------------------------------------
-# Build success environmental system records:
+# Build passed environments records:
+#  ********** 1."./rebuild.sh test" ********
 # Mac OS:
-#     It has been built success with NDK r19c.
+#     NDK r19c,r13b.
 # Ubuntu 20.0 :
-#     It has been built success with ndk-bundle. You could download sdk,then use sdkmanger command to downlaod ndk-bundle.
-#     And NDK-r13b got failed due to google not supporting the old ndk to be with new system.
+#     any version of ndk.
+# ********** 2."./rebuild.sh" ********
+# Mac OS:
+#     NDK-r13b.
+# Ubuntu 20.0 :
+#     ndk-bundle.
+#     NDK-r13b.
 #
 
 #BUILT_ABI=x86 #  make it compatible for emulator
@@ -50,7 +56,11 @@ if [[ $1 == "test" ]]; then
   printf "=========================\n"
 else
   cp -f OriginAndroid.mk Android.mk
-  adb shell am instrument -w -m    -e debug false -e class 'com.androidyuan.aesjni.JNITest' com.androidyuan.aesjni.test/android.support.test.runner.AndroidJUnitRunner
+  cd ../../../..
+  ./gradlew installDebug --stacktrace
+  if [ $? == 0 ]; then # failed from pushing executable file.
+      adb shell am instrument -w -m    -e debug false -e class 'com.androidyuan.aesjni.JNITest' com.androidyuan.aesjni.test/android.support.test.runner.AndroidJUnitRunner
+  fi
 fi
 
 

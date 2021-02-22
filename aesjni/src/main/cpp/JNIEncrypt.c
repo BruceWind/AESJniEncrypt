@@ -16,7 +16,7 @@
 // 指定要注册的类，对应完整的java类名
 #define JNIREG_CLASS "com/androidyuan/aesjni/EncryptEntry"
 
-const char *UNSIGNATURE = "UNSIGNATURE";
+const char *WRONG_SIGNATURE = "WRONG_SIGNATURE";
 
 jstring char2jstring(JNIEnv *envPtr, char *src) {
     JNIEnv env = *envPtr;
@@ -69,7 +69,7 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
 
     //先进行apk被 二次打包的校验
     if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
-        char *str = UNSIGNATURE;
+        char *str = WRONG_SIGNATURE;
 //        return (*env)->NewString(env, str, strlen(str));
         return char2jstring(env,str);
     }
@@ -91,7 +91,7 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
 
     //先进行apk被 二次打包的校验
     if (check_signature(env, instance, context) != 1|| check_is_emulator(env) != 1) {
-        char *str = UNSIGNATURE;
+        char *str = WRONG_SIGNATURE;
 //        return (*env)->NewString(env, str, strlen(str));
         return char2jstring(env,str);
     }

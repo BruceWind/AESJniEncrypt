@@ -13,7 +13,7 @@
 // specific your Java class which jni entry.
 #define JNIREG_CLASS "com/androidyuan/aesjni/EncryptEntry"
 
-const char *UNSIGNATURE = "UNSIGNATURE";
+const char *WRONG_SIGNATURE = "WRONG_SIGNATURE";
 
 jstring char2jstring(JNIEnv *envPtr, char *src)
 {
@@ -67,7 +67,7 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
     //firstly, detect the apk is repackaged.
     if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1)
     {
-        char *str = UNSIGNATURE;
+        char *str = WRONG_SIGNATURE;
         return char2jstring(env, str);
     }
 
@@ -98,7 +98,7 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
     //security checking.
     if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1)
     {
-        char *str = UNSIGNATURE;
+        char *str = WRONG_SIGNATURE;
         return char2jstring(env, str);
     }
 

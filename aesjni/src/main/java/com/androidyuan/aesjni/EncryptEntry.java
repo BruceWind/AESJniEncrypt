@@ -32,7 +32,7 @@ public class EncryptEntry {
      *
      * @param context
      * @param str
-     * @return UNSIGNATURE ： sign not pass .
+     * @return WRONG_SIGNATURE ： sign not pass .
      */
     public static native String decode(Object context, String str);
 
