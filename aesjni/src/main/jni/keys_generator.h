@@ -24,5 +24,5 @@ static const unsigned int aes_nonce_len = crypto_aead_aes256gcm_NPUBBYTES;
 static const unsigned int aes_key_hex_len = aes_key_len * 2 + 1;
 static const unsigned int aes_nonce_hex_len = aes_nonce_len * 2 + 1;
 void generate_aes_and_print();
-unsigned char* aes_hexkey2bin(char * hex);
-unsigned char* aes_hexnonce2bin(char * hex);
+unsigned char* aes_keyhex2bin(char * hex);
+unsigned char* aes_noncehex2bin(char * hex);

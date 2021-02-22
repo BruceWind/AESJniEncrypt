@@ -2,6 +2,7 @@
 
 buildscript {
     repositories {
+        //if you are in China, enable this line.It make you build fast.
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "https://jitpack.io" }
         jcenter()
@@ -19,6 +20,7 @@ allprojects {
     repositories {
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
         maven { url "https://jitpack.io" }
+        google()
         jcenter()
     }
 }
