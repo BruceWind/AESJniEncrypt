@@ -96,4 +96,4 @@ In case you would like to add information to this repository or suggest some ide
 
 ## Legal
 If you live in China, you should take care about [checking apk signature](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/cpp/check_emulator.c#L43).
-I have called PackageManger ,it might be thought to read installed apps list,look at [工信部整治八项违规](http://www.miit.gov.cn/n1146295/n7281315/c7507241/part/7507297.docx).
+I have called PackageManger ,it might be considered to read installed apps list,look at [工信部整治八项违规](http://www.miit.gov.cn/n1146295/n7281315/c7507241/part/7507297.docx).
