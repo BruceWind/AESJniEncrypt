@@ -45,16 +45,18 @@ unsigned char *chacha20_hexnonce2bin(char *hex)
     return out_nonce;
 }
 
+
+void init_aes256(){
+    aes256gcm_ctx = sodium_malloc(sizeof(AES256GCM_CTX));
+    memset(aes256gcm_ctx, 0, sizeof(AES256GCM_CTX));
+}
+
+
 void generate_aes_and_print()
 {
-    unsigned char nonce[crypto_aead_aes256gcm_NPUBBYTES];
-    unsigned char key[crypto_aead_aes256gcm_KEYBYTES];
-
-    sodium_init();
-    if (crypto_aead_aes256gcm_is_available() == 0)
-    {
-        // return;
-    }
+    unsigned char nonce[aes_nonce_len];
+    unsigned char key[aes_key_len];
+    
     crypto_aead_aes256gcm_keygen(key);
     randombytes_buf(nonce, sizeof nonce);
     char *key_hex = (char *)sodium_malloc(aes_key_hex_len);
