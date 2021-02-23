@@ -56,6 +56,7 @@ unsigned char *getNonce()
 //__attribute__((section (".mytext")))
 unsigned char *getKey()
 {
+    //TODO I need to split this string.
     const char *key_hex = "9876c42f2f61bee24cc27ebd6155897c46950a83c9b0cc95a9650f9ae7421d07";
     const unsigned char *KEY = chacha20_hexkey2bin(key_hex);
     return KEY;
@@ -63,6 +64,7 @@ unsigned char *getKey()
 
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_)
 {
+    //TODO
     sodium_init();
     //firstly, detect the apk is repackaged.
     if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1)

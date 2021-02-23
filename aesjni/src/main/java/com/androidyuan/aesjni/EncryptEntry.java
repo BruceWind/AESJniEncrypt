@@ -2,14 +2,11 @@ package com.androidyuan.aesjni;
 
 /**
  * Created by wei on 16-12-2.
- *
- * 秘文的key 在 C 的代码，如需修改请先修改JNIEncrypt.c
- * 另外native做了签名校验
+ * key is stored in JNIEncrypt.c, you may need to change it.
  *
  * @Date: 21-02-22:
  * AES algorithm has been instead with chacha20.
  * And algorithm is written by libsodium.
- *
  */
 public class EncryptEntry {
 
