@@ -38,10 +38,10 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/JNIEncrypt.c	\
                     check_emulator.c \
                     debugger.c \
                     logger.h
-LOCAL_CFLAGS   += -Wall -g -pedantic
+LOCAL_CFLAGS   += -Wall -g -pedantic -std=c99
 
 # if you want  to print logs pls write liblog on this line.
-LOCAL_STATIC_LIBRARIES := sodium
+LOCAL_STATIC_LIBRARIES := sodium libcutils
 
 # LOCAL_SHARED_LIBRARIES := liblog libcutils
 LOCAL_LDLIBS    := -llog
