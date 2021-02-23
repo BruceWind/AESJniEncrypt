@@ -18,13 +18,13 @@
 int is_debug()
 {
 
-#ifdef NDK_DEBUG //build with android.mk
-    LOGI("NDK_DEBUG : %d",NDK_DEBUG);
-    if(NDK_DEBUG==1){
+#ifdef MY_DEBUG //build with android.mk
+    LOGI("MY_DEBUG : %d",MY_DEBUG);
+    if(MY_DEBUG==1){
         return 1;
     }
 #endif
-LOGD("NDK_DEBUG not define.");
+LOGD("MY_DEBUG not define.");
 
 #ifdef CMAKE_BUILD_TYPE //building with Cmakelist
     LOGI("is CMAKE_BUILD_TYPE. \n");
