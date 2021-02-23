@@ -9,7 +9,7 @@
 # Some error might be thrown. You may need to install certain applications
 # (such as python, libtool-bin) to resolve those errors.
 
-LIBSODIUM_GIT_TAG=1.0.18 # it is the last stable version.
+LIBSODIUM_GIT_TAG=1.0.18 # it is the last stable version that I have tested.
 
 #ROOT_DIR=$(pwd)
 
