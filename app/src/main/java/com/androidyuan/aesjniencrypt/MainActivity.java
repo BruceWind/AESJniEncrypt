@@ -18,11 +18,21 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        //下面的密文对应的原文：123abcABC&*(@#@#@)+_/中文测试
-        final String code = EncryptEntry.encode(this, str);
-        Log.i("code", code + "");
-        final String decode = EncryptEntry.decode(this, encodeStr);
-        Log.i("decode", decode + "");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 1000 * 1000; i++) {
+                    //下面的密文对应的原文：123abcABC&*(@#@#@)+_/中文测试
+                    final String code = EncryptEntry.encode(MainActivity.this.getApplicationContext(), str);
+                    if (i > 1000 * 990 || i < 100) Log.i("code", code + "");
+                    final String decode = EncryptEntry.decode(MainActivity.this.getApplicationContext(), encodeStr);
+                    if (i > 1000 * 990 || i < 100) Log.i("decode " + i, decode + "");
+
+                }
+
+            }
+        }).start();
+
 
     }
 

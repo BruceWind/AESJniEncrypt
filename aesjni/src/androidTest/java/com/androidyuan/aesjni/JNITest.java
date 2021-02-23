@@ -1,9 +1,13 @@
 package com.androidyuan.aesjni;
 
+import android.content.Context;
+import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
+
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import static org.junit.Assert.assertEquals;
 
@@ -21,13 +25,34 @@ public class JNITest {
     public void useAppContext() throws Exception {
 
         // Context of the app under test.
-//        Context appContext = InstrumentationRegistry.getTargetContext();
-//        assertEquals(EncryptEntry.checkSignature(appContext),1);
+        final Context appContext = InstrumentationRegistry.getTargetContext();
+        assertEquals(EncryptEntry.checkSignature(appContext), 1);
 
-        //plain："123abcABC&*(@#@#@)+_/中文测试"
-        final String code = EncryptEntry.encode(this, PLAIN);
-        assertEquals(code,ENCODE_STR);
-        final String decode = EncryptEntry.decode(this, ENCODE_STR);
-        assertEquals(PLAIN,decode);
+        final AtomicBoolean atomicBoolean = new AtomicBoolean();
+        atomicBoolean.set(false);
+
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                for (int i = 0; i < 1000 * 1000; i++) {
+
+
+                    //plain："123abcABC&*(@#@#@)+_/中文测试"
+                    final String code = EncryptEntry.encode(appContext, PLAIN);
+                    assertEquals(code, ENCODE_STR);
+                    final String decode = EncryptEntry.decode(appContext, ENCODE_STR);
+                    assertEquals(PLAIN, decode);
+
+                }
+                atomicBoolean.set(true);
+            }
+        }).start();
+
+        while (true) {
+            if (atomicBoolean.get()) {
+                break;
+            }
+        }
     }
 }
