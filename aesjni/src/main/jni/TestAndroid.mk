@@ -42,4 +42,4 @@ LOCAL_STATIC_LIBRARIES := sodium  # tell ndk-build about the dependency
 LOCAL_LDLIBS := -llog  #there is no need to specify path for liblog.so
 LOCAL_CPPFLAGS := -fexceptions
 
-include $(BUILD_EXECUTABLE)    # <-- Use this to build an executable.
+include $(BUILD_EXECUTABLE)    # <-- Use this to build as executable file.
