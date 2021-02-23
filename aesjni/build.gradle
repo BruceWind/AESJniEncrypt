@@ -36,17 +36,17 @@ android {
         }
     }
 
-    def USING_NDK = 1 // if you want to build with NDK, set it to 1.
+    def USING_NDK = false // if you want to build with CMakelist,set false.
 
     externalNativeBuild {
-        if (USING_NDK == 1) {
+        if (USING_NDK) {
             //selection 1  this used obfuscator to obfuscate the native code
             ndkBuild {
 //                path file("src/main/jni/Android.mk")
 //                path file("src/main/jni/OriginAndroid.mk")
-//                path file("src/main/jni/OriginAndroid_r13_mac.mk")
+                path file("src/main/jni/OriginAndroid_r13_mac.mk")
 //                path file("src/main/jni/OriginAndroid_r16_mac.mk")
-                path file("src/main/jni/OriginAndroid_r22_mac.mk")
+//                path file("src/main/jni/OriginAndroid_r22_mac.mk")
 //                path file("src/main/jni/OriginAndroid_r16_ubuntu.mk")
             }
         } else {
