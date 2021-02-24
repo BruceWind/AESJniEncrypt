@@ -20,6 +20,7 @@ else ()
     message(FATAL_ERROR "${ANDROID_ABI} static libraries might doesn't exist.")
 endif ()
 
+
 set(distribution_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jni/sodium_include/libsodium-android-${ARCH_PREFIX})
 
 message(STATUS "Current build include : ${distribution_DIR} ")
@@ -29,6 +30,13 @@ set_target_properties(libsodium PROPERTIES IMPORTED_LOCATION
 # include C export files.
 include_directories(${distribution_DIR}/include)
 # -------configure import libsodium end------
+
+
+set(DEBUG_FILE "src/main/jni/debugger.c")
+
+if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    set(DEBUG_FILE "src/main/jni/debugger_test.c")
+endif ()
 
 add_library( # Sets the name of the library.
         JNIEncrypt
@@ -42,7 +50,7 @@ add_library( # Sets the name of the library.
         src/main/jni/check_emulator.h
         src/main/jni/check_emulator.c
         src/main/jni/debugger.h
-        src/main/jni/debugger.c
+        ${DEBUG_FILE}
         src/main/jni/logger.h
         src/main/jni/keys_generator.h
         src/main/jni/keys_generator.c

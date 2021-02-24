@@ -36,7 +36,7 @@ android {
         }
     }
 
-    def USING_NDK = false // if you want to build with CMakelist,set false.
+    def USING_NDK = true // if you want to build with CMakelist,set false.
 
     externalNativeBuild {
         if (USING_NDK) {
@@ -50,7 +50,7 @@ android {
 //                path file("src/main/jni/OriginAndroid_r16_ubuntu.mk")
             }
         } else {
-            //selection 2   the selection doesn't obfuscate native code   **** i don't recommand using cmake*****
+            //selection 2   the selection doesn't obfuscate native code   **** i don't recommend using cmake*****
             cmake {
                 path "CMakeLists.txt"
             }

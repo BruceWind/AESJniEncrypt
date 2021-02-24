@@ -9,7 +9,7 @@
 #ifndef CHECK_EMULATOR_IN_NDK_DEBUGGER_H
 #define CHECK_EMULATOR_IN_NDK_DEBUGGER_H
 
-// result 1: isdebug  0: not debug
+// result 1: isdebug  0: release
 int is_debug();
 
 #endif

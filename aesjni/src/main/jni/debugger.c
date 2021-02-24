@@ -17,20 +17,5 @@
 
 int is_debug()
 {
-
-#ifdef MY_DEBUG //build with android.mk
-    LOGI("MY_DEBUG : %d",MY_DEBUG);
-    if(MY_DEBUG==1){
-        return 1;
-    }
-#endif
-LOGD("MY_DEBUG not define.");
-
-#ifdef CMAKE_BUILD_TYPE //building with Cmakelist
-    LOGI("is CMAKE_BUILD_TYPE. \n");
-    return 1;
-#endif
-LOGD("CMAKE_BUILD_TYPE not define.");
-
     return 0;
 }
