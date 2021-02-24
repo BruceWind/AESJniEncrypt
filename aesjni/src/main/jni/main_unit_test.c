@@ -7,7 +7,6 @@ you can run a command in this directory: ./rebuild.sh test
 #include <stdio.h>
 #include <logger.h>
 #include <sodium.h>
-#include <base64.h>
 #include <stdlib.h>
 #include <keys_generator.h>
 #include <assert.h>

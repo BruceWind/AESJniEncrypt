@@ -17,13 +17,12 @@
 - [x] Detect device is emulator in runtime : The code comes from my another repo [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO: Prevent SO file being code injected
 
-## before you clone.
-install GIT-LFS: https://git-lfs.github.com/
-
 ## build & run it.
+
 1. preparation：
 
-run the shell : aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
+run the shell : `aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
+
 2. click run app from Android Studio.
 
 ## Integration
@@ -46,7 +45,7 @@ cd keystore/
 keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore ./androidyuan.keystore
 ```
 
-c.2. Modify keystore hash and package name form [check_signature.h](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/jni/check_signature.h#L9).
+d.2. Modify keystore hash and package name form [check_signature.h](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/jni/check_signature.h#L9).
 
 This medthod: [getSignature()](https://github.com/BruceWind/AESJniEncrypt/blob/519a4f16ee0a61b05f8dd41419e3fe61836ee5c7/aesjni/src/main/java/com/androidyuan/aesjni/SignatureTool.java#L26), 
 is used to get hash value of keystore file.
@@ -54,9 +53,7 @@ is used to get hash value of keystore file.
 Please integrate the keystore hashcode and package name into `check_signature.h`.
 ## Thanks
 
-Base64 algorithm from: https://github.com/willemt/pearldb
-
-libsodium Algorithm From: https://github.com/jedisct1/libsodium
+libsodium Algorithm from: https://github.com/jedisct1/libsodium
 
 Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
 
@@ -66,16 +63,16 @@ Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 ![unconfused so](https://github.com/weizongwei5/AESJniEncrypt/raw/master/img/unobfscator_debugapk.png)
 ![confused so](https://github.com/weizongwei5/AESJniEncrypt/raw/master/img/obfscator_screen.png)
 
-Contrast: Confused  SO file is three times the size before confusion.
+Confused SO file is three times the size of original SO file.
 If the size of SO file bother you, you can disable obfscator-lvvm. It is unnecessary.
 
-### In addition, I have to told you:
-Because you need to do signature verification, I cann't provide jcenter dependencies, pls forgive me! 
+### In addition, what I have to tell you:
+Because you need to do signature verification, I can't provide **jcenter** dependencies, pls forgive me! 
 
 Regardless of how secure the code, I still against that the key being stored in the code.
 
 
-To compile a SO confused native code, you need to modify the externalNativeBuild in the aesjni/build.gradle file and configure the Obfuscator-LLVM under the NDK.
+To compile a SO confused native code, you need to modify the `externalNativeBuild` in the aesjni/build.gradle and configure the Obfuscator-LLVM under the NDK.
 
 This is my NDK configuration obfuscator tutorial: [Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
 

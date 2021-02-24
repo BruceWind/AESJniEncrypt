@@ -58,8 +58,6 @@ add_library( # Sets the name of the library.
         src/main/jni/logger.h
         src/main/jni/keys_generator.h
         src/main/jni/keys_generator.c
-        src/main/jni/base64.h
-        src/main/jni/base64.c
         src/main/jni/str_utils.cpp
         src/main/jni/JNIEncrypt.c
         )

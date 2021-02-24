@@ -37,7 +37,7 @@ endif
 
 LOCAL_MODULE    := JNIEncrypt
 LOCAL_SRC_FILES := $(LOCAL_PATH)/JNIEncrypt.c	\
-                    base64.c \
+
                     keys_generator.c \
 					str_utils.cpp \
                     check_signature.c \

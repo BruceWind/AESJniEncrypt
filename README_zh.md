@@ -4,7 +4,7 @@
 
 # 追求极致的代码安全性保障 
 - [x] ~~ndk实现AES加密~~,性能不佳,已废弃此方式
-- [ ] 使用chacha20加密,TLS1.3在移动端都用了chacha20了,性能对ARM架构CPU更好。
+- [x] 使用**CHACHA20**加密,TLS1.3也在移动端用了**CHACHA20**了,性能对ARM架构CPU更好。
 - [x] 使用JniOnload 隐藏C函数
 - [x] 使用签名校验避免被再次打包（这是绕过破解加密算法直接调用你的jni函数）
 - [x] ~~key存在符号表中,同时隐藏字符表~~ 该方案已经废弃,[废弃原因issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
@@ -20,7 +20,6 @@
 运行这个shell ： aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
 2.打开AS运行app，并查看日志。 
 ## 集成
-先安装GIT-LFS:https://git-lfs.github.com/
 
 a.先配置local.properties中ndk.dir 要求使用ndk版本必须11-13b,新版本ndk没有测试过,或许不能编译通过。
 
@@ -32,27 +31,24 @@ run `test_in_exexutaing.sh`,然后请看logcat. 随机生成的key & nonce会显
 
 c.生成和修改签名.
 
-**c.1.生成**
-```
-//再当前目录下
-$ mkdir  keystore
-$ cd keystore/
-$ keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore ./androidyuan.keystore
+**c.1.生成keystore**
 
-...
-...
-...
-
+```shell script
+# my generate record:
+mkdir keystore
+cd keystore/
+keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore ./androidyuan.keystore
 ```
 
-**c.2.取得当前keystore的hash值,并修改native代码中的包名和hash**
+**c.2.用java取得当前keystore的hash值,并修改native代码中的包名和hash**
 
-    目前似乎没有好的办法,我只能用java取,**getSignature(Context context)**打log取出之后,然后写入到C文件中,重新build项目。
+    用[getSignature()](https://github.com/BruceWind/AESJniEncrypt/blob/519a4f16ee0a61b05f8dd41419e3fe61836ee5c7/aesjni/src/main/java/com/androidyuan/aesjni/SignatureTool.java#L26)打log取出之后,然后写入到C文件中,重新build项目。
     
-  集成到自己项目中请先修改keystore hashcode和包名,防止反编译时拿到so文件,进行二次打包使用。
+  集成到自己项目中请先修改`check_signature.h`中的keystore hashcode和包名。
+  
+  
 ## 鸣谢
 
-Base64 算法 来自：https://github.com/willemt/pearldb
 Libsodium 算法 来自：https://github.com/jedisct1/libsodium
 Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
 

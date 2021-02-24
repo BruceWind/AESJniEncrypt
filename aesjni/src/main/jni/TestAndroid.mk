@@ -36,7 +36,7 @@ LOCAL_SRC_FILES := main_unit_test.c \
                     logger.h \
 					debugger.c \
                     keys_generator.c \
-                    base64.c \
+
 					str_utils.h \
 					str_utils.cpp
 LOCAL_STATIC_LIBRARIES := sodium  # tell ndk-build about the dependency
