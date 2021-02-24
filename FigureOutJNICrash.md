@@ -4,9 +4,11 @@ How to locate where native crash at?
 
 2.run **ndk-stack** to analyze logcat and **symbol file** to find where crash printed.
 ``` 
-//or you use gradlew build command:
+//gradlew build with ndkBuild:
 adb logcat | ndk-stack -sym ./aesjni/build/intermediates/ndkBuild/debug/obj/local/arm64-v8a/objs-debug/
-//or you using ndk-build command:
+//gradlew build with CMake:
+adb logcat | ndk-stack -sym ./aesjni/build/intermediates/cmake/debug/obj/arm64-v8a
+//if you run ndk-build command:
 adb logcat | ndk-stack -sym ./aesjni/src/main/obj/local/x86/
 ```
 > **../obj/local/x86/** and **../obj/local/armeabi-v7a/** is symbol file directory.
