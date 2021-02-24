@@ -1,4 +1,5 @@
 #include <iostream>
+#include <iomanip>      // std::setw
 #include "str_utils.h"
 #ifdef __cplusplus
 extern "C"

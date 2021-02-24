@@ -12,4 +12,6 @@
 // result 1: isdebug  0: release
 int is_debug();
 
+void anti_debug();
+
 #endif

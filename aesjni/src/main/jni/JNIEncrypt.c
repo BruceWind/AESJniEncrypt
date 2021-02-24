@@ -5,6 +5,7 @@
 #include "checksignature.h"
 #include "check_emulator.h"
 #include "keys_generator.h"
+#include "logger.h"
 #include <string.h>
 #include <sys/ptrace.h>
 
@@ -34,6 +35,7 @@ jstring char2jstring(JNIEnv *envPtr, char *src) {
     jbyteArray barr = env->NewByteArray(envPtr, len);
     env->SetByteArrayRegion(envPtr, barr, 0, len, (jbyte *) src);
 
+
     return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
 }
 
@@ -51,7 +53,7 @@ jstring char2string_with_len(JNIEnv *envPtr, char *src, size_t str_len) {
     return (jstring) env->NewObject(envPtr, clsstring, mid, barr, strencode);
 }
 
-unsigned char *getNonce() {
+const unsigned char *getNonce() {
     if (nonce == NULL) {
         nonce = chacha20_hexnonce2bin(nonce_hex);
     }
@@ -60,7 +62,7 @@ unsigned char *getNonce() {
 
 //hiding string table, it not work for my hack method, it just is a low-level defende way.
 //__attribute__((section (".mytext")))
-unsigned char *getKey() {
+const unsigned char *getKey() {
     if (key == NULL) {
         key = chacha20_hexkey2bin(key_hex);
     }
@@ -69,24 +71,27 @@ unsigned char *getKey() {
 
 JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
     //firstly, detect the apk is repackaged.
-//    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
-//        char *str = WRONG_SIGNATURE;
-//        return char2jstring(env, str);
-//    }
-
+    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
+        char *str = WRONG_SIGNATURE;
+        return char2jstring(env, str);
+    }
 
     const char *plain_str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
-    (*env)->ReleaseStringUTFChars(env, str_, plain_str);
+
 
     unsigned char *ciphertext;
     ciphertext = (unsigned char *) sodium_malloc(
             strlen(plain_str) + crypto_aead_chacha20poly1305_ABYTES);
     unsigned long long ciphertext_len;
 
+    char subbuff[5];
+    memcpy(subbuff, getKey(), 4);
+
     crypto_aead_chacha20poly1305_encrypt(ciphertext, &ciphertext_len,
                                          plain_str, strlen(plain_str),
                                          NULL, 0, //additional data is NULL, you can change it.
                                          NULL, getNonce(), getKey());
+
 
     if (ciphertext_len == 0) {
         abort();
@@ -97,22 +102,25 @@ JNIEXPORT jstring JNICALL encode(JNIEnv *env, jobject instance, jobject context,
             2 * ciphertext_len + 1); //return hex is easy to transport in internet.
     sodium_bin2hex(result_hex, (size_t) (2 * ciphertext_len + 1), ciphertext, ciphertext_len);
     sodium_free(ciphertext);
+
     jstring result = (*env)->NewStringUTF(env, result_hex);
     sodium_free(result_hex);
+
+
+    (*env)->ReleaseStringUTFChars(env, str_, plain_str);
     return result;
 }
 
 JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context, jstring str_) {
 
     //security checking.
-//    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
-//        char *str = WRONG_SIGNATURE;
-//        return char2jstring(env, str);
-//    }
+    if (check_signature(env, instance, context) != 1 || check_is_emulator(env) != 1) {
+        char *str = WRONG_SIGNATURE;
+        return char2jstring(env, str);
+    }
 
     //str_ must is hex.
     const char *hex_str = (*env)->GetStringUTFChars(env, str_, JNI_FALSE);
-    (*env)->ReleaseStringUTFChars(env, str_, hex_str);
 
     int encrypt_len = strlen(hex_str) / 2;
     unsigned char *encrypted_str = (unsigned char *) sodium_malloc(encrypt_len);
@@ -136,6 +144,7 @@ JNIEXPORT jstring JNICALL decode(JNIEnv *env, jobject instance, jobject context,
     jstring result = char2string_with_len(env, decrypted,
                                           (size_t) decrypted_len); //decrypted doesnt has '\0',so I put decrypted_len.
 
+    (*env)->ReleaseStringUTFChars(env, str_, hex_str);
     sodium_free(decrypted);
     return result;
 }
@@ -177,9 +186,7 @@ int register_ndk_load(JNIEnv *env) {
 }
 
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
-
-    ptrace(PTRACE_TRACEME, 0, 0, 0); //anti-debug
-    //this is low level anti-debug method.
+    anti_debug();
     // 有更复杂更高明的方案，比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,目前的版本不做更多的负载方案，您想做可以fork之后，自己去做
 
     JNIEnv *env = NULL;

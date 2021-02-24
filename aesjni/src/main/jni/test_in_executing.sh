@@ -6,8 +6,8 @@
 # Pls modify BUILT_ABI for build compatible you device.
 # -------------------------------------------------------
 
-#BUILT_ABI=x86 #  make it compatible for emulator
-BUILT_ABI=armeabi-v7a # make it compatible for physical device
+BUILT_ABI=x86 #  make it compatible for emulator
+#BUILT_ABI=armeabi-v7a # make it compatible for physical device
 
 #pls modify
 TARGET_ANDROID_MK=OriginAndroid_r22_mac.mk

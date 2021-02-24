@@ -139,7 +139,7 @@ int main()
     printf("\n");
 
     LOGI("-----------------------aead_aes256gcm----------------------");
-    test_aead_aes256gcm();
+    //test_aead_aes256gcm();
 
     LOGI("-----------------------chacha20----------------------");
     test_chacha20();
