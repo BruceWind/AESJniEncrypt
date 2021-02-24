@@ -1,40 +1,69 @@
 cmake_minimum_required(VERSION 3.4.1)           #普通版本的clang
 
+# specify the C++ standard
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# -------configure import libsodium begin------
+if (${ANDROID_ABI} STREQUAL "armeabi-v7a")
+    set(ARCH_PREFIX "armv7-a")
+elseif (${ANDROID_ABI} STREQUAL "arm64-v8a")
+    set(ARCH_PREFIX "armv8-a")
+elseif (${ANDROID_ABI} STREQUAL "armeabi")
+    set(ARCH_PREFIX "armv6")
+elseif (${ANDROID_ABI} STREQUAL "x86")
+    set(ARCH_PREFIX "i686")
+elseif (${ANDROID_ABI} STREQUAL "mips")
+    set(ARCH_PREFIX "mips32")
+else ()
+    #set(ARCH_PREFIX ${ANDROID_ABI})
+    message(FATAL_ERROR "${ANDROID_ABI} static libraries might doesn't exist.")
+endif ()
+
+
+set(distribution_DIR ${CMAKE_CURRENT_SOURCE_DIR}/src/main/jni/sodium_include/libsodium-android-${ARCH_PREFIX})
+
+message(STATUS "Current build include : ${distribution_DIR} ")
+add_library(libsodium STATIC IMPORTED)
+set_target_properties(libsodium PROPERTIES IMPORTED_LOCATION
+        ${distribution_DIR}/lib/libsodium.a)
+# include C export files.
+include_directories(${distribution_DIR}/include)
+# -------configure import libsodium end------
+
+
+set(DEBUG_FILE_C "src/main/jni/debugger.c")
+
+if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
+    set(DEBUG_FILE_C "src/main/jni/debugger_test.c")
+endif ()
 
 add_library( # Sets the name of the library.
-             JNIEncrypt
+        JNIEncrypt
 
-             # Sets the library as a shared library.
-             SHARED
+        # Sets the library as a shared library.
+        SHARED
 
-             # Provides a relative path to your source file(s).
-             src/main/cpp/JNIEncrypt.c
-             src/main/cpp/checksignature.h
-             src/main/cpp/checksignature.c
-             src/main/cpp/check_emulator.h
-             src/main/cpp/check_emulator.c
-             src/main/cpp/debugger.h
-             src/main/cpp/debugger.c
-             src/main/cpp/aes.h
-             src/main/cpp/base64.h
-             src/main/cpp/aes.c
-             src/main/cpp/base64.c
-             )
+        # Provides a relative path to your source file(s).
+        src/main/jni/checksignature.h
+        src/main/jni/checksignature.c
+        src/main/jni/check_emulator.h
+        src/main/jni/check_emulator.c
+        src/main/jni/debugger.h
+        ${DEBUG_FILE_C}
+        src/main/jni/logger.h
+        src/main/jni/keys_generator.h
+        src/main/jni/keys_generator.c
+        src/main/jni/base64.h
+        src/main/jni/base64.c
+        src/main/jni/str_utils.cpp
+        src/main/jni/JNIEncrypt.c
+        )
 
-# 搜索指定的预构建库并将路径存储为变量。 因为默认情况下，CMake在搜索路径中包含系统库，
-# 所以您只需要指定公共NDK库的名称你想添加。 在完成构建之前，CMake验证库存在。
-
-find_library( # Sets the name of the path variable.
-              log-lib
-
-              # Specifies the name of the NDK library that
-              # you want CMake to locate.
-              log )
-
-# 指定CMake应链接到目标库的库。 您可以链接多个库，例如在此构建脚本中定义的库，预构建的第三方库或系统库。
+find_library(log-lib
+        log)
 
 target_link_libraries( # Specifies the target library.
-                       JNIEncrypt
-
-                       # included in the NDK.
-                       ${log-lib} )
+        JNIEncrypt
+        libsodium
+        ${log-lib})

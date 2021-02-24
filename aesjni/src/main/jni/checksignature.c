@@ -6,9 +6,15 @@
 #include <android/log.h>
 #include <jni.h>
 #include "checksignature.h"
+#include "debugger.h"
 
 
 jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
+
+    if(is_debug()==1)//debug mode does not need to check
+        return 1;
+
+
     //Context的类
     jclass context_clazz = (*env)->GetObjectClass(env, context);
     // 得到 getPackageManager 方法的 ID
@@ -36,6 +42,15 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
                                                          application_package, 0);
     //LOGE("packageName: %s\n", package_name);
 
+
+    char app_pkg_test[strlen(app_pkg_name)+5];
+    strcpy(app_pkg_test,app_pkg_name);
+    strcat(app_pkg_test,".test");
+    if (strcmp(package_name, app_pkg_test) != 0) {//test does not need to check.
+        return 1;
+    }
+
+
     // 获得PackageInfo
     jobject packageInfo = (*env)->CallObjectMethod(env, packageManager,
                                                    methodID_pm, application_package, 64);
@@ -54,7 +69,8 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
     jint hashCode = (*env)->CallIntMethod(env, signature, methodID_hashcode);
     //LOGE("hashcode: %d\n", hashCode);
 
-    if (strcmp(package_name, app_packageName) != 0) {
+
+    if (strcmp(package_name, app_pkg_name) != 0) {
         return -1;
     }
     if (hashCode != app_signature_hash_code) {

@@ -56,4 +56,22 @@ captures/
 
 # External native build folder generated in Android Studio 2.2 and later
 .externalNativeBuild
+.cxx
+#remote build
+mainframer.sh
+.mainframer
 
+#some files that is generated from building libsodium need to be add gitignore.
+aesjni/src/main/libs/
+aesjni/src/main/obj/
+aesjni/src/main/jni/Android.mk
+aesjni/src/main/jni/sodium_include
+aesjni/src/main/jni/temp
+
+
+# VSCODE
+.vscode
+
+
+# VSCODE
+.vscode

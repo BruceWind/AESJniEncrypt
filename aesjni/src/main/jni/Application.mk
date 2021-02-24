@@ -1,10 +1,5 @@
+# there is only armv8. You can rebuild libsodium to generate static library of other ABIs.
+APP_ABI := armeabi-v7a,x86,arm64-v8a
+APP_PLATFORM := android-19
 
-LOCAL_PATH := $(call my-dir)
-
-include $(CLEAR_VARS)
-
-APP_ABI :=  armeabi  armeabi-v7a arm64-v8a x86_64
-
-
-NDK_TOOLCHAIN_VERSION := clang-ollvm4.0
-include $(BUILD_EXECUTABLE)
+APP_STL := c++_static

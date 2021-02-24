@@ -5,16 +5,17 @@ android {
     buildToolsVersion "25.0.3"
     defaultConfig {
         applicationId "com.androidyuan.aesjniencrypt"
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 22 //if targetSdkversion > =23,pls look at https://stackoverflow.com/questions/36114206/how-to-find-text-relocations-in-so-file
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
 
     signingConfigs {
+        //you can regenerate it.
         release {
-            storeFile file("../keystore/androidyuan.keystore") //请看目录
+            storeFile file("../keystore/androidyuan.keystore")
             storePassword "weizongwei"
             keyAlias "client1"
             keyPassword "weizongwei"
@@ -36,11 +37,18 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    compile project(':aesjni')
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:25.0.1'
+    implementation project(':aesjni')
+
+
+    // Required for local unit tests (JUnit 4 framework)
+    testImplementation 'junit:junit:4.12'
+
+    // Required for instrumented tests
+    testImplementation 'com.android.support:support-annotations:24.0.0'
+    testImplementation 'com.android.support.test:runner:0.5'
 }

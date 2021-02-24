@@ -1,15 +1,14 @@
 package com.androidyuan.aesjni;
 
-import android.content.Context;
-
 /**
  * Created by wei on 16-12-2.
+ * key is stored in JNIEncrypt.c, you may need to change it.
  *
- * 秘文的key 在 C 的代码，如需修改请先修改JNIEncrypt.c
- * 另外native做了签名校验
+ * @Date: 21-02-22:
+ * AES algorithm has been instead with chacha20.
+ * And algorithm is written by libsodium.
  */
-
-public class AESEncrypt {
+public class EncryptEntry {
 
     static {
         System.loadLibrary("JNIEncrypt");
@@ -26,11 +25,10 @@ public class AESEncrypt {
 
 
     /**
-     * AES 解密
+     * chacha20 decrypt
      *
      * @param context
-     * @param str
-     * @return UNSIGNATURE ： sign not pass .
+     * @return WRONG_SIGNATURE ： sign not pass .
      */
     public static native String decode(Object context, String str);
 
@@ -38,7 +36,7 @@ public class AESEncrypt {
     /**
      * 检查 打包签名是否 是正确的 防止被二次打包
      *
-     * @param con
+     * @param context
      * @return 1 : pass ， -1 or  -2 : error.
      */
     public static native int checkSignature(Object context);

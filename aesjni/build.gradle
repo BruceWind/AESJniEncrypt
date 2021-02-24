@@ -3,10 +3,10 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-
+    //ndkVersion '16.1.4479499'
     defaultConfig {
-        minSdkVersion 15
-        targetSdkVersion 25
+        minSdkVersion 21
+        targetSdkVersion 22
         versionCode 1
         versionName "1.0"
 
@@ -15,13 +15,16 @@ android {
             cmake {
                 cppFlags "-frtti -fexceptions"
             }
+
         }
 
-        ndk {
-            // Specifies the ABI configurations of your native
-            // libraries Gradle should build and package with your APK.
-            abiFilters   'x86_64', 'armeabi', 'armeabi-v7a', 'arm64-v8a'
-        }
+//        sourceSets {
+//            main {
+//                // The libs directory contains prebuilt libraries that are used by the
+//                // app's library defined in CMakeLists.txt via an IMPORTED target.
+//                jniLibs.srcDirs = ['libs']
+//            }
+//        }
 
     }
 
@@ -33,18 +36,24 @@ android {
         }
     }
 
+    def USING_NDK = true // if you want to build with CMakelist,set false.
 
-    //selection 1  this used obfuscator library to obfuscate the native code
-//    externalNativeBuild{
-//        ndkBuild{
-//            path file("src/main/jni/Android.mk")
-//        }
-//    }
-
-    //selection 2   the doesn't obfuscate native code   **** not recommand use cmake*****
     externalNativeBuild {
-        cmake {
-            path "CMakeLists.txt"
+        if (USING_NDK) {
+            //selection 1  this used obfuscator to obfuscate the native code
+            ndkBuild {
+//                path file("src/main/jni/Android.mk")
+//                path file("src/main/jni/OriginAndroid.mk")
+                path file("src/main/jni/OriginAndroid_r13_mac.mk")
+//                path file("src/main/jni/OriginAndroid_r16_mac.mk")
+//                path file("src/main/jni/OriginAndroid_r22_mac.mk")
+//                path file("src/main/jni/OriginAndroid_r16_ubuntu.mk")
+            }
+        } else {
+            //selection 2   the selection doesn't obfuscate native code   **** i don't recommend using cmake*****
+            cmake {
+                path "CMakeLists.txt"
+            }
         }
     }
 
@@ -53,10 +62,15 @@ android {
 
 
 dependencies {
-    compile fileTree(dir: 'libs', include: ['*.jar'])
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
-    compile 'com.android.support:appcompat-v7:25.0.1'
-    testCompile 'junit:junit:4.12'
+    implementation 'com.android.support:appcompat-v7:25.0.1'
+    // Required for local unit tests (JUnit 4 framework)
+    implementation 'junit:junit:4.12'
+
+    // Required for instrumented tests
+    androidTestImplementation 'com.android.support:support-annotations:24.0.0'
+    androidTestImplementation 'com.android.support.test:runner:0.5'
 }
