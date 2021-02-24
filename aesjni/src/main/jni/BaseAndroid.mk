@@ -29,8 +29,20 @@ include $(PREBUILT_STATIC_LIBRARY)
 
 include $(CLEAR_VARS)
 
-DEBUG_FILE:=debugger.c
-ifeq ($(TARGET_ARCH_ABI),armeabi-v7a)
-	DEBUG_FILE := debugger_test.c
+ifeq ($(NDK_DEBUG),1)
+	DEBUG_FILE_C:=debugger_test.c
+else
+    DEBUG_FILE_C:=debugger.c
 endif
+
+LOCAL_MODULE    := JNIEncrypt
+LOCAL_SRC_FILES := $(LOCAL_PATH)/JNIEncrypt.c	\
+                    base64.c \
+                    keys_generator.c \
+					str_utils.cpp \
+                    checksignature.c \
+                    check_emulator.c \
+                    $(DEBUG_FILE_C) \
+                    logger.h
+
 
