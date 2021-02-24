@@ -2,7 +2,7 @@
 
 #include <sodium.h>
 
-#include "checksignature.h"
+#include "check_signature.h"
 #include "check_emulator.h"
 #include "keys_generator.h"
 #include "logger.h"

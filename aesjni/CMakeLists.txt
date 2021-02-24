@@ -32,6 +32,10 @@ include_directories(${distribution_DIR}/include)
 # -------configure import libsodium end------
 
 
+if (${ANDROID_ABI} STREQUAL "x86")
+    set(CMAKE_SHARED_LINKER_FLAGS "${CMAKE_SHARED_LINKER_FLAGS} -Wl,--no-warn-shared-textrel")
+endif ()
+
 set(DEBUG_FILE_C "src/main/jni/debugger.c")
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
@@ -45,8 +49,8 @@ add_library( # Sets the name of the library.
         SHARED
 
         # Provides a relative path to your source file(s).
-        src/main/jni/checksignature.h
-        src/main/jni/checksignature.c
+        src/main/jni/check_signature.h
+        src/main/jni/check_signature.c
         src/main/jni/check_emulator.h
         src/main/jni/check_emulator.c
         src/main/jni/debugger.h
@@ -62,6 +66,7 @@ add_library( # Sets the name of the library.
 
 find_library(log-lib
         log)
+
 
 target_link_libraries( # Specifies the target library.
         JNIEncrypt

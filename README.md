@@ -5,17 +5,17 @@
 
 # Reach high security with libsodium in Android
 - [x] I have no longer supported ~~AES algorithms~~. If you still need it, check out tag: [v2.2](https://github.com/BruceWind/AESJniEncrypt/releases/tag/v2.2).
-- [x] Use chacha20 instead of AES. TLS1.3 has been used **CHACHA20** on mobile device too.It is high-performance for ARM architecture.
+- [x] Use **CHACHA20** instead of **AES**. TLS1.3 has been used **CHACHA20** on mobile device too. It is high-performance for ARM architecture.
 - [x] Hide native function in JniOnload
 - [x] Use signature verification to avoid being packaged again (It is prevents that hacker call your jni method directly.)
 - [x] ~~key exists in the symbol table, and hides the character table~~. This method has been deprecated due to [discard reason issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
 - [x] Get the key from a complex function, to hide the key, current function is a simple solution. (Complex solution: divide the Key into several pieces, store them in different C files, and finally splicing them together. This function should be complicated to write and increase the decompiling difficulty.)
 
-- [x] Use "obfuscator" to confuse C code, [how to  deobfuscation?](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
-- [x] Added support for x86 for obfucator. There is a link at the bottom of the tutorial for configuring obfucator.
+- [x] Use "obfuscator" to confuse C code, [how to  deobfuscate it?](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
+- [x] Supporting x86 of obfucation. A link at the bottom is tutorial for configuring obfucator.
 - [x] Anti-debugging, the current code is a relatively simple solution, there are more complicated and more sophisticated solutions, such as: each time you perform encryption and decryption sign to determine whether it is traced, you want to write more complicated after your fork
 - [x] Detect device is emulator in runtime : The code comes from my another repo [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
-- [ ] TODO: Prevent SO file being code inject
+- [ ] TODO: Prevent SO file being code injected
 
 ## before you clone.
 install GIT-LFS: https://git-lfs.github.com/
@@ -31,29 +31,27 @@ a. generating a chacha20 key:
     
 run `test_in_exexutaing.sh`, and look at logcat. It will generate key and nonce. You can paste it into **JNIEntry.c**.
 
-b. Set ndk.dir in local.properties. Some versions of ndk I have not tested. Maybe you will encounter build errors.
+b. Set **ndk.dir** in local.properties. Some versions of NDK I have not tested. Maybe you will encounter build errors from that.
 
-c. Integrate into the project, please modify the class name and method name, dont expose the encryption algorithm, modify the key storage program into the code.
+c. As you integrate into the project, please modify class name and method name, don't expose the name of encryption algorithm, modify the method of key storage from my code.
 
 d. Generate and modify signatures.
 
 d.1. Generate keystore
-```
-/ / Then the current directory
-$ mkdir keystore
-$ cd keystore/
-$ keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore ./androidyuan.keystore
 
-...
-
-
+```shell script
+# my generate record:
+mkdir keystore
+cd keystore/
+keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore ./androidyuan.keystore
 ```
 
-c.2. Get the hash value of the current keystore and modify the package name and hash in the native code
+c.2. Modify keystore hash and package name form [check_signature.h](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/jni/check_signature.h#L9).
 
-    At present, there seems to be no good way. I can only use java, **getSignature(Context context)** to log out, then write to the C file and rebuild the project.
+This medthod: [getSignature()](https://github.com/BruceWind/AESJniEncrypt/blob/519a4f16ee0a61b05f8dd41419e3fe61836ee5c7/aesjni/src/main/java/com/androidyuan/aesjni/SignatureTool.java#L26), 
+is used to get hash value of keystore file.
     
-  Please integrate the keystore hashcode and package name into your own project to prevent the de-compilation from getting the SO file and use it for secondary packaging.
+Please integrate the keystore hashcode and package name into `check_signature.h`.
 ## Thanks
 
 Base64 algorithm from: https://github.com/willemt/pearldb

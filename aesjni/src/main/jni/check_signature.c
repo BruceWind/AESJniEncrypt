@@ -5,7 +5,7 @@
 #include <string.h>
 #include <android/log.h>
 #include <jni.h>
-#include "checksignature.h"
+#include "check_signature.h"
 #include "debugger.h"
 
 
@@ -15,27 +15,26 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
         return 1;
 
 
-    //Context的类
     jclass context_clazz = (*env)->GetObjectClass(env, context);
-    // 得到 getPackageManager 方法的 ID
+    // obtain method ID of getPackageManager.
     jmethodID methodID_getPackageManager = (*env)->GetMethodID(env,
                                                                context_clazz, "getPackageManager",
                                                                "()Landroid/content/pm/PackageManager;");
 
-    // 获得PackageManager对象
+    // obtain PackageManager object
     jobject packageManager = (*env)->CallObjectMethod(env, context,
                                                       methodID_getPackageManager);
-//	// 获得 PackageManager 类
+    // obtain PackageManager class
     jclass pm_clazz = (*env)->GetObjectClass(env, packageManager);
-    // 得到 getPackageInfo 方法的 ID
+    // obtain getPackageInfo method ID
     jmethodID methodID_pm = (*env)->GetMethodID(env, pm_clazz, "getPackageInfo",
                                                 "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;");
 //
-//	// 得到 getPackageName 方法的 ID
+//	// obtain getPackageName method ID
     jmethodID methodID_pack = (*env)->GetMethodID(env, context_clazz,
                                                   "getPackageName", "()Ljava/lang/String;");
 
-    // 获得当前应用的包名
+    // obtain
     jstring application_package = (*env)->CallObjectMethod(env, context,
                                                            methodID_pack);
     const char *package_name = (*env)->GetStringUTFChars(env,
@@ -51,7 +50,7 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
     }
 
 
-    // 获得PackageInfo
+    // obtainPackageInfo
     jobject packageInfo = (*env)->CallObjectMethod(env, packageManager,
                                                    methodID_pm, application_package, 64);
 
@@ -60,9 +59,9 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
                                                      "signatures", "[Landroid/content/pm/Signature;");
     jobjectArray signature_arr = (jobjectArray) (*env)->GetObjectField(env,
                                                                        packageInfo, fieldID_signatures);
-    //Signature数组中取出第一个元素
+    //get first item from Signature array.
     jobject signature = (*env)->GetObjectArrayElement(env, signature_arr, 0);
-    //读signature的hashcode
+    //obtain hash of signature
     jclass signature_clazz = (*env)->GetObjectClass(env, signature);
     jmethodID methodID_hashcode = (*env)->GetMethodID(env, signature_clazz,
                                                       "hashCode", "()I");

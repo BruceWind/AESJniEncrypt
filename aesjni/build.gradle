@@ -3,7 +3,7 @@ apply plugin: 'com.android.library'
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
-    //ndkVersion '16.1.4479499'
+//    ndkVersion '16.1.4479499'
     defaultConfig {
         minSdkVersion 21
         targetSdkVersion 22
@@ -36,7 +36,7 @@ android {
         }
     }
 
-    def USING_NDK = true // if you want to build with CMakelist,set false.
+    def USING_NDK = false // if you want to build with CMakelist,set false.
 
     externalNativeBuild {
         if (USING_NDK) {
@@ -44,10 +44,10 @@ android {
             ndkBuild {
 //                path file("src/main/jni/Android.mk")
 //                path file("src/main/jni/OriginAndroid.mk")
-                path file("src/main/jni/OriginAndroid_r13_mac.mk")
+//                path file("src/main/jni/OriginAndroid_r13_mac.mk")
 //                path file("src/main/jni/OriginAndroid_r16_mac.mk")
 //                path file("src/main/jni/OriginAndroid_r22_mac.mk")
-//                path file("src/main/jni/OriginAndroid_r16_ubuntu.mk")
+                path file("src/main/jni/OriginAndroid_r16_ubuntu.mk")
             }
         } else {
             //selection 2   the selection doesn't obfuscate native code   **** i don't recommend using cmake*****

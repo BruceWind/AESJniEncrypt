@@ -40,7 +40,7 @@ LOCAL_SRC_FILES := $(LOCAL_PATH)/JNIEncrypt.c	\
                     base64.c \
                     keys_generator.c \
 					str_utils.cpp \
-                    checksignature.c \
+                    check_signature.c \
                     check_emulator.c \
                     $(DEBUG_FILE_C) \
                     logger.h
