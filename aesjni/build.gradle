@@ -44,9 +44,9 @@ android {
             ndkBuild {
 //                path file("src/main/jni/Android.mk")
 //                path file("src/main/jni/OriginAndroid.mk")
-                path file("src/main/jni/OriginAndroid_r13_mac.mk")
+//                path file("src/main/jni/OriginAndroid_r13_mac.mk")
 //                path file("src/main/jni/OriginAndroid_r16_mac.mk")
-//                path file("src/main/jni/OriginAndroid_r22_mac.mk")
+                path file("src/main/jni/OriginAndroid_r22_mac.mk")
 //                path file("src/main/jni/OriginAndroid_r16_ubuntu.mk")
             }
         } else {

@@ -32,10 +32,10 @@ include_directories(${distribution_DIR}/include)
 # -------configure import libsodium end------
 
 
-set(DEBUG_FILE "src/main/jni/debugger.c")
+set(DEBUG_FILE_C "src/main/jni/debugger.c")
 
 if (${CMAKE_BUILD_TYPE} STREQUAL "Debug")
-    set(DEBUG_FILE "src/main/jni/debugger_test.c")
+    set(DEBUG_FILE_C "src/main/jni/debugger_test.c")
 endif ()
 
 add_library( # Sets the name of the library.
@@ -50,7 +50,7 @@ add_library( # Sets the name of the library.
         src/main/jni/check_emulator.h
         src/main/jni/check_emulator.c
         src/main/jni/debugger.h
-        ${DEBUG_FILE}
+        ${DEBUG_FILE_C}
         src/main/jni/logger.h
         src/main/jni/keys_generator.h
         src/main/jni/keys_generator.c

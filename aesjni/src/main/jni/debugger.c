@@ -8,13 +8,6 @@
 #include "logger.h"
 
 
-/**
- * -----------
- * https://developer.android.com/ndk/guides/ndk-build#options
- * NDK_DEBUG=1 : Force a debuggable build.
- * -----------
- */
-
 int is_debug()
 {
     return 0;
