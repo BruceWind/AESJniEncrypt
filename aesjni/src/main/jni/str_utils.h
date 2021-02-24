@@ -4,7 +4,6 @@
  */
 
 #include <stdio.h>
-#include <iomanip>
 
 #ifdef __cplusplus
 #define EXTERNC extern "C"

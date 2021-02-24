@@ -37,9 +37,13 @@ LOCAL_SRC_FILES := main_unit_test.c \
 					debugger.c \
                     keys_generator.c \
                     base64.c \
+					str_utils.h \
 					str_utils.cpp
 LOCAL_STATIC_LIBRARIES := sodium  # tell ndk-build about the dependency
 LOCAL_LDLIBS := -llog  #there is no need to specify path for liblog.so
+
+
+LOCAL_CFLAGS   += -Wall -g -pedantic -std=c99 # ndk13 on mac
 LOCAL_CPPFLAGS := -fexceptions
 
 include $(BUILD_EXECUTABLE)    # <-- Use this to build as executable file.

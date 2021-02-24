@@ -15,3 +15,5 @@
 int is_debug() {
     return 1;
 }
+
+void anti_debug() {}

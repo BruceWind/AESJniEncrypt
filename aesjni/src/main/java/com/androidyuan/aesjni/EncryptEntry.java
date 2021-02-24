@@ -25,10 +25,9 @@ public class EncryptEntry {
 
 
     /**
-     * AES 解密
+     * chacha20 decrypt
      *
      * @param context
-     * @param str
      * @return WRONG_SIGNATURE ： sign not pass .
      */
     public static native String decode(Object context, String str);
