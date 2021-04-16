@@ -28,11 +28,11 @@ run the shell : `aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
 ## how to integrate it into your project?
 a. generating a chacha20 key: 
     
-run `test_in_exexutaing.sh`, and look at logcat. It will generate key and nonce. You can paste it into **JNIEntry.c**.
+run `test_in_exexutaing.sh`, and look at logcat. It will generate ***key*** and ***nonce***. You can paste it into **JNIEntry.c**.
 
 b. Set **ndk.dir** in local.properties. Some versions of NDK I have not tested. Maybe you will encounter build errors from that.
 
-c. As you integrate into the project, please modify class name and method name, don't expose the name of encryption algorithm, modify the method of key storage from my code.
+c. As you integrate into the project, please modify class name and method name, don't expose the name of encryption algorithm, modify the **C function** of key storage from my code.
 
 d. Generate and modify signatures.
 
@@ -50,7 +50,7 @@ d.2. Modify keystore hash and package name form [check_signature.h](https://gith
 This medthod: [getSignature()](https://github.com/BruceWind/AESJniEncrypt/blob/519a4f16ee0a61b05f8dd41419e3fe61836ee5c7/aesjni/src/main/java/com/androidyuan/aesjni/SignatureTool.java#L26), 
 is used to get hash value of keystore file.
     
-Please integrate the keystore hashcode and package name into `check_signature.h`.
+Please copy the **keystore hashcode** and **package name** into `check_signature.h`.
 ## Thanks
 
 libsodium Algorithm from: https://github.com/jedisct1/libsodium
