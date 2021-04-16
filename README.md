@@ -23,7 +23,7 @@
 
 run the shell : `aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
 
-2. click run app from Android Studio.
+2. click run app from Android Studio to look at logcat.
 
 ## Integration
 a. generating a chacha20 key: 
