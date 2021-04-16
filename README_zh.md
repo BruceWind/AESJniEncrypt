@@ -17,8 +17,13 @@
 
 ## 尝试编译，并跑起来
 1.准备：
-运行这个shell ： aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
+
+运行这个shell :
+
+aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
+
 2.打开AS运行app，并查看日志。 
+
 ## 集成
 
 a.先配置local.properties中ndk.dir 要求使用ndk版本必须11-13b,新版本ndk没有测试过,或许不能编译通过。
