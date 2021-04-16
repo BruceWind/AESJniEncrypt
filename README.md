@@ -69,7 +69,7 @@ If the size of SO file bother you, you can disable obfscator-lvvm. It is unneces
 ### In addition, what I have to tell you:
 Because you need to do signature verification, I can't provide **jcenter** dependencies, pls forgive me! 
 
-Regardless of how secure the code, I still against that the key being stored in the code.
+Even though these code is very safe, I still against storing key in code.
 
 
 To compile a SO confused native code, you need to modify the `externalNativeBuild` in the aesjni/build.gradle and configure the Obfuscator-LLVM under the NDK.
