@@ -32,7 +32,7 @@ run `test_in_exexutaing.sh`, and look at logcat. It will generate ***key*** and 
 
 b. Set **ndk.dir** in local.properties. Some versions of NDK I have not tested. Maybe you will encounter build errors from that.
 
-c. As you integrate into the project, please modify class name and method name, don't expose the name of encryption algorithm, modify the **C function** of key storage from my code.
+c. As you integrate into the project, please modify class name and method name, don't expose the name of encryption algorithm, modify the [C function](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/jni/JNIEncrypt.c#L56-L70) of key storage from my code.
 
 d. Generate and modify signatures.
 
