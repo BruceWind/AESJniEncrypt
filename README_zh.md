@@ -9,7 +9,7 @@
 - [x] 使用签名校验避免被再次打包（这是绕过破解加密算法直接调用你的jni函数）
 - [x] ~~key存在符号表中,同时隐藏字符表~~ 该方案已经废弃,[废弃原因issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
 - [x] 手工处理隐藏key,最复杂的方案：将密钥分成不同的几段,存储在不同的代码中,最后将他们拼接起来,可以将整个操作写的很复杂,增加逆向难度。（目前代码里用的是稍微简单的方案）
-- [x] 使用obfuscator混淆C的代码,[关于破解obfuscator](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
+- [x] 使用obfuscator扰乱C的代码,[关于破解obfuscator](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
 - [x]  增加obfucator对x86的支持,具体配置obfucator的教程底部有链接。
 - [x] 反动态调试 , 目前代码里是比较简单的方案, 有更复杂更高明的方案,比如：每次执行加密解密签先去判断是否被trace,想要更复杂的自己fork之后去写
 - [x] 代码运行时屏蔽模拟器 :代码来自我的另外一个仓库[Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
@@ -54,8 +54,8 @@ keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validi
   
 ## 鸣谢
 
-Libsodium 算法 来自：https://github.com/jedisct1/libsodium
-Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
+1. Libsodium 算法 来自：https://github.com/jedisct1/libsodium
+2. Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
 
 
 
@@ -79,7 +79,10 @@ Native代码混淆器：[obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 
 想要编译出混淆过native代码的so需要修改aesjni/build.gradle文件中的externalNativeBuild,并配置NDK下的Obfuscator-LLVM。
 
-这是我的NDK配置混淆器教程：[Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
+这是我的NDK配置混淆器教程：[Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK).
+
+
+如果您觉得配置Obfuscator-LLVM太难,我推荐您使用docker : [github.com/nickdiego/docker-ollvm](https://github.com/nickdiego/docker-ollvm).
 
 [其他语言怎么配合加解密？](https://github.com/weizongwei5/AESJniEncrypt/issues/8)
 
