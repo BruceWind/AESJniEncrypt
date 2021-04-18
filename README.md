@@ -72,9 +72,13 @@ Because you need to do signature verification, I can't provide **jcenter** depen
 Even though these code is very safe, I still against storing key in code.
 
 
-To compile a SO confused native code, you need to modify the `externalNativeBuild` in the aesjni/build.gradle and configure the Obfuscator-LLVM under the NDK.
+To compile a SO confused native code, you need to modify the `externalNativeBuild` in the `aesjni/build.gradle` and configure the **Obfuscator-LLVM** under the NDK.
 
-This is my NDK configuration obfuscator tutorial: [Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK)
+This is my NDK configuration obfuscator tutorial: [Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK).
+
+
+And if you think configurating Obfuscator-LLVM is really difficult, I recommend using docker : [github.com/nickdiego/docker-ollvm](https://github.com/nickdiego/docker-ollvm).
+
 
 [How do other languages ​​work together with encryption and decryption?](https://github.com/weizongwei5/AESJniEncrypt/issues/8)
 
