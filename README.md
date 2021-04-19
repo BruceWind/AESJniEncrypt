@@ -72,7 +72,7 @@ Because you need to do signature verification, I can't provide **jcenter** depen
 Even though these code is very safe, I still against storing key in code.
 
 
-To compile a SO confused native code, you need to modify the `externalNativeBuild` in the `aesjni/build.gradle` and configure the **Obfuscator-LLVM** under the NDK.
+To confuse native code, you need to modify the `externalNativeBuild` in the `aesjni/build.gradle` and configure the **Obfuscator-LLVM** under the NDK.
 
 This is my NDK configuration obfuscator tutorial: [Obfuscator-LLVM-4.0-BUILD-NDK](https://github.com/weizongwei5/Obfuscator-LLVM-4.0-BUILD-NDK).
 
