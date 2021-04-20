@@ -64,7 +64,7 @@ Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/andr
 ![confused so](https://github.com/weizongwei5/AESJniEncrypt/raw/master/img/obfscator_screen.png)
 
 Confused SO file is three times the size of original SO file.
-If the size of SO file bother you, you can disable obfscator-lvvm. It is unnecessary.
+If the size bother you, you can disable obfscator-lvvm. It is unnecessary.
 
 ### In addition, what I have to tell you:
 Because you need to do signature verification, I can't provide **jcenter** dependencies, pls forgive me! 
