@@ -5,7 +5,7 @@
 
 # Reach high security with libsodium in Android
 - [x] I have no longer supported ~~AES algorithms~~. If you still need it, check out tag: [v2.2](https://github.com/BruceWind/AESJniEncrypt/releases/tag/v2.2).
-- [x] Use **CHACHA20** instead of **AES**. TLS1.3 has been used **CHACHA20** on mobile device too. It is high-performance for ARM architecture.
+- [x] Use **CHACHA20** instead of **AES**. TLS1.3 has used **CHACHA20** on mobile device too. It is high-performance for ARM architecture.
 - [x] Hide native function in JniOnload
 - [x] Use signature verification to avoid being packaged again (It is prevents that hacker call your jni method directly.)
 - [x] ~~key exists in the symbol table, and hides the character table~~. This method has been deprecated due to [discard reason issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
