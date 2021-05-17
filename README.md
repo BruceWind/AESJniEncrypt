@@ -88,7 +88,7 @@ If you encounter crash, you can look into **FigureOutJNICrash.md** to find where
 
 -------------------
 ## Legal
-If you live in China, you should take care about [checking apk signature](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/cpp/check_emulator.h#L15).
+If you live in China, you should take care of [checking apk signature](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/cpp/check_emulator.h#L15).
 I have called PackageManger that may be misunderstood to collect list of installed apps. 
 You should look at [工信部整治八项违规](http://www.miit.gov.cn/n1146295/n7281315/c7507241/part/7507297.docx).
 
