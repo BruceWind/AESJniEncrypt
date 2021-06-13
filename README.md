@@ -13,8 +13,9 @@
 
 - [x] Use "obfuscator" to confuse C code, [how to  deobfuscate it?](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
 - [x] Supporting x86 of obfucation. A link at the bottom is tutorial for configuring obfucator.
-- [x] Anti-debugging, the current code is a relatively simple solution, there are more complicated and more sophisticated solutions, such as: each time you perform encryption and decryption sign to determine whether it is traced, you want to write more complicated after your fork
-- [x] Detect device is emulator in runtime : The code comes from my another repo [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
+- [x] Anti-debugging. Currently, I put a simple solution into code but there are more complicated and more sophisticated solutions.
+      I recommand determining whether it is traced in every encryption and decryption. You can add other complicated algorithm in your fork.
+- [x] Detecting device is emulator in runtime : The code comes from my another repo [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO: Prevent SO file being code injected
 
 ## build & run it.
