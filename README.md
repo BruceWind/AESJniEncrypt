@@ -46,10 +46,10 @@ cd keystore/
 keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validity 365 -storetype PKCS12 -keystore ./androidyuan.keystore
 ```
 
-d.2. Modify keystore hash and package name form [check_signature.h](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/jni/check_signature.h#L9).
+d.2. Modify `hash` of keystore and `pkg-name` in [check_signature.h](https://github.com/BruceWind/AESJniEncrypt/blob/master/aesjni/src/main/jni/check_signature.h#L9_L11).
 
-This medthod: [getSignature()](https://github.com/BruceWind/AESJniEncrypt/blob/519a4f16ee0a61b05f8dd41419e3fe61836ee5c7/aesjni/src/main/java/com/androidyuan/aesjni/SignatureTool.java#L26), 
-is used to get hash value of keystore file.
+The `hash` which you can use this medthod: [getSignature()](https://github.com/BruceWind/AESJniEncrypt/blob/519a4f16ee0a61b05f8dd41419e3fe61836ee5c7/aesjni/src/main/java/com/androidyuan/aesjni/SignatureTool.java#L26), 
+to get.
     
 Please copy the **keystore hashcode** and **package name** into `check_signature.h`.
 ## Thanks
