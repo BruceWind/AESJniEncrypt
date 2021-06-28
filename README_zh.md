@@ -16,6 +16,8 @@
 - [ ] TODO：防止so代码被code inject
 
 ## 尝试编译，并跑起来
+<details>
+<summary>click to open</summary>
 1.准备：
 
 运行这个shell :
@@ -23,9 +25,12 @@
 aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
 
 2.打开AS运行app，并查看日志。 
-
+</details>
+    
 ## 集成
 
+<details>
+<summary>click to open</summary>
 a.先配置local.properties中ndk.dir 要求使用ndk版本必须11-13b,新版本ndk没有测试过,或许不能编译通过。
 
 b.集成到项目中请修改类名方法名,不要暴露加密算法,自行修改key存储到代码里的方案.
@@ -51,7 +56,8 @@ keytool -genkey -alias client1 -keypass 123456 -keyalg RSA -keysize 1024 -validi
     
   集成到自己项目中请先修改`check_signature.h`中的keystore hashcode和包名。
   
-  
+</details>
+
 ## 鸣谢
 
 1. Libsodium 算法 来自：https://github.com/jedisct1/libsodium
