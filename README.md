@@ -65,13 +65,6 @@ Please copy the **keystore hashcode** and **package name** into `check_signature
       
 </details>
 
-## Thanks
-
-libsodium Algorithm from: https://github.com/jedisct1/libsodium
-
-Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
-
-
 ### Remind: SO file will become bigger
 
 ![unconfused so](https://github.com/weizongwei5/AESJniEncrypt/raw/master/img/unobfscator_debugapk.png)
@@ -120,3 +113,13 @@ In case you would like to add information to this repository or suggest some ide
 [https://github.com/zxp0505](https://github.com/zxp0505)
 
 [https://github.com/baoyongzhang](https://github.com/baoyongzhang)
+
+
+
+## Thanks
+
+libsodium Algorithm from: https://github.com/jedisct1/libsodium
+
+Native code obfuscator: [obfuscation-o-llvm-ndk](https://fuzion24.github.io/android/obfuscation/ndk/llvm/o-llvm/2014/07/27/android-obfuscation-o-llvm-ndk)
+
+
