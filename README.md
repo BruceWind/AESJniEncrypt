@@ -76,7 +76,8 @@ If the size bother you, you can disable obfscator-lvvm. It is unnecessary.
 ### In addition, what I have to tell you:
 Because you need to do signature verification, I can't provide **jcenter** dependencies, pls forgive me! 
 
-Even though these code is very safe, I still against storing key in code.
+Even though these code is very safe, I still against storing key in code. If you know how SSL works, you may think that asymmetric entription transfering the key is safest in the world.
+If you dont know how SSL works, I recommend a blog from Cloudflare: [what-is-asymmetric-encryption](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-asymmetric-encryption/)
 
 
 To confuse native code, you need to modify the `externalNativeBuild` in the `aesjni/build.gradle` and configure the **Obfuscator-LLVM** under the NDK.
