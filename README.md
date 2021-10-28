@@ -76,7 +76,7 @@ If the size bother you, you can disable obfscator-lvvm. It is unnecessary.
 ### In addition, what I have to tell you:
 Because you need to do signature verification, I can't provide **jcenter** dependencies, pls forgive me! 
 
-Even though these code is very safe, I still against storing key in code. If you know how SSL works, you may think that asymmetric entription transfering the key is safest in the world.
+Even though these code is very safe, I still against storing key in code. The key shouldn't be constant, and shuold is termporary and generated. If you know how SSL works, you may think that asymmetric entription transfering the key is safest in the world.
 If you dont know how SSL works, I recommend a blog from Cloudflare: [what-is-asymmetric-encryption](https://www.cloudflare.com/zh-cn/learning/ssl/what-is-asymmetric-encryption/)
 
 
