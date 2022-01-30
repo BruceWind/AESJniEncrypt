@@ -45,7 +45,7 @@ jint check_signature(JNIEnv *env, jobject thiz, jobject context) {
     char app_pkg_test[strlen(app_pkg_name)+5];
     strcpy(app_pkg_test,app_pkg_name);
     strcat(app_pkg_test,".test");
-    if (strcmp(package_name, app_pkg_test) != 0) {//test does not need to check.
+    if (strcmp(package_name, app_pkg_test) == 0) {//test does not need to check.
         return 1;
     }
 
