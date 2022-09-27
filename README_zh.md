@@ -3,7 +3,7 @@
 [中文](https://github.com/BruceWind/AESJniEncrypt/blob/master/README_zh.md)
 
 # 追求极致的代码安全性保障 
-- [x] ~~ndk实现AES加密~~,性能不佳,已废弃此方式
+- [x] ~~ndk实现AES加密~~,性能不佳,已废弃此方式, 如果您仍旧需要该算法，check out tag: [v2.2](https://github.com/BruceWind/AESJniEncrypt/releases/tag/v2.2).
 - [x] 使用**CHACHA20**加密,TLS1.3也在移动端用了**CHACHA20**了,性能对ARM架构CPU更好。
 - [x] 使用JniOnload 隐藏C函数
 - [x] 使用签名校验避免被再次打包（这是绕过破解加密算法直接调用你的jni函数）
@@ -24,7 +24,7 @@
 
 aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
 
-2.打开AS运行app，并查看日志。 
+2.打开AS运行app，从adb/AS里看日志。 
 </details>
     
 ## 集成
@@ -37,7 +37,7 @@ b.集成到项目中请修改类名方法名,不要暴露加密算法,自行修�
 
 b.1. 生成 chacha20 key: 
     
-run `test_in_exexutaing.sh`,然后请看logcat. 随机生成的key & nonce会显示出来. 你需要粘贴到 **JNIEntry.c**.
+run `test_in_exexutaing.sh`,然后请看logcat. 我用C语言随机生成的key & nonce会显示出来. 你需要粘贴到 **JNIEntry.c**.
 
 c.生成和修改签名.
 

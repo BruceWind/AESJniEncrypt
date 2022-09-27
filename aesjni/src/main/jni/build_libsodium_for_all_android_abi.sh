@@ -11,19 +11,20 @@
 
 LIBSODIUM_GIT_TAG=1.0.18 # it is the last stable version that I have tested.
 
+set -e
 #ROOT_DIR=$(pwd)
 
 # building libsodium needs to execute ndk-build,so there is detect whether $ANDROID_NDK_HOME exist.
-if [ ! "$ANDROID_NDK_HOME" ];then
-  printf "ANDROID_NDK_HOME does not exist in environment. Please set ANDROID_NDK_HOME into your environment.\n"
-  exit
+if [ ! "$ANDROID_NDK_HOME" ]; then
+    printf "ANDROID_NDK_HOME does not exist in environment. Please set ANDROID_NDK_HOME into your environment.\n"
+    exit
 fi
 
 SODIUM_INCLUDE_DIR=$(pwd)/sodium_include
-if [ -d "$SODIUM_INCLUDE_DIR" ]; then  # if it exists,delete it.
+if [ -d "$SODIUM_INCLUDE_DIR" ]; then # if it exists,delete it.
     rm -rf "$SODIUM_INCLUDE_DIR"/libsodium-android*
 else
-  mkdir sodium_include
+    mkdir sodium_include
 fi
 
 TEMP_DIR=$(pwd)/temp
@@ -32,16 +33,12 @@ if [ -d "$TEMP_DIR" ]; then # if it exists,delete it.
 fi
 mkdir "$TEMP_DIR"
 
-
-
 SODIUM_CLONING_HOME=$TEMP_DIR/libsodium
 # clone
 git clone git@github.com:jedisct1/libsodium.git "$SODIUM_CLONING_HOME"
 cd "$SODIUM_CLONING_HOME" || exit
 git fetch --tags
 git checkout $LIBSODIUM_GIT_TAG # check specific verion.
-
-
 
 # && git pull
 
@@ -92,9 +89,8 @@ else
     echo "build-libsodium: skipping armv8-a, already built!"
 fi
 
-
 if [ $? -eq 0 ]; then
-  mv -v "$SODIUM_CLONING_HOME"/libsodium-android-* "$SODIUM_INCLUDE_DIR"
-  printf 'all of static libs move into %s.\n' "$SODIUM_INCLUDE_DIR"
-  rm -rf "$TEMP_DIR"
+    mv -v "$SODIUM_CLONING_HOME"/libsodium-android-* "$SODIUM_INCLUDE_DIR"
+    printf 'All of static libs has been moved into %s.\n' "$SODIUM_INCLUDE_DIR"
+    rm -rf "$TEMP_DIR"
 fi

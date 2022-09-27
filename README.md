@@ -4,18 +4,20 @@
 
 
 # Reach high security with libsodium in Android
-- [x] I have no longer supported ~~AES algorithms~~. If still need it, you can check out tag: [v2.2](https://github.com/BruceWind/AESJniEncrypt/releases/tag/v2.2).
+
+> I have no longer supported ~~AES algorithms~~. Still needing it, you can check out tag: [v2.2](https://github.com/BruceWind/AESJniEncrypt/releases/tag/v2.2).
+
 - [x] Use **CHACHA20** instead of **AES**. I have to mention that TLS1.3 use **CHACHA20** on mobile device too. It is high-performance for ARM architecture.
 - [x] Hide native function in JniOnload
-- [x] Use signature verification to avoid being packaged again (It is prevents that hacker call your jni method directly.)
-- [x] ~~key exists in the symbol table, and hides the character table~~. This method has been deprecated due to [discard reason issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
-- [x] Get the key from a complex function, to hide the key, current function is a simple solution. (Complex solution: divide the Key into several pieces, store them in different C files, and finally splicing them together. This function should be complicated to write and increase the decompiling difficulty.)
+- [x] Use signature verification to avoid second-packaged. (It is prevents that hacker call your jni method directly.)
+- [x] ~~key exists in the symbol table, and hides the character table~~. This approach has been deprecated due to [discard reason issues5](https://github.com/weizongwei5/AESJniEncrypt/issues/5)
+- [x] Obtain the key from a complex function, to hide the key, currently the function is a simple solution. (Complex solution: divide the Key into several pieces, store them in different C files, and finally splicing them together. This function should be complicated to write and increase the decompiling difficulty.)
 
 - [x] Use "obfuscator" to confuse C code, [how to  deobfuscate it?](https://blog.quarkslab.com/deobfuscation-recovering-an-ollvm-protected-program.html)
 - [x] Supporting x86 of obfucation. A link at the bottom is tutorial for configuring obfucator.
 - [x] Anti-debugging. Currently, I put a simple solution into code but there are complicated and sophisticated solutions.
       I recommand determining whether it is traced in every encryption and decryption. You can add other complicated algorithm in your fork.
-- [x] Detecting device is emulator in runtime : That feature comes from my another repo [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
+- [x] Detecting device is emulator during runtime. This feature comes from my another repo [Check_Emulator_In_NDK](https://github.com/Scavenges/Check_Emulator_In_NDK)
 - [ ] TODO: Prevent SO file injecting from hacker.
 
 
@@ -27,9 +29,16 @@
 
 1. preparation：
 
-run the shell : `aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
+run the shell : `cd aesjni/src/main/jni/ && aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
+When you run the shell, some error you may got some error like this:
+`env: python: No such file or directory` , `See "config.log" for more details` or others.
 
-2. click run app from Android Studio to look at logcat.
+Pls, take time to solve it. research in Google. It is easy that some libraries you need to install.
+
+If the shell run well, a lots of files, such as  `.a` & `.so`, will be copy into `aesjni/src/main/jni/sodium_include/`.
+Also you would saw `All of static libs has been moved into ......` at terminal.
+
+1. click run app from adb to look at logcat，some result of execution will be there
 
 </details>
 
@@ -40,6 +49,8 @@ run the shell : `aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
 a. generating a chacha20 key: 
     
 run `test_in_exexutaing.sh`, and look at logcat. It will generate ***key*** and ***nonce***. You can paste it into **JNIEntry.c**.
+
+
 
 b. Set **ndk.dir** in local.properties. Some versions of NDK I have not tested. Maybe you will encounter build errors from that.
 
