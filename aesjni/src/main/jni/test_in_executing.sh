@@ -5,16 +5,16 @@
 # And your computer must connect a device or emulator.
 # Pls modify BUILT_ABI for build compatible you device.
 # -------------------------------------------------------
-
+set -e
 BUILT_ABI=x86 #  make it compatible for emulator
 #BUILT_ABI=armeabi-v7a # make it compatible for physical device
 
-#pls modify
-TARGET_ANDROID_MK=OriginAndroid_r22_mac.mk
+#----------------------pls modify codes below to choose a mk file suit your computer------------------------
+# TARGET_ANDROID_MK=OriginAndroid_r22_mac.mk
 #TARGET_ANDROID_MK=OriginAndroid.mk
 #TARGET_ANDROID_MK=OriginAndroid_r13_mac.mk # R13 is too old, ennable r13 might cause bugs.
 #TARGET_ANDROID_MK=OriginAndroid_r16_mac.mk
-#TARGET_ANDROID_MK=OriginAndroid_r16_ubuntu.mk
+TARGET_ANDROID_MK=OriginAndroid_r16_ubuntu.mk
 #TARGET_ANDROID_MK=OriginAndroid_r22_mac.mk
 
 # detect whether build_libsodium_for_all_android_abi.sh has already been called.
@@ -23,15 +23,18 @@ if [ ! -d ./sodium_include/libsodium-android-armv7-a ]; then
   exit
 fi
 
-# clear cache.
-clear
-rm -r ../obj/
-rm -r ../libs/
-ndk-build clean
+### clean for rebuilding.
+if [ -d ../obj/ ]; then
+  rm -r ../obj/
+  rm -r ../libs/
+  ndk-build clean
+fi
 
 ## run "./rebuild.sh test"
 printf "Start building......\n"
 cp -f TestAndroid.mk Android.mk
+
+## this line require what your computer set up environments variables.
 ndk-build NDK_DEBUG=1
 if [ $? -ne 0 ]; then
   exit # failed at ndk-build
