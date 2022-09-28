@@ -22,7 +22,17 @@
 
 运行这个shell :
 
+``` 
+cd aesjni/src/main/jni/
 aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
+```
+ 当你初次运行该脚本, 一些错误你可能会看到: 
+```
+env: python: No such file or directory
+...
+See "config.log" for more details or others.
+```
+这些都是一些基础依赖需要安装到电脑，您可以尝试复制该错误信息，进行Google搜索。
 
 2.打开AS运行app，从adb/AS里看日志。 
 </details>
