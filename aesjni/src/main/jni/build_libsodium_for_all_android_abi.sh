@@ -12,7 +12,10 @@
 LIBSODIUM_GIT_TAG=1.0.18 # it is the last stable version that I have tested.
 
 set -e
-#ROOT_DIR=$(pwd)
+
+## to redirect directory.
+BASEDIR=$(dirname $0)
+cd $BASEDIR
 
 # building libsodium needs to execute ndk-build,so there is detect whether $ANDROID_NDK_HOME exist.
 if [ ! "$ANDROID_NDK_HOME" ]; then

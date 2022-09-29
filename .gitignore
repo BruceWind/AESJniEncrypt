@@ -75,3 +75,4 @@ aesjni/src/main/jni/temp
 
 # VSCODE
 .vscode
+.lh/

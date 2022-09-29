@@ -22,10 +22,7 @@
 
 运行这个shell :
 
-``` 
-cd aesjni/src/main/jni/
-aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh
-```
+``` ./build_libsodium_for_all_android_abi.sh ```
  当你初次运行该脚本, 一些错误你可能会看到: 
 ```
 env: python: No such file or directory

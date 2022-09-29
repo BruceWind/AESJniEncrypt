@@ -29,11 +29,11 @@
 
 1. preparation：
 
-run the shell : `cd aesjni/src/main/jni/ && aesjni/src/main/jni/build_libsodium_for_all_android_abi.sh`
+run the shell : `./build_libsodium_for_all_android_abi.sh`
 When you run the shell, some error you may got some error like this:
 `env: python: No such file or directory` , `See "config.log" for more details` or others.
 
-Pls, take time to solve it. research in Google. It is easy that some libraries you need to install.
+Pls, take time to solve them.
 
 If the shell run well, a lots of files, such as  `.a` & `.so`, will be copy into `aesjni/src/main/jni/sodium_include/`.
 Also you would saw `All of static libs has been moved into ......` at terminal.
