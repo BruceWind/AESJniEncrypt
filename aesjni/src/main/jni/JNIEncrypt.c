@@ -17,7 +17,7 @@
 static const char *WRONG_SIGNATURE = "WRONG_SIGNATURE";
 
 
-//TODO I need to split this string.
+//TODO I highly recommand you to split this string, not like this.
 static const char *nonce_hex = "611dec2f53524315";
 static const char *key_hex = "9876c42f2f61bee24cc27ebd6155897c46950a83c9b0cc95a9650f9ae7421d07";
 
@@ -157,14 +157,14 @@ check_jni(JNIEnv *env, jobject instance, jobject con) {
     return check_signature(env, instance, con);
 }
 
-// Java和JNI函数的绑定表
+// a table of relationship between JNI and native functions.
 static JNINativeMethod method_table[] = {
         {"checkSignature", "(Ljava/lang/Object;)I",                                    (void *) check_jni},
         {"decode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) decode},
         {"encode",         "(Ljava/lang/Object;Ljava/lang/String;)Ljava/lang/String;", (void *) encode},
 };
 
-// 注册native方法到java中
+// register native functions
 static int registerNativeMethods(JNIEnv *env, const char *className,
                                  JNINativeMethod *gMethods, int numMethods) {
     jclass clazz;
@@ -180,7 +180,7 @@ static int registerNativeMethods(JNIEnv *env, const char *className,
 }
 
 int register_ndk_load(JNIEnv *env) {
-    // 调用注册方法
+    // call reistering fun.
     return registerNativeMethods(env, JNIREG_CLASS,
                                  method_table, NELEM(method_table));
 }
@@ -188,6 +188,7 @@ int register_ndk_load(JNIEnv *env) {
 JNIEXPORT jint JNI_OnLoad(JavaVM *vm, void *reserved) {
     anti_debug();
     // 有更复杂更高明的方案，比如：不用这个ptrace而是每次执行加密解密签先去判断是否被trace,目前的版本不做更多的负载方案，您想做可以fork之后，自己去做
+    // You can try use another way instead of ptrace in order to reach higher security.
 
     JNIEnv *env = NULL;
     jint result = -1;
